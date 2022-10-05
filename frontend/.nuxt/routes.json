@@ -1,0 +1,16 @@
+[
+  {
+    "name": "services",
+    "path": "/services",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/services/index.vue",
+    "chunkName": "pages/services/index",
+    "_name": "_18f4ea79"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_1c317c2c"
+  }
+]
