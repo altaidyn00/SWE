@@ -1,10 +1,38 @@
 [
   {
+    "name": "about-us",
+    "path": "/about-us",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/about-us.vue",
+    "chunkName": "pages/about-us",
+    "_name": "_438590f6"
+  },
+  {
+    "name": "appointment",
+    "path": "/appointment",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/appointment.vue",
+    "chunkName": "pages/appointment",
+    "_name": "_c8a8b392"
+  },
+  {
+    "name": "contacts",
+    "path": "/contacts",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/contacts.vue",
+    "chunkName": "pages/contacts",
+    "_name": "_69c53c2a"
+  },
+  {
     "name": "services",
     "path": "/services",
     "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/services/index.vue",
     "chunkName": "pages/services/index",
     "_name": "_18f4ea79"
+  },
+  {
+    "name": "signin",
+    "path": "/signin",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/signin.vue",
+    "chunkName": "pages/signin",
+    "_name": "_23dd5c8c"
   },
   {
     "name": "index",
