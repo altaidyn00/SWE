@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="custom-container">
     <h1>Make an Appointment</h1>
   </div>
 </template>

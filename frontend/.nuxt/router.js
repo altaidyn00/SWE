@@ -4,12 +4,13 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _438590f6 = () => interopDefault(import('../pages/about-us.vue' /* webpackChunkName: "pages/about-us" */))
-const _c8a8b392 = () => interopDefault(import('../pages/appointment.vue' /* webpackChunkName: "pages/appointment" */))
-const _69c53c2a = () => interopDefault(import('../pages/contacts.vue' /* webpackChunkName: "pages/contacts" */))
-const _18f4ea79 = () => interopDefault(import('../pages/services/index.vue' /* webpackChunkName: "pages/services/index" */))
-const _23dd5c8c = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
-const _1c317c2c = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _1d06589e = () => interopDefault(import('../pages/about-us.vue' /* webpackChunkName: "pages/about-us" */))
+const _a62444e2 = () => interopDefault(import('../pages/appointment.vue' /* webpackChunkName: "pages/appointment" */))
+const _b6c3acda = () => interopDefault(import('../pages/contacts.vue' /* webpackChunkName: "pages/contacts" */))
+const _fcc957be = () => interopDefault(import('../pages/services/index.vue' /* webpackChunkName: "pages/services/index" */))
+const _04efe362 = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
+const _198639d8 = () => interopDefault(import('../pages/signup.vue' /* webpackChunkName: "pages/signup" */))
+const _5cc8497c = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -24,27 +25,31 @@ export const routerOptions = {
 
   routes: [{
     path: "/about-us",
-    component: _438590f6,
+    component: _1d06589e,
     name: "about-us"
   }, {
     path: "/appointment",
-    component: _c8a8b392,
+    component: _a62444e2,
     name: "appointment"
   }, {
     path: "/contacts",
-    component: _69c53c2a,
+    component: _b6c3acda,
     name: "contacts"
   }, {
     path: "/services",
-    component: _18f4ea79,
+    component: _fcc957be,
     name: "services"
   }, {
     path: "/signin",
-    component: _23dd5c8c,
+    component: _04efe362,
     name: "signin"
   }, {
+    path: "/signup",
+    component: _198639d8,
+    name: "signup"
+  }, {
     path: "/",
-    component: _1c317c2c,
+    component: _5cc8497c,
     name: "index"
   }],
 

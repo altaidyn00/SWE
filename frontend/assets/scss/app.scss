@@ -1,0 +1,33 @@
+.custom-container {
+    max-width: 1560px;
+    padding: 60px;
+    margin: auto;
+}
+
+.header .navbar {
+    background-color: #4b7eb6 !important;
+}
+
+.custom-input {
+    width: 48% !important;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+.registration-tab {
+    background-color: white;
+    color: black;
+    padding: 12px 24px;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.registration-tab:hover {
+    cursor: pointer;
+}
+
+.registration-tab__active {
+    background-color: #4b7eb6;
+    border-color: #4b7eb6;
+    color: white;
+}

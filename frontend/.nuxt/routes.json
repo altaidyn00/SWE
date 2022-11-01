@@ -2,43 +2,50 @@
   {
     "name": "about-us",
     "path": "/about-us",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/about-us.vue",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/about-us.vue",
     "chunkName": "pages/about-us",
-    "_name": "_438590f6"
+    "_name": "_1d06589e"
   },
   {
     "name": "appointment",
     "path": "/appointment",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/appointment.vue",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/appointment.vue",
     "chunkName": "pages/appointment",
-    "_name": "_c8a8b392"
+    "_name": "_a62444e2"
   },
   {
     "name": "contacts",
     "path": "/contacts",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/contacts.vue",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/contacts.vue",
     "chunkName": "pages/contacts",
-    "_name": "_69c53c2a"
+    "_name": "_b6c3acda"
   },
   {
     "name": "services",
     "path": "/services",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/services/index.vue",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/services/index.vue",
     "chunkName": "pages/services/index",
-    "_name": "_18f4ea79"
+    "_name": "_fcc957be"
   },
   {
     "name": "signin",
     "path": "/signin",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/signin.vue",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/signin.vue",
     "chunkName": "pages/signin",
-    "_name": "_23dd5c8c"
+    "_name": "_04efe362"
+  },
+  {
+    "name": "signup",
+    "path": "/signup",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/signup.vue",
+    "chunkName": "pages/signup",
+    "_name": "_198639d8"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/index.vue",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_1c317c2c"
+    "_name": "_5cc8497c"
   }
 ]

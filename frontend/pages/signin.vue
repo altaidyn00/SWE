@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <h1>Signin</h1>
-  </div>
+    <div class="custom-container">
+        <div class="text-center">
+            <h1>Log in</h1>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
-  name: "signin",
+    name: "signin",
 };
 </script>
