@@ -16,12 +16,15 @@ export default {
         ],
         link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     },
-    
+
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ["@/assets/scss/app.scss"],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [],
+    plugins: [
+        { src: "~/plugins/vuelidate" },
+        { src: "~/plugins/vue-multiselect", mode: "client" },
+    ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,

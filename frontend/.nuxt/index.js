@@ -14,6 +14,8 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 import nuxt_plugin_plugin_37be3406 from 'nuxt_plugin_plugin_37be3406' // Source: ./components/plugin.js (mode: 'all')
 import nuxt_plugin_bootstrapvue_34d28b6a from 'nuxt_plugin_bootstrapvue_34d28b6a' // Source: ./bootstrap-vue.js (mode: 'all')
+import nuxt_plugin_vuelidate_4345260a from 'nuxt_plugin_vuelidate_4345260a' // Source: ../plugins/vuelidate (mode: 'all')
+import nuxt_plugin_vuemultiselect_f0c5f110 from 'nuxt_plugin_vuemultiselect_f0c5f110' // Source: ../plugins/vue-multiselect (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -183,6 +185,14 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_bootstrapvue_34d28b6a === 'function') {
     await nuxt_plugin_bootstrapvue_34d28b6a(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_vuelidate_4345260a === 'function') {
+    await nuxt_plugin_vuelidate_4345260a(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_vuemultiselect_f0c5f110 === 'function') {
+    await nuxt_plugin_vuemultiselect_f0c5f110(app.context, inject)
   }
 
   // Lock enablePreview in context

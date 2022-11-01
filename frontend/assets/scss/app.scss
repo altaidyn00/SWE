@@ -6,12 +6,23 @@
 
 .header .navbar {
     background-color: #4b7eb6 !important;
+    .navbar-brand {
+        color: white;
+    }
+    .navbar-collapse .navbar-nav .nav-item .nav-link {
+        color: white;
+    }
 }
 
 .custom-input {
     width: 48% !important;
     text-align: left;
     margin-bottom: 12px;
+}
+
+.input-error {
+    color: #dc3545;
+    margin-top: 6px;
 }
 
 .registration-tab {
