@@ -1,0 +1,51 @@
+[
+  {
+    "name": "about-us",
+    "path": "/about-us",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/about-us.vue",
+    "chunkName": "pages/about-us",
+    "_name": "_1d06589e"
+  },
+  {
+    "name": "appointment",
+    "path": "/appointment",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/appointment.vue",
+    "chunkName": "pages/appointment",
+    "_name": "_a62444e2"
+  },
+  {
+    "name": "contacts",
+    "path": "/contacts",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/contacts.vue",
+    "chunkName": "pages/contacts",
+    "_name": "_b6c3acda"
+  },
+  {
+    "name": "services",
+    "path": "/services",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/services/index.vue",
+    "chunkName": "pages/services/index",
+    "_name": "_fcc957be"
+  },
+  {
+    "name": "signin",
+    "path": "/signin",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/signin.vue",
+    "chunkName": "pages/signin",
+    "_name": "_04efe362"
+  },
+  {
+    "name": "signup",
+    "path": "/signup",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/signup.vue",
+    "chunkName": "pages/signup",
+    "_name": "_198639d8"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_5cc8497c"
+  }
+]
