@@ -10,5 +10,11 @@
   },
   "Tutorial": {
     "description": "Auto imported from components/Tutorial.vue"
+  },
+  "UiCustomInput": {
+    "description": "Auto imported from components/ui/CustomInput.vue"
+  },
+  "UiCustomSelect": {
+    "description": "Auto imported from components/ui/CustomSelect.vue"
   }
 }

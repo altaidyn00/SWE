@@ -10,3 +10,5 @@ You can directly use them in pages and other components without the need to impo
 - `<Header>` | `<header>` (components/Header.vue)
 - `<NuxtLogo>` | `<nuxt-logo>` (components/NuxtLogo.vue)
 - `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
+- `<UiCustomInput>` | `<ui-custom-input>` (components/ui/CustomInput.vue)
+- `<UiCustomSelect>` | `<ui-custom-select>` (components/ui/CustomSelect.vue)
