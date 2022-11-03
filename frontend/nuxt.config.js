@@ -24,7 +24,6 @@ export default {
   plugins: [
     { src: "~/plugins/vuelidate" },
     { src: "~/plugins/repository" },
-    { src: "~/plugins/vue-multiselect", mode: "client" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
