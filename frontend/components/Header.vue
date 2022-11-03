@@ -11,12 +11,12 @@
           <b-nav-item href="/about-us">About Us</b-nav-item>
           <b-nav-item href="/contacts">Contacts</b-nav-item>
           <b-nav-item href="/appointment">Appointment</b-nav-item>
-          <b-nav-item href="/signup">Create</b-nav-item>
+          <b-nav-item href="/create">Create</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <b-button size="sm" class="my-2 ml-sm-0" @click="goToSignin"
+            <b-button size="sm" class="button my-2 ml-sm-0" @click="goToSignin"
               >signin</b-button
             ></b-nav-form
           >

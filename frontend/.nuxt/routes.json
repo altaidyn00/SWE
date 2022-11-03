@@ -2,50 +2,50 @@
   {
     "name": "about-us",
     "path": "/about-us",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/about-us.vue",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/about-us.vue",
     "chunkName": "pages/about-us",
-    "_name": "_1d06589e"
+    "_name": "_438590f6"
   },
   {
     "name": "appointment",
     "path": "/appointment",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/appointment.vue",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/appointment.vue",
     "chunkName": "pages/appointment",
-    "_name": "_a62444e2"
+    "_name": "_c8a8b392"
   },
   {
     "name": "contacts",
     "path": "/contacts",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/contacts.vue",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/contacts.vue",
     "chunkName": "pages/contacts",
-    "_name": "_b6c3acda"
+    "_name": "_69c53c2a"
+  },
+  {
+    "name": "create",
+    "path": "/create",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/create.vue",
+    "chunkName": "pages/create",
+    "_name": "_72b54614"
   },
   {
     "name": "services",
     "path": "/services",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/services/index.vue",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/services/index.vue",
     "chunkName": "pages/services/index",
-    "_name": "_fcc957be"
+    "_name": "_18f4ea79"
   },
   {
     "name": "signin",
     "path": "/signin",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/signin.vue",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/signin.vue",
     "chunkName": "pages/signin",
-    "_name": "_04efe362"
-  },
-  {
-    "name": "signup",
-    "path": "/signup",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/signup.vue",
-    "chunkName": "pages/signup",
-    "_name": "_198639d8"
+    "_name": "_23dd5c8c"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/Users/aidynaltay/Desktop/SWE/frontend/pages/index.vue",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_5cc8497c"
+    "_name": "_1c317c2c"
   }
 ]
