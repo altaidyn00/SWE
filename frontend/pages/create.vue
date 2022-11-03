@@ -28,10 +28,7 @@
       <div class="d-flex flex-wrap justify-content-between my-4">
         <div class="custom-input">
           <span>Date of Birth</span>
-          <b-form-datepicker
-            v-model="form.birth_date"
-            date-format-options="	{ 'year': 'numeric', 'month': 'long', 'day': 'numeric' }"
-          ></b-form-datepicker>
+          <b-form-datepicker v-model="form.birth_date"></b-form-datepicker>
         </div>
         <custom-input
           v-model="form.iin_number"
@@ -68,12 +65,14 @@
           placeholder="Enter Middlename"
           :validation="$v.form.middlename"
         />
-        <custom-input
+        <custom-select
           v-if="isPatient"
-          v-model="form.blood_group"
           class="custom-input"
           label="Blood Group"
-          placeholder="Enter Blood Group"
+          placeholder="Select Blood Group"
+          v-model="form.blood_group"
+          :options="options.blood_group"
+          :allow-empty="true"
           :validation="$v.form.blood_group"
         />
         <custom-input
@@ -98,12 +97,14 @@
           placeholder="Enter Address"
           :validation="$v.form.address"
         />
-        <custom-input
+        <custom-select
           v-if="isPatient"
-          v-model="form.marital_status"
           class="custom-input"
           label="Marital Status"
-          placeholder="Enter Marital Status"
+          placeholder="Select Marital Status"
+          v-model="form.marital_status"
+          :options="options.marital_status"
+          :allow-empty="true"
           :validation="$v.form.marital_status"
         />
         <custom-input
@@ -130,13 +131,23 @@
           placeholder="Enter Experience in Years"
           :validation="$v.form.experience_in_years"
         />
-        
+
         <custom-input
           v-if="isDoctor"
           v-model="form.category"
           class="custom-input"
           label="Category"
           placeholder="Enter Category"
+          :validation="$v.form.category"
+        />
+        <custom-select
+          v-if="isDoctor"
+          class="custom-input"
+          label="Category"
+          placeholder="Select Category"
+          v-model="form.category"
+          :options="options.category"
+          :allow-empty="true"
           :validation="$v.form.category"
         />
         <custom-input
@@ -155,20 +166,24 @@
           placeholder="Enter Schedule Details"
           :validation="$v.form.schedule_details"
         />
-        <custom-input
+        <custom-select
           v-if="isDoctor"
-          v-model="form.degree"
           class="custom-input"
-          label="Schedule Degree"
-          placeholder="Enter Schedule Details"
+          label="Degreee"
+          placeholder="Select Degree"
+          v-model="form.degree"
+          :options="options.degree"
+          :allow-empty="true"
           :validation="$v.form.degree"
         />
-        <custom-input
+        <custom-select
           v-if="isDoctor"
-          v-model="form.rating"
           class="custom-input"
           label="Rating"
-          placeholder="Enter Rating"
+          placeholder="Select Rating"
+          v-model="form.rating"
+          :options="options.rating"
+          :allow-empty="true"
           :validation="$v.form.rating"
         />
         <custom-input
@@ -189,12 +204,15 @@
 <script>
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
 import CustomInput from "../components/ui/CustomInput.vue";
+import CustomSelect from "../components/ui/CustomSelect.vue";
+import options from "~/helpers/options";
 
 export default {
-  components: { CustomInput },
+  components: { CustomInput, CustomSelect },
   name: "signup",
   data() {
     return {
+      options,
       role: "patient",
       form: {
         birth_date: null,
