@@ -18,7 +18,7 @@
         @input="input"
       >
       </Multiselect>
-      <div v-if="requiredError" class="invalid-feedback">
+      <div v-if="requiredError" class="select__error invalid-feedback">
         This is a required field
       </div>
     </div>

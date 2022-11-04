@@ -84,11 +84,19 @@
           :validation="$v.form.emergency_contact_number"
         />
         <custom-input
+          v-model="form.contact_number"
+          class="custom-input"
+          label="Contact Number"
+          placeholder="Enter Contact Number"
+          :validation="$v.form.contact_number"
+        />
+        <custom-input
           v-if="isPatient"
           v-model="form.email"
           class="custom-input"
           label="Email (Optional)"
           placeholder="Enter Email"
+          :validation="$v.form.email"
         />
         <custom-input
           v-model="form.address"
@@ -131,14 +139,15 @@
           placeholder="Enter Experience in Years"
           :validation="$v.form.experience_in_years"
         />
-
-        <custom-input
+        <custom-file-input
           v-if="isDoctor"
-          v-model="form.category"
           class="custom-input"
-          label="Category"
-          placeholder="Enter Category"
-          :validation="$v.form.category"
+          label="Doctor's Photo"
+          placeholder=" Upload Doctor's Photos"
+          v-model="form.photo_of_doctor"
+          :options="options.photo_of_doctor"
+          :allow-empty="true"
+          :validation="$v.form.photo_of_doctor"
         />
         <custom-select
           v-if="isDoctor"
@@ -154,8 +163,8 @@
           v-if="isDoctor"
           v-model="form.price_of_the_appointment"
           class="custom-input"
-          label="Price"
-          placeholder="Enter Price"
+          label="Price (KZT)"
+          placeholder="Enter Price (KZT)"
           :validation="$v.form.price_of_the_appointment"
         />
         <custom-input
@@ -202,13 +211,15 @@
 </template>
 
 <script>
-import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
 import CustomInput from "../components/ui/CustomInput.vue";
 import CustomSelect from "../components/ui/CustomSelect.vue";
+import CustomFileInput from "../components/ui/CustomFileInput.vue";
 import options from "~/helpers/options";
+import { validateIf, num, positiveNum, phoneNum } from "~/helpers/validators";
 
 export default {
-  components: { CustomInput, CustomSelect },
+  components: { CustomInput, CustomSelect, CustomFileInput },
   name: "signup",
   data() {
     return {
@@ -223,6 +234,7 @@ export default {
         middlename: null,
         blood_group: null,
         emergency_contact_number: null,
+        contact_number: null,
         email: null,
         address: null,
         marital_status: null,
@@ -248,9 +260,13 @@ export default {
         },
         iin_number: {
           required,
+          num,
+          positiveNum,
         },
         id_number: {
           required,
+          num,
+          positiveNum,
         },
         name: {
           required,
@@ -261,17 +277,86 @@ export default {
         middlename: {
           required,
         },
+        email: {
+          ...validateIf(this.isPatient, {
+            email,
+          }),
+        },
         blood_group: {
-          required,
+          ...validateIf(this.isPatient, {
+            required,
+          }),
         },
         emergency_contact_number: {
+          ...validateIf(this.isPatient, {
+            required,
+            phoneNum
+          }),
+        },
+        contact_number: {
           required,
+          phoneNum
         },
         address: {
           required,
         },
         marital_status: {
-          required,
+          ...validateIf(this.isPatient, {
+            required,
+          }),
+        },
+        department_id: {
+          ...validateIf(this.isDoctor, {
+            required,
+            num,
+            positiveNum,
+          }),
+        },
+        specialization_details_id: {
+          ...validateIf(this.isDoctor, {
+            required,
+            num,
+            positiveNum,
+          }),
+        },
+        experience_in_years: {
+          ...validateIf(this.isDoctor, {
+            required,
+            num,
+            positiveNum,
+          }),
+        },
+        photo_of_doctor: {
+          ...validateIf(this.isDoctor, {
+            required,
+          }),
+        },
+        category: {
+          ...validateIf(this.isDoctor, {
+            required,
+          }),
+        },
+        price_of_the_appointment: {
+          ...validateIf(this.isDoctor, {
+            required,
+            num,
+            positiveNum,
+          }),
+        },
+        schedule_details: {
+          ...validateIf(this.isDoctor, {
+            required,
+          }),
+        },
+        degree: {
+          ...validateIf(this.isDoctor, {
+            required,
+          }),
+        },
+        rating: {
+          ...validateIf(this.isDoctor, {
+            required,
+          }),
         },
       },
     };
@@ -287,6 +372,7 @@ export default {
   methods: {
     async create() {
       this.$v.form.$touch();
+      console.log(this.$v.form);
       if (this.$v.form.$invalid) return;
     },
     makeToast() {
