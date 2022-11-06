@@ -79,15 +79,6 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	// 	ps.patients = append(ps.patients, d.ID)
 	// }
 
-	// ids := []int{}
-	// names := []string{}
-	// for _, d := range patients {
-	// 	ids = append(ids, d.ID)
-	// 	names = append(names, d.FullName)
-	// }
-
-	res, err := json.Marshal(patients)
-	// 	 names []string }{ids, names})
 	if err != nil {
 		log.Fatal(err)
 	}
