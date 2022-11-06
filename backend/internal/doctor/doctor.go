@@ -9,23 +9,23 @@ import (
 	"os"
 	"strconv"
 
-	//"github.com/whym9/hospital/internal/admin"
+	"github.com/whym9/hospital/internal/admin"
 )
 
 type DoctorInfo struct {
-	DateOfBirth   string  `json: dateofbirth`
-	IIN           string  `json: iin`
-	ID            int     `json: id`
-	FullName      string  `json: fullname`
-	Contactnumber string  `json: contactnumber`
-	DepID         int     `json: departmentID`
-	SpecID        string  `json: specID`
-	Expirience    int     `json: expirience`
-	PhotoLocation string  `json: photo`
-	Category      string  `json: category`
-	Degree        string  `json: degree`
-	Rating        float64 `json: rating`
-	Address       string  `json: address`
+	DateOfBirth   string  `json:"dateofbirth"`
+	IIN           string  `json:"iin"`
+	ID            int     `json:"id"`
+	FullName      string  `json:"fullname"`
+	Contactnumber string  `json:"contactnumber"`
+	DepID         int     `json:"departmentID"`
+	SpecID        string  `json:"specID"`
+	Expirience    int     `json:"expirience"`
+	PhotoLocation string  `json:"photo"`
+	Category      string  `json:"category"`
+	Degree        string  `json:"degree"`
+	Rating        float64 `json:"rating"`
+	Address       string  `json:"address"`
 }
 
 var doctors []DoctorInfo
@@ -34,17 +34,16 @@ var uploadDir = "files/"
 var maxSize int64 = 200 * 1024 * 1024
 
 func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
-		fmt.Println("Doctor")
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
+
 	if err := r.ParseMultipartForm(maxSize); err != nil {
 		fmt.Printf("could not parse multipart form: %v\n", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("CANT_PARSE_FORM"))
-		
 		return
 	}
 
@@ -138,21 +137,19 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDoctors(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
+	// var ds struct {
+	// 	doctors []int `json: doctorsID`
 	// }
-	var ds struct {
-		ids []int `json: doctorIDs`
-		names []string `json: doctorNames`
-	}
-	for _, d := range doctors {
-		ds.ids = append(ds.ids, d.ID)
-		ds.names = append(ds.names, d.FullName)
-	}
+	// for _, d := range doctors {
+	// 	ds.doctors = append(ds.doctors, d.ID)
+	// }
 
-	res, err := json.Marshal(ds)
+	res, err := json.Marshal(doctors)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -161,11 +158,11 @@ func GetDoctors(w http.ResponseWriter, r *http.Request) {
 }
 
 func ViewDoctor(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifying error"))
-	// 	return
-	// }
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifying error"))
+		return
+	}
 	id, err := strconv.Atoi(r.FormValue("id"))
 	if err != nil {
 		log.Fatal(err)
@@ -196,11 +193,11 @@ func findDoctor(id int) int {
 }
 
 func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 
 	id, err := strconv.Atoi(r.FormValue("id"))
 	if err != nil {
