@@ -71,19 +71,28 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-	var ps struct {
-		patients []int `json: patientsID`
-	}
+	// var ps struct {
+	// 	patients []int `json: patientsID`
+	// }
 	// pats := []int
-	for _, d := range patients {
-		ps.patients = append(ps.patients, d.ID)
-	}
+	// for _, d := range patients {
+	// 	ps.patients = append(ps.patients, d.ID)
+	// }
 
-	res, err := json.Marshal(ps)
+	// ids := []int{}
+	// names := []string{}
+	// for _, d := range patients {
+	// 	ids = append(ids, d.ID)
+	// 	names = append(names, d.FullName)
+	// }
+
+	res, err := json.Marshal(patients)
+	// 	 names []string }{ids, names})
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println(res)
+	fmt.Println(patients)
 	w.Write(res)
 }
 
@@ -95,8 +104,6 @@ func findPatient(id int) int {
 	}
 	return -1
 }
-
-var uploadDir string = "files/"
 
 func ViewPatient(w http.ResponseWriter, r *http.Request) {
 	// if !admin.Verify(r) {
