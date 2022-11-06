@@ -77,12 +77,13 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	// 	names = append(names, d.FullName)
 	// }
 
-	res, err := json.Marshal(&patients)
+	res, err := json.Marshal(patients)
 	// 	 names []string }{ids, names})
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println(res)
+	fmt.Println(patients)
 	w.Write(res)
 }
 
