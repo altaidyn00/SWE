@@ -1,6 +1,8 @@
 <template>
   <div class="custom-container">
-    <h1>Make an Appointment</h1>
+    <div class="text-center">
+      <h1>Make an Appointment</h1>
+    </div>
   </div>
 </template>
 

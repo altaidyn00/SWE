@@ -1,44 +1,98 @@
+@import "vue-multiselect/dist/vue-multiselect.min.css";
+
 .custom-container {
-    max-width: 1560px;
-    padding: 60px;
-    margin: auto;
+  max-width: 1560px;
+  padding: 60px;
+  margin: auto;
 }
 
 .header .navbar {
-    background-color: #4b7eb6 !important;
-    .navbar-brand {
-        color: white;
-    }
-    .navbar-collapse .navbar-nav .nav-item .nav-link {
-        color: white;
-    }
+  background-color: #4b7eb6 !important;
+  .navbar-brand {
+    color: white;
+  }
+  .navbar-collapse .navbar-nav .nav-item .nav-link {
+    color: white;
+  }
 }
 
 .custom-input {
-    width: 48% !important;
-    text-align: left;
-    margin-bottom: 12px;
+  width: 48% !important;
+  text-align: left;
+  margin-bottom: 12px;
 }
 
 .input-error {
-    color: #dc3545;
-    margin-top: 6px;
+  color: #dc3545;
+  margin-top: 6px;
 }
 
 .registration-tab {
-    background-color: white;
-    color: black;
-    padding: 12px 24px;
-    border: 2px solid black;
-    border-radius: 6px;
+  background-color: white;
+  color: black;
+  padding: 12px 24px;
+  border: 2px solid black;
+  border-radius: 6px;
 }
 
 .registration-tab:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .registration-tab__active {
-    background-color: #4b7eb6;
-    border-color: #4b7eb6;
-    color: white;
+  background-color: #4b7eb6;
+  border-color: #4b7eb6;
+  color: white;
+}
+
+.btn {
+  background-color: rgb(52, 204, 255);
+  border-color: rgb(52, 204, 255);
+}
+
+.btn:hover {
+  background-color: rgb(32, 175, 223);
+  border-color: rgb(32, 175, 223);
+}
+
+.button .btn {
+  padding: 12px 36px !important;
+}
+
+.multiselect {
+  height: 38px !important;
+  max-height: 38px !important;
+  min-height: 38px !important;
+
+  .multiselect__tags {
+    height: 38px !important;
+    max-height: 38px !important;
+    min-height: 38px !important;
+    padding-top: 3px !important;
+    padding-left: 12px !important;
+    border-color: #ced4da !important;
+
+    .multiselect__placeholder {
+      font-size: 16px !important;
+      color: #495057 !important;
+    }
+
+    .multiselect__single {
+      padding-top: 4px !important;
+      padding-left: 2px !important;
+    }
+  }
+}
+
+.fileinput__error .custom-file-label {
+  border-color: #dc3545 !important;
+}
+
+.multiselect__error .multiselect__tags {
+  border-color: #dc3545 !important;
+}
+
+.select__error,
+.datepicker__error {
+  font-size: 16px !important;
 }

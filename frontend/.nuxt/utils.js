@@ -196,11 +196,11 @@ export async function setContext (app, context) {
       isDev: true,
       isHMR: false,
       app,
-
+      store: app.store,
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {}
+      env: {"development":{"BASE_URL":"http://localhost:8080"},"production":{"BASE_URL":"https://apartchain.io"}}
     }
     // Only set once
 

@@ -5,11 +5,11 @@
   "Header": {
     "description": "Auto imported from components/Header.vue"
   },
-  "NuxtLogo": {
-    "description": "Auto imported from components/NuxtLogo.vue"
+  "UiCustomDateInput": {
+    "description": "Auto imported from components/ui/CustomDateInput.vue"
   },
-  "Tutorial": {
-    "description": "Auto imported from components/Tutorial.vue"
+  "UiCustomFileInput": {
+    "description": "Auto imported from components/ui/CustomFileInput.vue"
   },
   "UiCustomInput": {
     "description": "Auto imported from components/ui/CustomInput.vue"
