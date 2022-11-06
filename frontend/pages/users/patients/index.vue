@@ -12,6 +12,9 @@
 <script>
 export default {
   name: "doctors",
+  async asyncData(store) {
+    store.dispatch()
+  }
   data() {
     return {
       items: [
