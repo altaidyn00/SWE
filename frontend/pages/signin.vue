@@ -4,11 +4,11 @@
       <h1>Log in</h1>
       <div class="d-flex flex-wrap justify-content-between my-4">
         <custom-input
-          v-model="form.iin_number"
+          v-model="form.username"
           class="custom-input"
-          label="IIN Number"
-          placeholder="Enter IIN Number"
-          :validation="$v.form.iin_number"
+          label="Username"
+          placeholder="Enter Username"
+          :validation="$v.form.username"
         />
         <custom-input
           v-model="form.password"
@@ -29,6 +29,7 @@
 import { required } from "vuelidate/lib/validators";
 import CustomInput from "../components/ui/CustomInput.vue";
 import { num, positiveNum } from "~/helpers/validators";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: { CustomInput },
@@ -36,7 +37,7 @@ export default {
   data() {
     return {
       form: {
-        iin_number: null,
+        username: null,
         password: null,
       },
     };
@@ -44,7 +45,7 @@ export default {
   validations() {
     return {
       form: {
-        iin_number: {
+        username: {
           required,
           num,
           positiveNum,
@@ -56,10 +57,15 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      login: "users/login",
+    }),
     async signin() {
-      this.$v.form.$touch();
-      console.log(this.$v.form);
-      if (this.$v.form.$invalid) return;
+      // this.$v.form.$touch();
+      // console.log(this.$v.form);
+
+      // if (this.$v.form.$invalid) return;
+      await this.login(this.form);
     },
   },
 };

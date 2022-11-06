@@ -1,24 +1,25 @@
-const resource = "/api/v0/user";
+const resource = "/api";
 
 export default ($axios) => ({
   create_doctor(payload) {
-    return $axios.post(`${resource}/create/doctor`, payload);
+    return $axios.post(`registerDoctor`, payload);
   },
 
   edit_doctor(id, payload) {
-    return $axios.post(`${resource}/${id}/edit/doctor`, payload);
+    return $axios.post(`modifyDoctorInfo`, payload);
   },
 
   get_doctor(id) {
-    return $axios.get(`${resource}/${id}/doctor`);
+    return $axios.get(`viewDoctorDetails`, id);
   },
 
   get_doctors(params) {
-    return $axios.get(`${resource}/doctors`, params);
+    return $axios.get(`getDoctors`, params);
   },
 
   create_patient(payload) {
-    return $axios.post(`${resource}/create/patient`, payload);
+    console.log("repository");
+    return $axios.post(`${resource}/registerPatient`, payload);
   },
 
   edit_patient(id, payload) {
@@ -31,5 +32,8 @@ export default ($axios) => ({
 
   get_patients(params) {
     return $axios.get(`${resource}/patients`, params);
+  },
+  login_admin(payload) {
+    return $axios.post(`${resource}/login`, payload);
   },
 });

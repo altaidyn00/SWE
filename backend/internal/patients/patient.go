@@ -7,23 +7,23 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/whym9/hospital/internal/admin"
+	//"github.com/whym9/hospital/internal/admin"
 )
 
 var patients []PatientInfo
 
 type PatientInfo struct {
-	DateOfBirth            string `json: dateofbirth`
-	IIN                    string `json: iin`
-	ID                     int    `json: id`
-	FullName               string `json: fullname`
-	BloodGroup             string `json: blooodgroup`
-	EmergencyContactNumber string `json: emergencynumber`
-	Contactnumber          string `json: contactnumber`
-	Email                  string `json: email`
-	Address                string `json: address`
-	MaritalStatus          string `json: martialstatus`
-	RegistrationDate       string `json: registrationdate`
+	DateOfBirth            string `json:"dateofbirth"`
+	IIN                    string `json:"iin"`
+	ID                     int    `json:"id"`
+	FullName               string `json:"fullname"`
+	BloodGroup             string `json:"blooodgroup"`
+	EmergencyContactNumber string `json:"emergencynumber"`
+	Contactnumber          string `json:"contactnumber"`
+	Email                  string `json:"email"`
+	Address                string `json:"address"`
+	MaritalStatus          string `json:"martialstatus"`
+	RegistrationDate       string `json:"registrationdate"`
 }
 
 // Admin credentials:
@@ -47,12 +47,13 @@ type PatientInfo struct {
 // }
 
 func RegisterPatient(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Patients")
 	var newPatient PatientInfo
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
 	err := json.NewDecoder(r.Body).Decode(&newPatient)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -64,14 +65,15 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPatients(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
 	var ps struct {
 		patients []int `json: patientsID`
 	}
+	pats := []int
 	for _, d := range patients {
 		ps.patients = append(ps.patients, d.ID)
 	}
@@ -96,11 +98,11 @@ func findPatient(id int) int {
 var uploadDir string = "files/"
 
 func ViewPatient(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
 	id, err := strconv.Atoi(r.FormValue("ID"))
 	if err != nil {
 		log.Fatal(err)
@@ -123,11 +125,11 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func ModifyPatient(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
 
 	id, err := strconv.Atoi(r.FormValue("ID"))
 	if err != nil {

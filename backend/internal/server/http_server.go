@@ -11,6 +11,7 @@ import (
 )
 
 func StartServer(addr string) {
+	http.HandleFunc("/", Get)
 	http.HandleFunc("/login", admin.Login)
 	http.HandleFunc("/registerDoctor", doctor.RegisterDoctor)
 	http.HandleFunc("/registerPatient", patients.RegisterPatient)
@@ -22,4 +23,10 @@ func StartServer(addr string) {
 	http.HandleFunc("/getPatients", patients.GetPatients)
 	fmt.Println("Server started on localhost:8080")
 	log.Fatal(http.ListenAndServe(addr, nil))
+}
+
+func Get(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Home!"))
+	return
 }

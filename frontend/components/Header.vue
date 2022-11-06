@@ -10,8 +10,17 @@
           <b-nav-item href="/services">Services</b-nav-item>
           <b-nav-item href="/about-us">About Us</b-nav-item>
           <b-nav-item href="/contacts">Contacts</b-nav-item>
-          <!-- <b-nav-item href="/appointment">Appointment</b-nav-item> -->
-          <b-nav-item href="/create">Create</b-nav-item>
+          <b-nav-item-dropdown
+            id="my-nav-dropdown"
+            text="Create"
+            toggle-class="nav-link-custom"
+            right
+          >
+            <b-dropdown-item @click="goToCreateDoctor">Doctor</b-dropdown-item>
+            <b-dropdown-item @click="goToCreatePatient"
+              >Patient</b-dropdown-item
+            >
+          </b-nav-item-dropdown>
           <b-nav-item-dropdown
             id="my-nav-dropdown"
             text="Users"
@@ -47,6 +56,12 @@ export default {
     },
     goToDoctors() {
       this.$router.push("/users/doctors");
+    },
+    goToCreatePatient() {
+      this.$router.push("/create/patient");
+    },
+    goToCreateDoctor() {
+      this.$router.push("/create/doctor");
     },
   },
 };

@@ -17,16 +17,28 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
+  target: "server",
+  server: {
+    host: "0.0.0.0",
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["@/assets/scss/app.scss"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/plugins/vuelidate" }, { src: "~/plugins/repository" }],
-
+  plugins: [
+    { src: "~/plugins/vuelidate" },
+    { src: "~/plugins/repository" },
+    { src: "~/plugins/toast" },
+  ],
+  axios: {
+    proxy: true,
+  },
   proxy: {
     "/api": {
-      target: process.env.NODE_ENV === "production" ? "" : "http://localhost:8080",
-      pathRewrite: { "^/api": "/api" },
+      target:
+        process.env.NODE_ENV === "development" ? "http://localhost:8080" : "",
+      pathRewrite: { "^/api": "/" },
     },
   },
 
@@ -40,7 +52,17 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     "bootstrap-vue/nuxt",
+    "@nuxtjs/axios",
   ],
+
+  env: {
+    development: {
+      BASE_URL: "http://localhost:8080",
+    },
+    production: {
+      BASE_URL: "https://apartchain.io",
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
