@@ -18,6 +18,8 @@ func StartServer(addr string) {
 	http.HandleFunc("/viewDoctorDetails", doctor.ViewDoctor)
 	http.HandleFunc("/modifyPatientInfo", patients.ModifyPatient)
 	http.HandleFunc("/modifyDoctorInfo", doctor.ModifyDoctor)
+	http.HandleFunc("/getDoctors", doctor.GetDoctors)
+	http.HandleFunc("/getPatients", patients.GetPatients)
 	fmt.Println("Server started on localhost:8080")
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

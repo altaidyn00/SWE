@@ -136,6 +136,27 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("User %s has been registered successfully", doc.FullName)))
 }
 
+func GetDoctors(w http.ResponseWriter, r *http.Request) {
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
+	var ds struct {
+		doctors []int `json: doctorsID`
+	}
+	for _, d := range doctors {
+		ds.doctors = append(ds.doctors, d.ID)
+	}
+
+	res, err := json.Marshal(ds)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(res)
+}
+
 func ViewDoctor(w http.ResponseWriter, r *http.Request) {
 	if !admin.Verify(r) {
 		w.WriteHeader(http.StatusBadRequest)
