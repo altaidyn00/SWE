@@ -1,7 +1,3 @@
-function validateIf(condition, rule) {
-  return condition ? rule : {};
-}
-
 function num(value) {
   const regex = /^(0|[1-9][0-9]*)$/;
   return regex.test(value);
@@ -17,4 +13,4 @@ function phoneNum(value) {
   return regex.test(value);
 }
 
-export { validateIf, num, positiveNum, phoneNum };
+export { num, positiveNum, phoneNum };

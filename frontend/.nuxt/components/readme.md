@@ -8,8 +8,6 @@ You can directly use them in pages and other components without the need to impo
 
 - `<Footer>` | `<footer>` (components/Footer.vue)
 - `<Header>` | `<header>` (components/Header.vue)
-- `<NuxtLogo>` | `<nuxt-logo>` (components/NuxtLogo.vue)
-- `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
 - `<UiCustomDateInput>` | `<ui-custom-date-input>` (components/ui/CustomDateInput.vue)
 - `<UiCustomFileInput>` | `<ui-custom-file-input>` (components/ui/CustomFileInput.vue)
 - `<UiCustomInput>` | `<ui-custom-input>` (components/ui/CustomInput.vue)

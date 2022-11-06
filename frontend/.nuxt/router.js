@@ -7,9 +7,12 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _438590f6 = () => interopDefault(import('../pages/about-us.vue' /* webpackChunkName: "pages/about-us" */))
 const _c8a8b392 = () => interopDefault(import('../pages/appointment.vue' /* webpackChunkName: "pages/appointment" */))
 const _69c53c2a = () => interopDefault(import('../pages/contacts.vue' /* webpackChunkName: "pages/contacts" */))
-const _72b54614 = () => interopDefault(import('../pages/create.vue' /* webpackChunkName: "pages/create" */))
 const _18f4ea79 = () => interopDefault(import('../pages/services/index.vue' /* webpackChunkName: "pages/services/index" */))
 const _23dd5c8c = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
+const _c822d4a6 = () => interopDefault(import('../pages/create/doctor/index.vue' /* webpackChunkName: "pages/create/doctor/index" */))
+const _6fc843e6 = () => interopDefault(import('../pages/create/patient/index.vue' /* webpackChunkName: "pages/create/patient/index" */))
+const _aee8aef0 = () => interopDefault(import('../pages/users/doctors/index.vue' /* webpackChunkName: "pages/users/doctors/index" */))
+const _483628e0 = () => interopDefault(import('../pages/users/patients/index.vue' /* webpackChunkName: "pages/users/patients/index" */))
 const _1c317c2c = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -36,10 +39,6 @@ export const routerOptions = {
     component: _69c53c2a,
     name: "contacts"
   }, {
-    path: "/create",
-    component: _72b54614,
-    name: "create"
-  }, {
     path: "/services",
     component: _18f4ea79,
     name: "services"
@@ -47,6 +46,22 @@ export const routerOptions = {
     path: "/signin",
     component: _23dd5c8c,
     name: "signin"
+  }, {
+    path: "/create/doctor",
+    component: _c822d4a6,
+    name: "create-doctor"
+  }, {
+    path: "/create/patient",
+    component: _6fc843e6,
+    name: "create-patient"
+  }, {
+    path: "/users/doctors",
+    component: _aee8aef0,
+    name: "users-doctors"
+  }, {
+    path: "/users/patients",
+    component: _483628e0,
+    name: "users-patients"
   }, {
     path: "/",
     component: _1c317c2c,

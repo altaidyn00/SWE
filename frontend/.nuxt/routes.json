@@ -21,13 +21,6 @@
     "_name": "_69c53c2a"
   },
   {
-    "name": "create",
-    "path": "/create",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/create.vue",
-    "chunkName": "pages/create",
-    "_name": "_72b54614"
-  },
-  {
     "name": "services",
     "path": "/services",
     "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/services/index.vue",
@@ -40,6 +33,34 @@
     "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/signin.vue",
     "chunkName": "pages/signin",
     "_name": "_23dd5c8c"
+  },
+  {
+    "name": "create-doctor",
+    "path": "/create/doctor",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/create/doctor/index.vue",
+    "chunkName": "pages/create/doctor/index",
+    "_name": "_c822d4a6"
+  },
+  {
+    "name": "create-patient",
+    "path": "/create/patient",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/create/patient/index.vue",
+    "chunkName": "pages/create/patient/index",
+    "_name": "_6fc843e6"
+  },
+  {
+    "name": "users-doctors",
+    "path": "/users/doctors",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/users/doctors/index.vue",
+    "chunkName": "pages/users/doctors/index",
+    "_name": "_aee8aef0"
+  },
+  {
+    "name": "users-patients",
+    "path": "/users/patients",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/users/patients/index.vue",
+    "chunkName": "pages/users/patients/index",
+    "_name": "_483628e0"
   },
   {
     "name": "index",

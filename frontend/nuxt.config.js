@@ -17,6 +17,11 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
+  target: "server",
+  server: {
+    host: "0.0.0.0",
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["@/assets/scss/app.scss"],
 
@@ -24,7 +29,35 @@ export default {
   plugins: [
     { src: "~/plugins/vuelidate" },
     { src: "~/plugins/repository" },
+    { src: "~/plugins/toast" },
   ],
+  axios: {
+    proxy: true,
+  },
+  proxy: {
+    "/api": {
+      target:
+        process.env.NODE_ENV === "development" ? "http://localhost:8080" : "",
+      pathRewrite: { "^/api": "/" },
+    },
+  },
+
+  auth: {
+    strategies: {
+      cookie: {
+        cookie: {
+          // (optional) If set, we check this cookie existence for loggedIn check
+          name: 'XSRF-TOKEN',
+        },
+        endpoints: {
+          // (optional) If set, we send a get request to this endpoint before login
+          csrf: {
+            url: '/login'
+          }
+        }
+      },
+    }
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -36,7 +69,17 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     "bootstrap-vue/nuxt",
+    "@nuxtjs/axios",
   ],
+
+  env: {
+    development: {
+      BASE_URL: "http://localhost:8080",
+    },
+    production: {
+      BASE_URL: "https://apartchain.io",
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
