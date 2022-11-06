@@ -13,19 +13,19 @@ import (
 )
 
 type DoctorInfo struct {
-	DateOfBirth   string  `json: dateofbirth`
-	IIN           string  `json: iin`
-	ID            int     `json: id`
-	FullName      string  `json: fullname`
-	Contactnumber string  `json: contactnumber`
-	DepID         int     `json: departmentID`
-	SpecID        string  `json: specID`
-	Expirience    int     `json: expirience`
-	PhotoLocation string  `json: photo`
-	Category      string  `json: category`
-	Degree        string  `json: degree`
-	Rating        float64 `json: rating`
-	Address       string  `json: address`
+	DateOfBirth   string  `json:"dateofbirth"`
+	IIN           string  `json:"iin"`
+	ID            int     `json:"id"`
+	FullName      string  `json:"fullname"`
+	Contactnumber string  `json:"contactnumber"`
+	DepID         int     `json:"departmentID"`
+	SpecID        string  `json:"specID"`
+	Expirience    int     `json:"expirience"`
+	PhotoLocation string  `json:"photo"`
+	Category      string  `json:"category"`
+	Degree        string  `json:"degree"`
+	Rating        float64 `json:"rating"`
+	Address       string  `json:"address"`
 }
 
 var doctors []DoctorInfo
