@@ -26,11 +26,12 @@ type PatientInfo struct {
 	RegistrationDate       string `json: registrationdate`
 }
 
+// Admin credentials:
 // {
 // 	"username": "user1",
 // 	"password": "pass1"
 // }
-
+// Patient refister example:
 // {
 //     "dateofbirth": "1.01.2020",
 //     "iin": 2,
@@ -60,6 +61,27 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	patients = append(patients, newPatient)
 
 	w.Write([]byte(fmt.Sprintf("User %s has been registered successfully", newPatient.FullName)))
+}
+
+func GetPatients(w http.ResponseWriter, r *http.Request) {
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
+	var ps struct {
+		patients []int `json: patientsID`
+	}
+	for _, d := range patients {
+		ps.patients = append(ps.patients, d.ID)
+	}
+
+	res, err := json.Marshal(ps)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(res)
 }
 
 func findPatient(id int) int {

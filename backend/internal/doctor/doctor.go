@@ -142,9 +142,11 @@ func GetDoctors(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Verifyin error"))
 		return
 	}
-	var ds []int
+	var ds struct {
+		doctors []int `json: doctorsID`
+	}
 	for _, d := range doctors {
-		ds = append(ds, d.ID)
+		ds.doctors = append(ds.doctors, d.ID)
 	}
 
 	res, err := json.Marshal(ds)
