@@ -133,6 +133,7 @@ export const actions = {
   async get_patients({ commit }, params) {
     try {
       const response = await this.$repositories.users.get_patients(params);
+      console.log(response.data)
       const patients = response.data;
       commit("SET_PATIENTS", patients);
     } catch (error) {}

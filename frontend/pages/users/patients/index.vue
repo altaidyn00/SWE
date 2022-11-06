@@ -4,23 +4,112 @@
       <h1>Patients</h1>
     </div>
     <div>
-      <b-table striped hover :items="items"></b-table>
+      <b-table
+        class="custom-border"
+        table-class="table table-centered w-100"
+        thead-tr-class="bg-light"
+        tbody-tr-class="hover"
+        :items="patients"
+        :fields="fields"
+        :bordered="true"
+        :fixed="true"
+        responsive="sm"
+      >
+        <template #cell(id)="data">
+          {{ data.item.id }}
+        </template>
+        <template #cell(fullname)="data">
+          {{ data.item.fullname }}
+        </template>
+        <template #cell(contactnumber)="data">
+          {{ data.item.contactnumber }}
+        </template>
+        <template #cell(iin)="data">
+          {{ data.item.iin }}
+        </template>
+        <template #cell(dateofbirth)="data">
+          {{ data.item.dateofbirth }}
+        </template>
+        <template #cell(action1)="data">
+          <div
+            class="application__link font-weight-bold"
+            @click="toDetails(data.item)"
+          >
+            view
+          </div>
+        </template>
+        <template #cell(action2)="data">
+          <div
+            class="application__link font-weight-bold"
+            @click="toEdit(data.item)"
+          >
+            edit
+          </div>
+        </template>
+      </b-table>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "doctors",
+  name: "patients",
+  async asyncData({ store }) {
+    await store.dispatch("users/get_patients");
+  },
   data() {
     return {
-      items: [
-        { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
-        { age: 21, first_name: "Larsen", last_name: "Shaw" },
-        { age: 89, first_name: "Geneva", last_name: "Wilson" },
-        { age: 38, first_name: "Jami", last_name: "Carney" },
+      fields: [
+        {
+          key: "id",
+          label: "Id",
+        },
+        {
+          key: "fullname",
+          label: "Fullname",
+        },
+        {
+          key: "contactnumber",
+          label: "Contact Number",
+        },
+        {
+          key: "iin",
+          label: "IIN",
+        },
+        {
+          key: "dateofbirth",
+          label: "Birth Data",
+        },
+        {
+          key: "action1",
+          label: "",
+        },
+        {
+          key: "action2",
+          label: "",
+        },
       ],
     };
+  },
+  mounted() {
+    console.log(this.patients);
+  },
+  computed: {
+    ...mapGetters({
+      patients: "users/patients",
+    }),
+    items() {
+      return this.patiens;
+    },
+  },
+  methods: {
+    toDetails(item) {
+      this.$router.push(`/users/patients/${item.id}`);
+    },
+    toDetails(item) {
+      this.$router.push(`/users/patients/edit/${item.id}`);
+    },
   },
 };
 </script>
