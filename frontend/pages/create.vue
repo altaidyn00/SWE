@@ -26,10 +26,12 @@
         </div>
       </div>
       <div class="d-flex flex-wrap justify-content-between my-4">
-        <div class="custom-input">
-          <span>Date of Birth</span>
-          <b-form-datepicker v-model="form.birth_date"></b-form-datepicker>
-        </div>
+        <custom-date-input
+          v-model="form.birth_date"
+          class="custom-input"
+          label="Date of Birth"
+          :validation="$v.form.birth_date"
+        />
         <custom-input
           v-model="form.iin_number"
           class="custom-input"
@@ -215,11 +217,12 @@ import { required, email } from "vuelidate/lib/validators";
 import CustomInput from "../components/ui/CustomInput.vue";
 import CustomSelect from "../components/ui/CustomSelect.vue";
 import CustomFileInput from "../components/ui/CustomFileInput.vue";
+import CustomDateInput from "../components/ui/CustomDateInput.vue";
 import options from "~/helpers/options";
-import { validateIf, num, positiveNum, phoneNum } from "~/helpers/validators";
+import { validateIf, num, positiveNum, phoneNum } from "~/helpers/validators";w
 
 export default {
-  components: { CustomInput, CustomSelect, CustomFileInput },
+  components: { CustomInput, CustomSelect, CustomFileInput, CustomDateInput },
   name: "signup",
   data() {
     return {
@@ -290,12 +293,12 @@ export default {
         emergency_contact_number: {
           ...validateIf(this.isPatient, {
             required,
-            phoneNum
+            phoneNum,
           }),
         },
         contact_number: {
           required,
-          phoneNum
+          phoneNum,
         },
         address: {
           required,

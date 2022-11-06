@@ -84,10 +84,15 @@
   }
 }
 
+.fileinput__error .custom-file-label {
+  border-color: #dc3545 !important;
+}
+
 .multiselect__error .multiselect__tags {
   border-color: #dc3545 !important;
 }
 
-.select__error {
+.select__error,
+.datepicker__error {
   font-size: 16px !important;
 }

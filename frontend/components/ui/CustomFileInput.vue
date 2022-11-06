@@ -8,7 +8,7 @@
         :accept="accept"
         @input="change"
         :class="{
-          'is-invalid': validation && validation.$error,
+          'fileinput__error is-invalid': validation && validation.$error,
         }"
       ></b-form-file>
     </div>

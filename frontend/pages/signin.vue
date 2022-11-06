@@ -28,6 +28,8 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 import CustomInput from "../components/ui/CustomInput.vue";
+import { num, positiveNum } from "~/helpers/validators";
+
 export default {
   components: { CustomInput },
   name: "signin",
@@ -44,6 +46,8 @@ export default {
       form: {
         iin_number: {
           required,
+          num,
+          positiveNum,
         },
         password: {
           required,

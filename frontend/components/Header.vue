@@ -10,7 +10,7 @@
           <b-nav-item href="/services">Services</b-nav-item>
           <b-nav-item href="/about-us">About Us</b-nav-item>
           <b-nav-item href="/contacts">Contacts</b-nav-item>
-          <b-nav-item href="/appointment">Appointment</b-nav-item>
+          <!-- <b-nav-item href="/appointment">Appointment</b-nav-item> -->
           <b-nav-item href="/create">Create</b-nav-item>
         </b-navbar-nav>
 
