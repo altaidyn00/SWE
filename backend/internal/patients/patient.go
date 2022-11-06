@@ -56,6 +56,7 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	// }
 	err := json.NewDecoder(r.Body).Decode(&newPatient)
 	if err != nil {
+		fmt.Println("Patients")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -73,7 +74,7 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	var ps struct {
 		patients []int `json: patientsID`
 	}
-	pats := []int
+	// pats := []int
 	for _, d := range patients {
 		ps.patients = append(ps.patients, d.ID)
 	}
