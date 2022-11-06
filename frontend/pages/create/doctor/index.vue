@@ -59,11 +59,11 @@
           :validation="$v.form.specID"
         />
         <custom-input
-          v-model="form.expirience"
+          v-model="form.experience"
           class="custom-input"
           label="Experience in Years"
           placeholder="Enter Experience in Years"
-          :validation="$v.form.expirience"
+          :validation="$v.form.experience"
         />
         <custom-file-input
           class="custom-input"
@@ -133,7 +133,7 @@ export default {
         address: null,
         depID: null,
         specID: null,
-        expirience: null,
+        experience: null,
         photo: null,
         category: null,
         degree: null,
@@ -192,7 +192,7 @@ export default {
           required,
         },
         rating: {
-            required,
+          required,
         },
       },
     };
@@ -203,6 +203,7 @@ export default {
     }),
     async create() {
       this.$v.form.$touch();
+      if (this.$v.form.$invalid) return;
       const response = await this.createDoctor(this.form);
       console.log(response);
     },

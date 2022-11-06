@@ -42,6 +42,23 @@ export default {
     },
   },
 
+  auth: {
+    strategies: {
+      cookie: {
+        cookie: {
+          // (optional) If set, we check this cookie existence for loggedIn check
+          name: 'XSRF-TOKEN',
+        },
+        endpoints: {
+          // (optional) If set, we send a get request to this endpoint before login
+          csrf: {
+            url: '/login'
+          }
+        }
+      },
+    }
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 

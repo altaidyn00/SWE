@@ -60,29 +60,41 @@ export const actions = {
     try {
       console.log("sadasd");
       const response = await this.$repositories.users.create_patient(payload);
-      // this.$bvToast.toast("Patient successfully created!", {
-      //   title: "Patient",
-      //   toaster: "b-toaster-bottom-left",
-      //   variant: "success",
-      //   solid: true,
-      // });
+      this._vm.$bvToast.toast("Patient successfully created!", {
+        title: "Patient",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
       return response.data;
     } catch (error) {
-      // this.$bvToast.toast("Error occured during patient creating.", {
-      //   title: "Patient",
-      //   toaster: "b-toaster-bottom-left",
-      //   variant: "danger",
-      //   solid: true,
-      // });
+      this._vm.$bvToast.toast("Error occured during patient creating.", {
+        title: "Patient",
+        toaster: "b-toaster-bottom-left",
+        variant: "danger",
+        solid: true,
+      });
     }
   },
 
   async edit_doctor(_, { id, payload }) {
     try {
       const response = await this.$repositories.users.edit_doctor(id, payload);
+      this._vm.$bvToast.toast("Doctor successfully edited!", {
+        title: "Doctor",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
       return response.data;
     } catch (error) {
       console.log(error);
+      this._vm.$bvToast.toast("Error occured during doctor editing.", {
+        title: "Doctor",
+        toaster: "b-toaster-bottom-left",
+        variant: "danger",
+        solid: true,
+      });
     }
   },
 

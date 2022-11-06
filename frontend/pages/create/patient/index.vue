@@ -71,10 +71,10 @@
           class="custom-input"
           label="Marital Status"
           placeholder="Select Marital Status"
-          v-model="form.martialstatus"
+          v-model="form.maritalstatus"
           :options="options.marital_status"
           :allow-empty="true"
-          :validation="$v.form.martialstatus"
+          :validation="$v.form.maritalstatus"
         />
       </div>
       <b-button size="md" class="button my-2 ml-sm-0" @click="create"
@@ -111,7 +111,7 @@ export default {
         contactnumber: null,
         email: null,
         address: null,
-        martialstatus: null,
+        maritalstatus: null,
         registrationdate: "sadasdas",
       },
     };
@@ -142,7 +142,7 @@ export default {
         bloodgroup: {
           required,
         },
-        emergencycontactnumber: {
+        emergencynumber: {
           required,
           phoneNum,
         },
@@ -165,6 +165,8 @@ export default {
     }),
     async create() {
       this.$v.form.$touch();
+      if (this.$v.form.$invalid) return;
+      this.form.id = +this.form.id;
       const response = await this.createPatient(this.form);
       console.log(response);
     },
