@@ -10,6 +10,8 @@ const _69c53c2a = () => interopDefault(import('../pages/contacts.vue' /* webpack
 const _72b54614 = () => interopDefault(import('../pages/create.vue' /* webpackChunkName: "pages/create" */))
 const _18f4ea79 = () => interopDefault(import('../pages/services/index.vue' /* webpackChunkName: "pages/services/index" */))
 const _23dd5c8c = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
+const _aee8aef0 = () => interopDefault(import('../pages/users/doctors/index.vue' /* webpackChunkName: "pages/users/doctors/index" */))
+const _483628e0 = () => interopDefault(import('../pages/users/patients/index.vue' /* webpackChunkName: "pages/users/patients/index" */))
 const _1c317c2c = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -47,6 +49,14 @@ export const routerOptions = {
     path: "/signin",
     component: _23dd5c8c,
     name: "signin"
+  }, {
+    path: "/users/doctors",
+    component: _aee8aef0,
+    name: "users-doctors"
+  }, {
+    path: "/users/patients",
+    component: _483628e0,
+    name: "users-patients"
   }, {
     path: "/",
     component: _1c317c2c,

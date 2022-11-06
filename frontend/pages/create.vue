@@ -219,7 +219,7 @@ import CustomSelect from "../components/ui/CustomSelect.vue";
 import CustomFileInput from "../components/ui/CustomFileInput.vue";
 import CustomDateInput from "../components/ui/CustomDateInput.vue";
 import options from "~/helpers/options";
-import { validateIf, num, positiveNum, phoneNum } from "~/helpers/validators";w
+import { validateIf, num, positiveNum, phoneNum } from "~/helpers/validators";
 
 export default {
   components: { CustomInput, CustomSelect, CustomFileInput, CustomDateInput },

@@ -42,6 +42,20 @@
     "_name": "_23dd5c8c"
   },
   {
+    "name": "users-doctors",
+    "path": "/users/doctors",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/users/doctors/index.vue",
+    "chunkName": "pages/users/doctors/index",
+    "_name": "_aee8aef0"
+  },
+  {
+    "name": "users-patients",
+    "path": "/users/patients",
+    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/users/patients/index.vue",
+    "chunkName": "pages/users/patients/index",
+    "_name": "_483628e0"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/index.vue",

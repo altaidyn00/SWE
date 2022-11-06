@@ -12,6 +12,15 @@
           <b-nav-item href="/contacts">Contacts</b-nav-item>
           <!-- <b-nav-item href="/appointment">Appointment</b-nav-item> -->
           <b-nav-item href="/create">Create</b-nav-item>
+          <b-nav-item-dropdown
+            id="my-nav-dropdown"
+            text="Users"
+            toggle-class="nav-link-custom"
+            right
+          >
+            <b-dropdown-item @click="goToDoctors">Doctors</b-dropdown-item>
+            <b-dropdown-item @click="goToPatients">Patients</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
@@ -32,6 +41,12 @@ export default {
   methods: {
     goToSignin() {
       this.$router.push("/signin");
+    },
+    goToPatients() {
+      this.$router.push("/users/patients");
+    },
+    goToDoctors() {
+      this.$router.push("users/doctors");
     },
   },
 };
