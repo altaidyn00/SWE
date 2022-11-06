@@ -46,7 +46,7 @@ export default {
       this.$router.push("/users/patients");
     },
     goToDoctors() {
-      this.$router.push("users/doctors");
+      this.$router.push("/users/doctors");
     },
   },
 };

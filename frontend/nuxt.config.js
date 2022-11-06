@@ -21,10 +21,14 @@ export default {
   css: ["@/assets/scss/app.scss"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: "~/plugins/vuelidate" },
-    { src: "~/plugins/repository" },
-  ],
+  plugins: [{ src: "~/plugins/vuelidate" }, { src: "~/plugins/repository" }],
+
+  proxy: {
+    "/api": {
+      target: process.env.NODE_ENV === "production" ? "" : "http://localhost:8080",
+      pathRewrite: { "^/api": "/api" },
+    },
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

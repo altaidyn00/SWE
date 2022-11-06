@@ -47,25 +47,11 @@
           :validation="$v.form.id_number"
         />
         <custom-input
-          v-model="form.name"
+          v-model="form.fullname"
           class="custom-input"
-          label="Name"
-          placeholder="Enter Name"
-          :validation="$v.form.name"
-        />
-        <custom-input
-          v-model="form.surname"
-          class="custom-input"
-          label="Surname"
-          placeholder="Enter Surname"
-          :validation="$v.form.surname"
-        />
-        <custom-input
-          v-model="form.middlename"
-          class="custom-input"
-          label="Middlename"
-          placeholder="Enter Middlename"
-          :validation="$v.form.middlename"
+          label="Fullname"
+          placeholder="Enter Fullname"
+          :validation="$v.form.fullname"
         />
         <custom-select
           v-if="isPatient"
@@ -232,9 +218,7 @@ export default {
         birth_date: null,
         iin_number: null,
         id_number: null,
-        name: null,
-        surname: null,
-        middlename: null,
+        fullname: null,
         blood_group: null,
         emergency_contact_number: null,
         contact_number: null,
@@ -271,13 +255,7 @@ export default {
           num,
           positiveNum,
         },
-        name: {
-          required,
-        },
-        surname: {
-          required,
-        },
-        middlename: {
+        fullname: {
           required,
         },
         email: {
