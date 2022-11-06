@@ -56,6 +56,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
 	http.SetCookie(w,
 		&http.Cookie{
 			Name:    "token",
@@ -63,7 +64,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			Expires: expirationTime,
 		},
 	)
-	w.Write([]byte("Login completed successfully"))
+	w.WriteHeader(http.StatusOK)
+	//w.Write([]byte("Login completed successfully"))
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {

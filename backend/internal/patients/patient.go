@@ -13,17 +13,17 @@ import (
 var patients []PatientInfo
 
 type PatientInfo struct {
-	DateOfBirth            string `json: dateofbirth`
-	IIN                    string `json: iin`
-	ID                     int    `json: id`
-	FullName               string `json: fullname`
-	BloodGroup             string `json: blooodgroup`
-	EmergencyContactNumber string `json: emergencynumber`
-	Contactnumber          string `json: contactnumber`
-	Email                  string `json: email`
-	Address                string `json: address`
-	MaritalStatus          string `json: martialstatus`
-	RegistrationDate       string `json: registrationdate`
+	DateOfBirth            string `json:"dateofbirth"`
+	IIN                    string `json:"iin"`
+	ID                     int    `json:"id"`
+	FullName               string `json:"fullname"`
+	BloodGroup             string `json:"blooodgroup"`
+	EmergencyContactNumber string `json:"emergencynumber"`
+	Contactnumber          string `json:"contactnumber"`
+	Email                  string `json:"email"`
+	Address                string `json:"address"`
+	MaritalStatus          string `json:"martialstatus"`
+	RegistrationDate       string `json:"registrationdate"`
 }
 
 // Admin credentials:
@@ -69,14 +69,16 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Verifyin error"))
 		return
 	}
-	var ps struct {
-		patients []int `json: patientsID`
-	}
-	for _, d := range patients {
-		ps.patients = append(ps.patients, d.ID)
-	}
 
-	res, err := json.Marshal(ps)
+	// ids := []int{}
+	// names := []string{}
+	// for _, d := range patients {
+	// 	ids = append(ids, d.ID)
+	// 	names = append(names, d.FullName)
+	// }
+
+	res, err := json.Marshal(&patients)
+	// 	 names []string }{ids, names})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -92,8 +94,6 @@ func findPatient(id int) int {
 	}
 	return -1
 }
-
-var uploadDir string = "files/"
 
 func ViewPatient(w http.ResponseWriter, r *http.Request) {
 	if !admin.Verify(r) {
