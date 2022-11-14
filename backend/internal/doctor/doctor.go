@@ -85,7 +85,7 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	doc.DepID = r.FormValue("depID")
 	doc.SpecID = r.FormValue("specID")
 	doc.Expirience = r.FormValue("expirience")
-	doc.PhotoLocation = r.FormValue("photo")
+	//doc.PhotoLocation = r.FormValue("photo")
 	doc.Category = r.FormValue("category")
 	doc.Degree = r.FormValue("degree")
 	doc.Rating =  r.FormValue("rating")
