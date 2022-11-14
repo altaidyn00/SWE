@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	//"github.com/whym9/hospital/internal/admin"
 )
@@ -15,7 +14,7 @@ var patients []PatientInfo
 type PatientInfo struct {
 	DateOfBirth            string `json:"dateofbirth"`
 	IIN                    string `json:"iin"`
-	ID                     int    `json:"id"`
+	ID                     string `json:"id"`
 	FullName               string `json:"fullname"`
 	BloodGroup             string `json:"blooodgroup"`
 	EmergencyContactNumber string `json:"emergencynumber"`
@@ -62,7 +61,12 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	}
 	patients = append(patients, newPatient)
 
-	w.Write([]byte(fmt.Sprintf("User %s has been registered successfully", newPatient.FullName)))
+	res, err := json.Marshal(newPatient)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(res)
 }
 
 func GetPatients(w http.ResponseWriter, r *http.Request) {
@@ -71,24 +75,18 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-	// var ps struct {
-	// 	patients []int `json: patientsID`
-	// }
-	// pats := []int
-	// for _, d := range patients {
-	// 	ps.patients = append(ps.patients, d.ID)
-	// }
+
+	res, err := json.Marshal(patients)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(res)
-	fmt.Println(patients)
+	fmt.Println(string(res))
 	w.Write(res)
 }
 
-func findPatient(id int) int {
-	for i, _ := range patients {
+func findPatient(id string) int {
+	for i := range patients {
 		if id == patients[i].ID {
 			return i
 		}
@@ -102,10 +100,8 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-	id, err := strconv.Atoi(r.FormValue("ID"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	id := r.FormValue("ID")
+
 	i := findPatient(id)
 	if i == -1 {
 		w.WriteHeader(http.StatusExpectationFailed)
@@ -113,7 +109,7 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := json.Marshal(&patients[i])
+	res, err := json.Marshal(patients[i])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -130,10 +126,8 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 
-	id, err := strconv.Atoi(r.FormValue("ID"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	id := r.FormValue("ID")
+
 	i := findPatient(id)
 	if i == -1 {
 		w.WriteHeader(http.StatusExpectationFailed)
@@ -150,11 +144,7 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 	case "iin":
 		patients[i].IIN = r.FormValue("modify")
 	case "id":
-		x, err := strconv.Atoi(r.FormValue("modify"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		patients[i].ID = x
+		patients[i].ID = r.FormValue("modify")
 	case "fullname":
 		patients[i].FullName = r.FormValue("modify")
 	case "blooodgroup":
@@ -179,6 +169,9 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 		patients[i].RegistrationDate = r.FormValue("modify")
 
 	}
-
-	w.Write([]byte("Success!"))
+	res, err := json.Marshal(patients[i])
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write(res)
 }

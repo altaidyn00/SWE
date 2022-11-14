@@ -102,8 +102,7 @@ export const actions = {
     try {
       const response = await this.$repositories.users.edit_patient(id, payload);
       return response.data;
-    } catch (error) {
-    }
+    } catch (error) {}
   },
 
   async get_doctor({ commit }, id) {
@@ -133,7 +132,7 @@ export const actions = {
   async get_patients({ commit }, params) {
     try {
       const response = await this.$repositories.users.get_patients(params);
-      console.log(response.data)
+      console.log(response.data);
       const patients = response.data;
       commit("SET_PATIENTS", patients);
     } catch (error) {}
@@ -142,7 +141,20 @@ export const actions = {
   async login({ commit }, payload) {
     try {
       const response = await this.$repositories.users.login_admin(payload);
+      this._vm.$bvToast.toast("Admin successfully logged in!", {
+        title: "Sign in",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
       console.log(response);
-    } catch (error) {}
+    } catch (error) {
+      this._vm.$bvToast.toast("Invalid credentials for admin.", {
+        title: "Sign in",
+        toaster: "b-toaster-bottom-left",
+        variant: "danger",
+        solid: true,
+      });
+    }
   },
 };

@@ -79,7 +79,7 @@ export default {
         },
         {
           key: "dateofbirth",
-          label: "Birth Data",
+          label: "Birth Date",
         },
         {
           key: "action1",

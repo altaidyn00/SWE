@@ -65,13 +65,13 @@
           placeholder="Enter Experience in Years"
           :validation="$v.form.experience"
         />
-        <custom-file-input
+        <!-- <custom-file-input
           class="custom-input"
           label="Doctor's Photo"
           placeholder=" Upload Doctor's Photos"
           v-model="form.photo"
           :validation="$v.form.photo"
-        />
+        /> -->
         <custom-select
           class="custom-input"
           label="Category"
@@ -134,7 +134,7 @@ export default {
         depID: null,
         specID: null,
         experience: null,
-        photo: null,
+        // photo: null,
         category: null,
         degree: null,
         rating: null,
@@ -182,9 +182,9 @@ export default {
           num,
           positiveNum,
         },
-        photo: {
-          required,
-        },
+        // photo: {
+        //   required,
+        // },
         category: {
           required,
         },
@@ -207,7 +207,7 @@ export default {
       this.form.id = +this.form.id;
       this.form.depID = +this.form.depID;
       this.form.experience = +this.form.experience;
-      this.form.rating = +this.form.rating;
+      this.form.rating = parseFloat(this.form.rating);
       const response = await this.createDoctor(this.form);
       console.log(response);
     },
