@@ -70,11 +70,11 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPatients(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 
 	res, err := json.Marshal(patients)
 
