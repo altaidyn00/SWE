@@ -120,13 +120,18 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func ModifyPatient(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
-
-	id := r.FormValue("id")
+	var oldPatient PatientInfo
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
+	err := json.NewDecoder(r.Body).Decode(&oldPatient)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	id := oldPatient.ID
 
 	i := findPatient(id)
 	if i == -1 {
@@ -135,40 +140,7 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	field := r.FormValue("field")
-
-	switch field {
-	case "dateofbirth":
-		patients[i].DateOfBirth = r.FormValue("modify")
-
-	case "iin":
-		patients[i].IIN = r.FormValue("modify")
-	case "id":
-		patients[i].ID = r.FormValue("modify")
-	case "fullname":
-		patients[i].FullName = r.FormValue("modify")
-	case "blooodgroup":
-		patients[i].BloodGroup = r.FormValue("modify")
-
-	case "emergencynumber":
-		patients[i].EmergencyContactNumber = r.FormValue("modify")
-
-	case "contactnumber":
-		patients[i].Contactnumber = r.FormValue("modify")
-
-	case "email":
-		patients[i].Email = r.FormValue("modify")
-
-	case "address":
-		patients[i].Address = r.FormValue("modify")
-
-	case "martialstatus":
-		patients[i].MaritalStatus = r.FormValue("modify")
-
-	case "registrationdate":
-		patients[i].RegistrationDate = r.FormValue("modify")
-
-	}
+	patients[i] = oldPatient
 	res, err := json.Marshal(patients[i])
 	if err != nil {
 		log.Fatal(err)
