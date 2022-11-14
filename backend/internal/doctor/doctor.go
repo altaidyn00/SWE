@@ -69,13 +69,6 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fileType := http.DetectContentType(fileContent)
-	if fileType != "image/jpeg" {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Incorrect format"))
-
-		return
-	}
 	fileLocation := uploadDir + fileHeader.Filename
 	f, err := os.Create(fileLocation)
 	if err != nil {
@@ -271,13 +264,6 @@ func saveFile(w http.ResponseWriter, r *http.Request, name string) string {
 		return ""
 	}
 
-	fileType := http.DetectContentType(fileContent)
-	if fileType != "image/jpeg" {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Incorrect format"))
-
-		return ""
-	}
 	fileLocation := uploadDir + fileHeader.Filename
 	f, err := os.Create(fileLocation)
 	if err != nil {

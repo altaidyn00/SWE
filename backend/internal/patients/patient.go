@@ -100,7 +100,7 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-	id := r.FormValue("ID")
+	id := r.FormValue("id")
 
 	i := findPatient(id)
 	if i == -1 {
@@ -126,7 +126,7 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 
-	id := r.FormValue("ID")
+	id := r.FormValue("id")
 
 	i := findPatient(id)
 	if i == -1 {
