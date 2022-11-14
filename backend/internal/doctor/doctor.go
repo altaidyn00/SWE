@@ -15,12 +15,12 @@ import (
 type DoctorInfo struct {
 	DateOfBirth   string  `json:"dateofbirth"`
 	IIN           string  `json:"iin"`
-	ID            int     `json:"id"`
+	ID            string  `json:"id"`
 	FullName      string  `json:"fullname"`
 	Contactnumber string  `json:"contactnumber"`
-	DepID         int     `json:"departmentID"`
+	DepID         string  `json:"departmentID"`
 	SpecID        string  `json:"specID"`
-	Expirience    int     `json:"expirience"`
+	Expirience    string  `json:"expirience"`
 	PhotoLocation string  `json:"photo"`
 	Category      string  `json:"category"`
 	Degree        string  `json:"degree"`
@@ -86,36 +86,13 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 
 	doc.DateOfBirth = r.FormValue("dateofbirth")
 	doc.IIN = r.FormValue("iin")
-	intg, err := strconv.Atoi(r.FormValue("id"))
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Please check the formats of the forms again!"))
-		fmt.Println("1")
-		log.Fatal(err)
-		return
-	}
-	doc.ID = intg
+	doc.ID = r.FormValue("id")
 	doc.FullName = r.FormValue("fullname")
-	intg, err = strconv.Atoi(r.FormValue("depID"))
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Please check the formats of the forms again!"))
-		fmt.Println("2")
-		log.Fatal(err)
-		return
-	}
+
 	doc.Contactnumber = r.FormValue("contactnumber")
-	doc.DepID = intg
+	doc.DepID = r.FormValue("depID")
 	doc.SpecID = r.FormValue("specID")
-	intg, err = strconv.Atoi(r.FormValue("expirience"))
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Please check the formats of the forms again!"))
-		fmt.Println("3")
-		log.Fatal(err)
-		return
-	}
-	doc.Expirience = intg
+	doc.Expirience = r.FormValue("expirience")
 	doc.PhotoLocation = fileLocation
 	doc.Category = r.FormValue("category")
 	doc.Degree = r.FormValue("degree")
@@ -133,7 +110,12 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 
 	doctors = append(doctors, doc)
 
-	w.Write([]byte(fmt.Sprintf("User %s has been registered successfully", doc.FullName)))
+	res, err := json.Marshal(doc)
+	if err != nil {
+		w.WriteHeader(http.StatusSeeOther)
+		return
+	}
+	w.Write(res)
 }
 
 func GetDoctors(w http.ResponseWriter, r *http.Request) {
@@ -142,12 +124,6 @@ func GetDoctors(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Verifyin error"))
 		return
 	}
-	// var ds struct {
-	// 	doctors []int `json: doctorsID`
-	// }
-	// for _, d := range doctors {
-	// 	ds.doctors = append(ds.doctors, d.ID)
-	// }
 
 	res, err := json.Marshal(doctors)
 	if err != nil {
@@ -163,10 +139,7 @@ func ViewDoctor(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Verifying error"))
 		return
 	}
-	id, err := strconv.Atoi(r.FormValue("id"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	id := r.FormValue("id")
 	i := findDoctor(id)
 	if i == -1 {
 		w.WriteHeader(http.StatusExpectationFailed)
@@ -174,16 +147,18 @@ func ViewDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := json.Marshal(&doctors[i])
+	res, err := json.Marshal(doctors[i])
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Println(err)
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
 
-func findDoctor(id int) int {
+func findDoctor(id string) int {
 	for i := range doctors {
 		if id == doctors[i].ID {
 			return i
@@ -199,10 +174,8 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(r.FormValue("id"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	id := r.FormValue("id")
+
 	i := findDoctor(id)
 	if i == -1 {
 		w.WriteHeader(http.StatusExpectationFailed)
@@ -219,19 +192,11 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 	case "iin":
 		doctors[i].IIN = r.FormValue("modify")
 	case "id":
-		x, err := strconv.Atoi(r.FormValue("modify"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		doctors[i].ID = x
+		doctors[i].ID = r.FormValue("modify")
 	case "fullname":
 		doctors[i].FullName = r.FormValue("modify")
 	case "depID":
-		x, err := strconv.Atoi(r.FormValue("modify"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		doctors[i].DepID = x
+		doctors[i].DepID = r.FormValue("modify")
 
 	case "specID":
 		doctors[i].SpecID = r.FormValue("modify")
@@ -240,11 +205,7 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 		doctors[i].Contactnumber = r.FormValue("modify")
 
 	case "expirience":
-		x, err := strconv.Atoi(r.FormValue("modify"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		doctors[i].Expirience = x
+		doctors[i].Expirience = r.FormValue("modify")
 
 	case "photo":
 		location := saveFile(w, r, "modify")
@@ -271,8 +232,13 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 		doctors[i].Address = r.FormValue("modify")
 
 	}
+	res, err := json.Marshal(doctors[i])
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
 
-	w.Write([]byte("Success!"))
+	w.Write(res)
 }
 
 func saveFile(w http.ResponseWriter, r *http.Request, name string) string {
