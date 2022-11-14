@@ -24,7 +24,7 @@ type DoctorInfo struct {
 	//PhotoLocation string  `json:"photo"`
 	Category      string  `json:"category"`
 	Degree        string  `json:"degree"`
-	Rating        float64 `json:"rating"`
+	Rating        string `json:"rating"`
 	Address       string  `json:"address"`
 }
 
