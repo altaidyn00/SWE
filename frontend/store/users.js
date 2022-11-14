@@ -58,7 +58,6 @@ export const actions = {
 
   async create_patient(_, payload) {
     try {
-      console.log("sadasd");
       const response = await this.$repositories.users.create_patient(payload);
       this._vm.$bvToast.toast("Patient successfully created!", {
         title: "Patient",
@@ -98,11 +97,27 @@ export const actions = {
     }
   },
 
-  async edit_patient(_, { id, payload }) {
+  async edit_patient({ commit }, { id, payload }) {
     try {
+      console.log(id, payload, "store");
       const response = await this.$repositories.users.edit_patient(id, payload);
+      this._vm.$bvToast.toast("Patient successfully updated!", {
+        title: "Patient",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
+      commit("SET_PATIENT", response.data);
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      this._vm.$bvToast.toast("Error occured during patient updating.", {
+        title: "Patient",
+        toaster: "b-toaster-bottom-left",
+        variant: "danger",
+        solid: true,
+      });
+    }
   },
 
   async get_doctor({ commit }, id) {
@@ -113,9 +128,9 @@ export const actions = {
     } catch (error) {}
   },
 
-  async get_patient({ commit }, id) {
+  async get_patient({ commit }, params) {
     try {
-      const response = await this.$repositories.users.get_patient(id);
+      const response = await this.$repositories.users.get_patient(params);
       const patient = response.data;
       commit("SET_PATIENT", patient);
     } catch (error) {}

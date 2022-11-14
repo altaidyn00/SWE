@@ -13,9 +13,9 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_5f0b945e from 'nuxt_plugin_plugin_5f0b945e' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_bootstrapvue_62dbf2ba from 'nuxt_plugin_bootstrapvue_62dbf2ba' // Source: ./bootstrap-vue.js (mode: 'all')
-import nuxt_plugin_axios_5a92dc74 from 'nuxt_plugin_axios_5a92dc74' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_plugin_14d55b3d from 'nuxt_plugin_plugin_14d55b3d' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_bootstrapvue_4cd81502 from 'nuxt_plugin_bootstrapvue_4cd81502' // Source: ./bootstrap-vue.js (mode: 'all')
+import nuxt_plugin_axios_1ca0b9d3 from 'nuxt_plugin_axios_1ca0b9d3' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuelidate_4345260a from 'nuxt_plugin_vuelidate_4345260a' // Source: ../plugins/vuelidate (mode: 'all')
 import nuxt_plugin_repository_02bac980 from 'nuxt_plugin_repository_02bac980' // Source: ../plugins/repository (mode: 'all')
 import nuxt_plugin_toast_3357971e from 'nuxt_plugin_toast_3357971e' // Source: ../plugins/toast (mode: 'all')
@@ -215,16 +215,16 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_5f0b945e === 'function') {
-    await nuxt_plugin_plugin_5f0b945e(app.context, inject)
+  if (typeof nuxt_plugin_plugin_14d55b3d === 'function') {
+    await nuxt_plugin_plugin_14d55b3d(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_bootstrapvue_62dbf2ba === 'function') {
-    await nuxt_plugin_bootstrapvue_62dbf2ba(app.context, inject)
+  if (typeof nuxt_plugin_bootstrapvue_4cd81502 === 'function') {
+    await nuxt_plugin_bootstrapvue_4cd81502(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_5a92dc74 === 'function') {
-    await nuxt_plugin_axios_5a92dc74(app.context, inject)
+  if (typeof nuxt_plugin_axios_1ca0b9d3 === 'function') {
+    await nuxt_plugin_axios_1ca0b9d3(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vuelidate_4345260a === 'function') {

@@ -7,9 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
-
-	"github.com/whym9/hospital/internal/admin"
 )
 
 type DoctorInfo struct {
@@ -21,10 +18,10 @@ type DoctorInfo struct {
 	DepID         string  `json:"departmentID"`
 	SpecID        string  `json:"specID"`
 	Expirience    string  `json:"expirience"`
-	PhotoLocation string  `json:"photo"`
+	//PhotoLocation string  `json:"photo"`
 	Category      string  `json:"category"`
 	Degree        string  `json:"degree"`
-	Rating        float64 `json:"rating"`
+	Rating        string `json:"rating"`
 	Address       string  `json:"address"`
 }
 
@@ -34,54 +31,47 @@ var uploadDir = "files/"
 var maxSize int64 = 200 * 1024 * 1024
 
 func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
 
-	if err := r.ParseMultipartForm(maxSize); err != nil {
-		fmt.Printf("could not parse multipart form: %v\n", err)
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("CANT_PARSE_FORM"))
-		return
-	}
+// 	if err := r.ParseMultipartForm(maxSize); err != nil {
+// 		fmt.Printf("could not parse multipart form: %v\n", err)
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("CANT_PARSE_FORM"))
+// 		return
+// 	}
 
-	file, fileHeader, err := r.FormFile("uploadFile")
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("INVALID_FILE"))
-		return
-	}
-	defer file.Close()
+// 	file, fileHeader, err := r.FormFile("photo")
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("INVALID_FILE"))
+// 		return
+// 	}
+// 	defer file.Close()
 
-	fileSize := fileHeader.Size
+// 	fileSize := fileHeader.Size
 
-	if fileSize > maxSize {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("FILE_TOO_BIG"))
-		return
-	}
-	fileContent, err := io.ReadAll(file)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("INVALID_FILE"))
-		return
-	}
+// 	if fileSize > maxSize {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("FILE_TOO_BIG"))
+// 		return
+// 	}
+// 	fileContent, err := io.ReadAll(file)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("INVALID_FILE"))
+// 		return
+// 	}
 
-	fileType := http.DetectContentType(fileContent)
-	if fileType != "image/jpeg" {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Incorrect format"))
-
-		return
-	}
-	fileLocation := uploadDir + fileHeader.Filename
-	f, err := os.Create(fileLocation)
-	if err != nil {
-		log.Fatal(err)
-	}
-	f.Write(fileContent)
+// 	fileLocation := uploadDir + fileHeader.Filename
+// 	f, err := os.Create(fileLocation)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	f.Write(fileContent)
 	doc := DoctorInfo{}
 
 	doc.DateOfBirth = r.FormValue("dateofbirth")
@@ -93,19 +83,10 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	doc.DepID = r.FormValue("depID")
 	doc.SpecID = r.FormValue("specID")
 	doc.Expirience = r.FormValue("expirience")
-	doc.PhotoLocation = fileLocation
+	//doc.PhotoLocation = r.FormValue("photo")
 	doc.Category = r.FormValue("category")
 	doc.Degree = r.FormValue("degree")
-
-	fltg, err := strconv.ParseFloat(r.FormValue("rating"), 32)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Please check the formats of the forms again!"))
-		fmt.Println("4")
-		log.Fatal(err)
-		return
-	}
-	doc.Rating = fltg
+	doc.Rating =  r.FormValue("rating")
 	doc.Address = r.FormValue("address")
 
 	doctors = append(doctors, doc)
@@ -119,11 +100,11 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDoctors(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
 
 	res, err := json.Marshal(doctors)
 	if err != nil {
@@ -134,11 +115,11 @@ func GetDoctors(w http.ResponseWriter, r *http.Request) {
 }
 
 func ViewDoctor(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifying error"))
-		return
-	}
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifying error"))
+	// 	return
+	// }
 	id := r.FormValue("id")
 	i := findDoctor(id)
 	if i == -1 {
@@ -168,76 +149,31 @@ func findDoctor(id string) int {
 }
 
 func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
-	if !admin.Verify(r) {
+	var oldDoctor DoctorInfo
+	// if !admin.Verify(r) {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
+	err := json.NewDecoder(r.Body).Decode(&oldDoctor)
+	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Verifyin error"))
 		return
 	}
-
-	id := r.FormValue("id")
+	id := oldDoctor.ID
 
 	i := findDoctor(id)
 	if i == -1 {
 		w.WriteHeader(http.StatusExpectationFailed)
-		w.Write([]byte("Given doctor does not exist"))
+		w.Write([]byte("Given patient does not exist"))
 		return
 	}
 
-	field := r.FormValue("field")
-
-	switch field {
-	case "dateofbirth":
-		doctors[i].DateOfBirth = r.FormValue("modify")
-
-	case "iin":
-		doctors[i].IIN = r.FormValue("modify")
-	case "id":
-		doctors[i].ID = r.FormValue("modify")
-	case "fullname":
-		doctors[i].FullName = r.FormValue("modify")
-	case "depID":
-		doctors[i].DepID = r.FormValue("modify")
-
-	case "specID":
-		doctors[i].SpecID = r.FormValue("modify")
-
-	case "contactnumber":
-		doctors[i].Contactnumber = r.FormValue("modify")
-
-	case "expirience":
-		doctors[i].Expirience = r.FormValue("modify")
-
-	case "photo":
-		location := saveFile(w, r, "modify")
-
-		if location == "" {
-			return
-		}
-		doctors[i].PhotoLocation = location
-
-	case "category":
-		doctors[i].Category = r.FormValue("modify")
-
-	case "rating":
-		x, err := strconv.ParseFloat(r.FormValue("modify"), 64)
-		if err != nil {
-			log.Fatal(err)
-		}
-		doctors[i].Rating = x
-
-	case "degree":
-		doctors[i].Degree = r.FormValue("modify")
-
-	case "address":
-		doctors[i].Address = r.FormValue("modify")
-
-	}
+	doctors[i] = oldDoctor
 	res, err := json.Marshal(doctors[i])
 	if err != nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		return
+		log.Fatal(err)
 	}
-
 	w.Write(res)
 }
 
@@ -271,13 +207,6 @@ func saveFile(w http.ResponseWriter, r *http.Request, name string) string {
 		return ""
 	}
 
-	fileType := http.DetectContentType(fileContent)
-	if fileType != "image/jpeg" {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Incorrect format"))
-
-		return ""
-	}
 	fileLocation := uploadDir + fileHeader.Filename
 	f, err := os.Create(fileLocation)
 	if err != nil {
