@@ -70,35 +70,18 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPatients(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
-	// var ps struct {
-	// 	patients []int `json: patientsID`
-	// }
-	// pats := []int
-	// for _, d := range patients {
-	// 	ps.patients = append(ps.patients, d.ID)
-	// }
-
-	res, err := json.Marshal(patients)
-
-<<<<<<< HEAD
-	res, err := json.Marshal(patients)
-	// 	 names []string }{ids, names})
-	if err != nil {
-		log.Fatal(err)
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
 	}
-	fmt.Println(res)
-	fmt.Println(patients)
-=======
+
+	res, err := json.Marshal(patients)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(string(res))
->>>>>>> backend
 	w.Write(res)
 }
 
