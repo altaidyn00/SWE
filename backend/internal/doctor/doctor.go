@@ -21,7 +21,7 @@ type DoctorInfo struct {
 	DepID         string  `json:"departmentID"`
 	SpecID        string  `json:"specID"`
 	Expirience    string  `json:"expirience"`
-	PhotoLocation string  `json:"photo"`
+	//PhotoLocation string  `json:"photo"`
 	Category      string  `json:"category"`
 	Degree        string  `json:"degree"`
 	Rating        float64 `json:"rating"`
@@ -40,41 +40,41 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := r.ParseMultipartForm(maxSize); err != nil {
-		fmt.Printf("could not parse multipart form: %v\n", err)
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("CANT_PARSE_FORM"))
-		return
-	}
+// 	if err := r.ParseMultipartForm(maxSize); err != nil {
+// 		fmt.Printf("could not parse multipart form: %v\n", err)
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("CANT_PARSE_FORM"))
+// 		return
+// 	}
 
-	file, fileHeader, err := r.FormFile("photo")
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("INVALID_FILE"))
-		return
-	}
-	defer file.Close()
+// 	file, fileHeader, err := r.FormFile("photo")
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("INVALID_FILE"))
+// 		return
+// 	}
+// 	defer file.Close()
 
-	fileSize := fileHeader.Size
+// 	fileSize := fileHeader.Size
 
-	if fileSize > maxSize {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("FILE_TOO_BIG"))
-		return
-	}
-	fileContent, err := io.ReadAll(file)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("INVALID_FILE"))
-		return
-	}
+// 	if fileSize > maxSize {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("FILE_TOO_BIG"))
+// 		return
+// 	}
+// 	fileContent, err := io.ReadAll(file)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte("INVALID_FILE"))
+// 		return
+// 	}
 
-	fileLocation := uploadDir + fileHeader.Filename
-	f, err := os.Create(fileLocation)
-	if err != nil {
-		log.Fatal(err)
-	}
-	f.Write(fileContent)
+// 	fileLocation := uploadDir + fileHeader.Filename
+// 	f, err := os.Create(fileLocation)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	f.Write(fileContent)
 	doc := DoctorInfo{}
 
 	doc.DateOfBirth = r.FormValue("dateofbirth")
@@ -86,19 +86,10 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	doc.DepID = r.FormValue("depID")
 	doc.SpecID = r.FormValue("specID")
 	doc.Expirience = r.FormValue("expirience")
-	doc.PhotoLocation = fileLocation
+	doc.PhotoLocation = r.FormValue("photo")
 	doc.Category = r.FormValue("category")
 	doc.Degree = r.FormValue("degree")
-
-	fltg, err := strconv.ParseFloat(r.FormValue("rating"), 32)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Please check the formats of the forms again!"))
-		fmt.Println("4")
-		log.Fatal(err)
-		return
-	}
-	doc.Rating = fltg
+	doc.Rating =  r.FormValue("rating")
 	doc.Address = r.FormValue("address")
 
 	doctors = append(doctors, doc)
@@ -200,23 +191,19 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 	case "expirience":
 		doctors[i].Expirience = r.FormValue("modify")
 
-	case "photo":
-		location := saveFile(w, r, "modify")
+// 	case "photo":
+// 		location := saveFile(w, r, "modify")
 
-		if location == "" {
-			return
-		}
-		doctors[i].PhotoLocation = location
+// 		if location == "" {
+// 			return
+// 		}
+// 		doctors[i].PhotoLocation = location
 
 	case "category":
 		doctors[i].Category = r.FormValue("modify")
 
 	case "rating":
-		x, err := strconv.ParseFloat(r.FormValue("modify"), 64)
-		if err != nil {
-			log.Fatal(err)
-		}
-		doctors[i].Rating = x
+		doctors[i].Rating = r.FormValue("modify")
 
 	case "degree":
 		doctors[i].Degree = r.FormValue("modify")
