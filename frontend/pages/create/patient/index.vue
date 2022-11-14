@@ -39,6 +39,13 @@
           :allow-empty="true"
           :validation="$v.form.bloodgroup"
         />
+        <!-- <custom-input
+          v-model="form.bloodgroup"
+          class="custom-input"
+          label="Blood Group"
+          placeholder="Enter Blood Group"
+          :validation="$v.form.bloodgroup"
+        /> -->
         <custom-input
           v-model="form.emergencynumber"
           class="custom-input"
@@ -76,6 +83,13 @@
           :allow-empty="true"
           :validation="$v.form.maritalstatus"
         />
+        <!-- <custom-input
+          v-model="form.maritalstatus"
+          class="custom-input"
+          label="Marital Status"
+          placeholder="Enter Marital Status"
+          :validation="$v.form.maritalstatus"
+        /> -->
       </div>
       <b-button size="md" class="button my-2 ml-sm-0" @click="create"
         >create</b-button
@@ -112,7 +126,7 @@ export default {
         email: null,
         address: null,
         maritalstatus: null,
-        registrationdate: "sadasdas",
+        registrationdate: null,
       },
     };
   },
@@ -166,6 +180,14 @@ export default {
     async create() {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return;
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = today.getFullYear();
+      today = yyyy + "-" + mm + "-" + dd;
+      this.form.registrationdate = today;
+      this.form.maritalstatus = String(this.form.maritalstatus);
+      this.form.bloodgroup = String(this.form.bloodgroup);
       const response = await this.createPatient(this.form);
       console.log(response);
     },
