@@ -15,13 +15,13 @@ var users = map[string][]string{
 }
 
 type Credentials struct {
-	UserName string `json: username`
-	Password string `json: password`
+	UserName string `json:"username"`
+	Password string `json:"password"`
 }
 
 type Claims struct {
-	UserName string `json: username`
-	Role     string `json: role`
+	UserName string `json:"username"`
+	Role     string `json:"role"`
 	jwt.StandardClaims
 }
 
