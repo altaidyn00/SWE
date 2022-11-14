@@ -4,16 +4,16 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _438590f6 = () => interopDefault(import('../pages/about-us.vue' /* webpackChunkName: "pages/about-us" */))
-const _c8a8b392 = () => interopDefault(import('../pages/appointment.vue' /* webpackChunkName: "pages/appointment" */))
-const _69c53c2a = () => interopDefault(import('../pages/contacts.vue' /* webpackChunkName: "pages/contacts" */))
-const _18f4ea79 = () => interopDefault(import('../pages/services/index.vue' /* webpackChunkName: "pages/services/index" */))
-const _23dd5c8c = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
-const _c822d4a6 = () => interopDefault(import('../pages/create/doctor/index.vue' /* webpackChunkName: "pages/create/doctor/index" */))
-const _6fc843e6 = () => interopDefault(import('../pages/create/patient/index.vue' /* webpackChunkName: "pages/create/patient/index" */))
-const _aee8aef0 = () => interopDefault(import('../pages/users/doctors/index.vue' /* webpackChunkName: "pages/users/doctors/index" */))
-const _483628e0 = () => interopDefault(import('../pages/users/patients/index.vue' /* webpackChunkName: "pages/users/patients/index" */))
-const _1c317c2c = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _6697a6d5 = () => interopDefault(import('../pages/about-us.vue' /* webpackChunkName: "pages/about-us" */))
+const _5d6a6010 = () => interopDefault(import('../pages/appointment.vue' /* webpackChunkName: "pages/appointment" */))
+const _23a1106c = () => interopDefault(import('../pages/contacts.vue' /* webpackChunkName: "pages/contacts" */))
+const _1df0dd18 = () => interopDefault(import('../pages/services/index.vue' /* webpackChunkName: "pages/services/index" */))
+const _641d5359 = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
+const _7fec6e6e = () => interopDefault(import('../pages/create/doctor/index.vue' /* webpackChunkName: "pages/create/doctor/index" */))
+const _63d91d6c = () => interopDefault(import('../pages/create/patient/index.vue' /* webpackChunkName: "pages/create/patient/index" */))
+const _e6ecfd6e = () => interopDefault(import('../pages/users/doctors/index.vue' /* webpackChunkName: "pages/users/doctors/index" */))
+const _77a22aef = () => interopDefault(import('../pages/users/patients/index.vue' /* webpackChunkName: "pages/users/patients/index" */))
+const _7195106b = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -28,43 +28,43 @@ export const routerOptions = {
 
   routes: [{
     path: "/about-us",
-    component: _438590f6,
+    component: _6697a6d5,
     name: "about-us"
   }, {
     path: "/appointment",
-    component: _c8a8b392,
+    component: _5d6a6010,
     name: "appointment"
   }, {
     path: "/contacts",
-    component: _69c53c2a,
+    component: _23a1106c,
     name: "contacts"
   }, {
     path: "/services",
-    component: _18f4ea79,
+    component: _1df0dd18,
     name: "services"
   }, {
     path: "/signin",
-    component: _23dd5c8c,
+    component: _641d5359,
     name: "signin"
   }, {
     path: "/create/doctor",
-    component: _c822d4a6,
+    component: _7fec6e6e,
     name: "create-doctor"
   }, {
     path: "/create/patient",
-    component: _6fc843e6,
+    component: _63d91d6c,
     name: "create-patient"
   }, {
     path: "/users/doctors",
-    component: _aee8aef0,
+    component: _e6ecfd6e,
     name: "users-doctors"
   }, {
     path: "/users/patients",
-    component: _483628e0,
+    component: _77a22aef,
     name: "users-patients"
   }, {
     path: "/",
-    component: _1c317c2c,
+    component: _7195106b,
     name: "index"
   }],
 

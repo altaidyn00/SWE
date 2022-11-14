@@ -2,71 +2,71 @@
   {
     "name": "about-us",
     "path": "/about-us",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/about-us.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/about-us.vue",
     "chunkName": "pages/about-us",
-    "_name": "_438590f6"
+    "_name": "_6697a6d5"
   },
   {
     "name": "appointment",
     "path": "/appointment",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/appointment.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/appointment.vue",
     "chunkName": "pages/appointment",
-    "_name": "_c8a8b392"
+    "_name": "_5d6a6010"
   },
   {
     "name": "contacts",
     "path": "/contacts",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/contacts.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/contacts.vue",
     "chunkName": "pages/contacts",
-    "_name": "_69c53c2a"
+    "_name": "_23a1106c"
   },
   {
     "name": "services",
     "path": "/services",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/services/index.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/services/index.vue",
     "chunkName": "pages/services/index",
-    "_name": "_18f4ea79"
+    "_name": "_1df0dd18"
   },
   {
     "name": "signin",
     "path": "/signin",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/signin.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/signin.vue",
     "chunkName": "pages/signin",
-    "_name": "_23dd5c8c"
+    "_name": "_641d5359"
   },
   {
     "name": "create-doctor",
     "path": "/create/doctor",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/create/doctor/index.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/create/doctor/index.vue",
     "chunkName": "pages/create/doctor/index",
-    "_name": "_c822d4a6"
+    "_name": "_7fec6e6e"
   },
   {
     "name": "create-patient",
     "path": "/create/patient",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/create/patient/index.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/create/patient/index.vue",
     "chunkName": "pages/create/patient/index",
-    "_name": "_6fc843e6"
+    "_name": "_63d91d6c"
   },
   {
     "name": "users-doctors",
     "path": "/users/doctors",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/users/doctors/index.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/doctors/index.vue",
     "chunkName": "pages/users/doctors/index",
-    "_name": "_aee8aef0"
+    "_name": "_e6ecfd6e"
   },
   {
     "name": "users-patients",
     "path": "/users/patients",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/users/patients/index.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/patients/index.vue",
     "chunkName": "pages/users/patients/index",
-    "_name": "_483628e0"
+    "_name": "_77a22aef"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/Users/altaidyn/Desktop/SWE/frontend/pages/index.vue",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_1c317c2c"
+    "_name": "_7195106b"
   }
 ]

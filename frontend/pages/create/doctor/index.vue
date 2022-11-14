@@ -204,10 +204,7 @@ export default {
     async create() {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return;
-      this.form.id = +this.form.id;
-      this.form.depID = +this.form.depID;
-      this.form.experience = +this.form.experience;
-      this.form.rating = parseFloat(this.form.rating);
+      this.form.rating = +this.form.rating;
       const response = await this.createDoctor(this.form);
       console.log(response);
     },
