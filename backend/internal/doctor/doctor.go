@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/whym9/hospital/internal/admin"
 )
@@ -152,72 +151,31 @@ func findDoctor(id string) int {
 }
 
 func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
+	var oldDoctor DoctorInfo
 	if !admin.Verify(r) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Verifyin error"))
 		return
 	}
-
-	id := r.FormValue("id")
+	err := json.NewDecoder(r.Body).Decode(&oldDoctor)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	id := oldDoctor.ID
 
 	i := findDoctor(id)
 	if i == -1 {
 		w.WriteHeader(http.StatusExpectationFailed)
-		w.Write([]byte("Given doctor does not exist"))
+		w.Write([]byte("Given patient does not exist"))
 		return
 	}
 
-	field := r.FormValue("field")
-
-	switch field {
-	case "dateofbirth":
-		doctors[i].DateOfBirth = r.FormValue("modify")
-
-	case "iin":
-		doctors[i].IIN = r.FormValue("modify")
-	case "id":
-		doctors[i].ID = r.FormValue("modify")
-	case "fullname":
-		doctors[i].FullName = r.FormValue("modify")
-	case "depID":
-		doctors[i].DepID = r.FormValue("modify")
-
-	case "specID":
-		doctors[i].SpecID = r.FormValue("modify")
-
-	case "contactnumber":
-		doctors[i].Contactnumber = r.FormValue("modify")
-
-	case "expirience":
-		doctors[i].Expirience = r.FormValue("modify")
-
-// 	case "photo":
-// 		location := saveFile(w, r, "modify")
-
-// 		if location == "" {
-// 			return
-// 		}
-// 		doctors[i].PhotoLocation = location
-
-	case "category":
-		doctors[i].Category = r.FormValue("modify")
-
-	case "rating":
-		doctors[i].Rating = r.FormValue("modify")
-
-	case "degree":
-		doctors[i].Degree = r.FormValue("modify")
-
-	case "address":
-		doctors[i].Address = r.FormValue("modify")
-
-	}
+	doctors[i] = oldDoctor
 	res, err := json.Marshal(doctors[i])
 	if err != nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		return
+		log.Fatal(err)
 	}
-
 	w.Write(res)
 }
 
