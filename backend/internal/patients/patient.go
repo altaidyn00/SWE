@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	//"github.com/whym9/hospital/internal/admin"
+	"github.com/whym9/hospital/internal/admin"
 )
 
 var patients []PatientInfo
@@ -48,14 +48,13 @@ type PatientInfo struct {
 func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Patients")
 	var newPatient PatientInfo
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 	err := json.NewDecoder(r.Body).Decode(&newPatient)
 	if err != nil {
-		fmt.Println("Patients")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -70,18 +69,17 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPatients(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 
 	res, err := json.Marshal(patients)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(res))
 	w.Write(res)
 }
 
@@ -95,11 +93,11 @@ func findPatient(id string) int {
 }
 
 func ViewPatient(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if !admin.Verify(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 	id := r.FormValue("id")
 
 	i := findPatient(id)
