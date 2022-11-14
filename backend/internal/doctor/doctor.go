@@ -47,7 +47,7 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, fileHeader, err := r.FormFile("uploadFile")
+	file, fileHeader, err := r.FormFile("photo")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("INVALID_FILE"))
