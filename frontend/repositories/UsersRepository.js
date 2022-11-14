@@ -22,12 +22,13 @@ export default ($axios) => ({
     return $axios.post(`${resource}/registerPatient`, payload);
   },
 
-  edit_patient(params, payload) {
-    return $axios.post(`${resource}/edit/patient`, params, payload);
+  edit_patient(id, payload) {
+    console.log(id, payload, "repo");
+    return $axios.post(`${resource}/modifyPatientInfo?id=${id}`, payload);
   },
 
   get_patient(params) {
-    return $axios.get(`${resource}/getPatient`, params);
+    return $axios.get(`${resource}/viewPatientDetails`, { params });
   },
 
   get_patients(params) {

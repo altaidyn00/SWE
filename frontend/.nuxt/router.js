@@ -13,6 +13,8 @@ const _7fec6e6e = () => interopDefault(import('../pages/create/doctor/index.vue'
 const _63d91d6c = () => interopDefault(import('../pages/create/patient/index.vue' /* webpackChunkName: "pages/create/patient/index" */))
 const _e6ecfd6e = () => interopDefault(import('../pages/users/doctors/index.vue' /* webpackChunkName: "pages/users/doctors/index" */))
 const _77a22aef = () => interopDefault(import('../pages/users/patients/index.vue' /* webpackChunkName: "pages/users/patients/index" */))
+const _ab03934c = () => interopDefault(import('../pages/users/patients/_id/index.vue' /* webpackChunkName: "pages/users/patients/_id/index" */))
+const _7d5e8c9c = () => interopDefault(import('../pages/users/patients/_id/edit.vue' /* webpackChunkName: "pages/users/patients/_id/edit" */))
 const _7195106b = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -62,6 +64,14 @@ export const routerOptions = {
     path: "/users/patients",
     component: _77a22aef,
     name: "users-patients"
+  }, {
+    path: "/users/patients/:id",
+    component: _ab03934c,
+    name: "users-patients-id"
+  }, {
+    path: "/users/patients/:id/edit",
+    component: _7d5e8c9c,
+    name: "users-patients-id-edit"
   }, {
     path: "/",
     component: _7195106b,

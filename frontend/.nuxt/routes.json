@@ -63,6 +63,20 @@
     "_name": "_77a22aef"
   },
   {
+    "name": "users-patients-id",
+    "path": "/users/patients/:id",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/patients/_id/index.vue",
+    "chunkName": "pages/users/patients/_id/index",
+    "_name": "_ab03934c"
+  },
+  {
+    "name": "users-patients-id-edit",
+    "path": "/users/patients/:id/edit",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/patients/_id/edit.vue",
+    "chunkName": "pages/users/patients/_id/edit",
+    "_name": "_7d5e8c9c"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/index.vue",
