@@ -74,28 +74,18 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 // 	f.Write(fileContent)
 	doc := DoctorInfo{}
 
-	doc.DateOfBirth = r.FormValue("dateofbirth")
-	doc.IIN = r.FormValue("iin")
-	doc.ID = r.FormValue("id")
-	doc.FullName = r.FormValue("fullname")
-
-	doc.Contactnumber = r.FormValue("contactnumber")
-	doc.DepID = r.FormValue("depID")
-	doc.SpecID = r.FormValue("specID")
-	doc.Expirience = r.FormValue("expirience")
-	//doc.PhotoLocation = r.FormValue("photo")
-	doc.Category = r.FormValue("category")
-	doc.Degree = r.FormValue("degree")
-	doc.Rating =  r.FormValue("rating")
-	doc.Address = r.FormValue("address")
-
+	err := json.NewDecoder(r.Body).Decode(&doc)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	doctors = append(doctors, doc)
 
 	res, err := json.Marshal(doc)
 	if err != nil {
-		w.WriteHeader(http.StatusSeeOther)
-		return
+		log.Fatal(err)
 	}
+
 	w.Write(res)
 }
 
