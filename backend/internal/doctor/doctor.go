@@ -17,7 +17,7 @@ type DoctorInfo struct {
 	Contactnumber string  `json:"contactnumber"`
 	DepID         string  `json:"departmentID"`
 	SpecID        string  `json:"specID"`
-	Expirience    string  `json:"expirience"`
+	Expirience    string  `json:"experience"`
 	//PhotoLocation string  `json:"photo"`
 	Category      string  `json:"category"`
 	Degree        string  `json:"degree"`
