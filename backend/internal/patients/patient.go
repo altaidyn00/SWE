@@ -14,12 +14,12 @@ type PatientInfo struct {
 	IIN                    string `json:"iin"`
 	ID                     string `json:"id"`
 	FullName               string `json:"fullname"`
-	BloodGroup             string `json:"blooodgroup"`
+	BloodGroup             string `json:"bloodgroup"`
 	EmergencyContactNumber string `json:"emergencynumber"`
 	Contactnumber          string `json:"contactnumber"`
 	Email                  string `json:"email"`
 	Address                string `json:"address"`
-	MaritalStatus          string `json:"martialstatus"`
+	MaritalStatus          string `json:"maritalstatus"`
 	RegistrationDate       string `json:"registrationdate"`
 }
 
