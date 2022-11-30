@@ -11,5 +11,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$auth.loggedIn;
+    },
+  },
+  created() {
+    if (this.isLoggedIn) {
+      const user = this.localStorage.getItem("user");
+      console.log(user, "user");
+    }
+  },
+};
 </script>

@@ -65,10 +65,13 @@ export default {
         const response = await this.$auth.loginWith("local", {
           data: this.form,
         });
-        const access_token = response.data.Value;
-        console.log(access_token, "access_token");
-        if (access_token) await this.$auth.setUserToken(access_token, null);
-        console.log(user);
+        const access_token = response.data.Acces_token.value;
+        const user = response.data.user;
+        if (access_token) {
+          await this.$auth.setUserToken(access_token, null);
+          localStorage.setItem("user", JSON.stringify(user));
+          this.$auth.setUser(user);
+        }
       } catch (e) {}
     },
   },

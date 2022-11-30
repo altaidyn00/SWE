@@ -37,11 +37,17 @@
 
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <b-button v-if="isLoggedIn" size="sm" class="button my-2 ml-sm-0" @click="goToSignin"
+            <b-button
+              v-if="!isLoggedIn"
+              size="sm"
+              class="button my-2 ml-sm-0"
+              @click="goToSignin"
               >signin</b-button
             >
-            </b-nav-form
-          >
+            <b-button v-else size="sm" class="button my-2 ml-sm-0"
+              >logout</b-button
+            >
+          </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -72,6 +78,9 @@ export default {
     goToCreateDoctor() {
       this.$router.push("/create/doctor");
     },
+  },
+  mounted() {
+    console.log(this.isLoggedIn);
   },
 };
 </script>
