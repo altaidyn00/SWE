@@ -43,20 +43,35 @@ export default {
   },
 
   auth: {
+    redirect: {
+      logout: "/signin",
+      login: "/login",
+      home: "/",
+      callback: false,
+    },
     strategies: {
-      cookie: {
-        cookie: {
-          // (optional) If set, we check this cookie existence for loggedIn check
-          name: 'XSRF-TOKEN',
+      local: {
+        token: {
+          property: "Value",
+          global: true,
+          maxAge: 86400,
         },
+        autoFetchUser: false,
         endpoints: {
-          // (optional) If set, we send a get request to this endpoint before login
-          csrf: {
-            url: '/login'
-          }
-        }
+          login: {
+            url: "api/login",
+            method: "post",
+            propertyName: "Value",
+          },
+          user: {
+            url: "api/user/current",
+            method: "get",
+            propertyName: false,
+          },
+        },
+        autoLogout: true,
       },
-    }
+    },
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -69,6 +84,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     "bootstrap-vue/nuxt",
+    "@nuxtjs/auth",
     "@nuxtjs/axios",
   ],
 

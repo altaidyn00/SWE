@@ -120,14 +120,6 @@ export const actions = {
     }
   },
 
-  async get_doctor({ commit }, id) {
-    try {
-      const response = await this.$repositories.users.get_doctor(id);
-      const doctor = response.data;
-      commit("SET_DOCTOR", doctor);
-    } catch (error) {}
-  },
-
   async get_patient({ commit }, params) {
     try {
       const response = await this.$repositories.users.get_patient(params);
@@ -150,6 +142,14 @@ export const actions = {
       console.log(response.data);
       const patients = response.data;
       commit("SET_PATIENTS", patients);
+    } catch (error) {}
+  },
+
+  async get_doctors({ commit }, params) {
+    try {
+      const response = await this.$repositories.users.get_doctors(params);
+      const doctors = response.data;
+      commit("SET_DOCTORS", doctors);
     } catch (error) {}
   },
 

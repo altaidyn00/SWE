@@ -61,11 +61,27 @@ export default {
       login: "users/login",
     }),
     async signin() {
-      // this.$v.form.$touch();
-      // console.log(this.$v.form);
-
-      // if (this.$v.form.$invalid) return;
-      await this.login(this.form);
+      try {
+        const response = await this.$auth.loginWith("local", {
+          data: this.form,
+        });
+        const access_token = response.data.Value;
+        if (access_token) await this.$auth.setUserToken(access_token, null);
+        console.log(this, "this");
+        this.$bvToast.toast("User successfully logged in!", {
+          title: "Sign in",
+          toaster: "b-toaster-bottom-left",
+          variant: "success",
+          solid: true,
+        });
+      } catch (e) {
+        this.$bvToast.toast("Invalid credentials for user.", {
+          title: "Sign in",
+          toaster: "b-toaster-bottom-left",
+          variant: "danger",
+          solid: true,
+        });
+      }
     },
   },
 };
