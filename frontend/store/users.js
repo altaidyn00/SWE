@@ -172,4 +172,11 @@ export const actions = {
       });
     }
   },
+
+  async get_current_user(_, payload) {
+    try {
+      const response = await this.$repositories.users.get_current_user(payload);
+      console.log(response);
+    } catch (error) {}
+  },
 };

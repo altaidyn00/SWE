@@ -44,7 +44,7 @@ export default {
 
   auth: {
     redirect: {
-      logout: "/signin",
+      logout: "/login",
       login: "/login",
       home: "/",
       callback: false,
@@ -52,7 +52,7 @@ export default {
     strategies: {
       local: {
         token: {
-          property: "Value",
+          property: "access_token",
           global: true,
           maxAge: 86400,
         },
@@ -61,13 +61,9 @@ export default {
           login: {
             url: "api/login",
             method: "post",
-            propertyName: "Value",
+            propertyName: "access_token",
           },
-          user: {
-            url: "api/user/current",
-            method: "get",
-            propertyName: false,
-          },
+          user: false,
         },
         autoLogout: true,
       },

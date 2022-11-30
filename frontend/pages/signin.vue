@@ -66,22 +66,13 @@ export default {
           data: this.form,
         });
         const access_token = response.data.Value;
-        if (access_token) await this.$auth.setUserToken(access_token, null);
-        console.log(this, "this");
-        this.$bvToast.toast("User successfully logged in!", {
-          title: "Sign in",
-          toaster: "b-toaster-bottom-left",
-          variant: "success",
-          solid: true,
+        console.log(access_token, "access_token");
+        const token = await this.$auth.setUserToken(access_token, null);
+        const user = await this.$store.dispatch("users/get_current_user", {
+          payload: response.data,
         });
-      } catch (e) {
-        this.$bvToast.toast("Invalid credentials for user.", {
-          title: "Sign in",
-          toaster: "b-toaster-bottom-left",
-          variant: "danger",
-          solid: true,
-        });
-      }
+        console.log(user);
+      } catch (e) {}
     },
   },
 };

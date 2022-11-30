@@ -10,6 +10,7 @@
           <b-nav-item href="/services">Services</b-nav-item>
           <b-nav-item href="/about-us">About Us</b-nav-item>
           <b-nav-item href="/contacts">Contacts</b-nav-item>
+          <b-nav-item href="/request">Request</b-nav-item>
           <b-nav-item-dropdown
             id="my-nav-dropdown"
             text="Create"
