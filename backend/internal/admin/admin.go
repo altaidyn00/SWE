@@ -10,26 +10,26 @@ import (
 )
 
 type User struct {
-	id         int    `json:"id"`
-	email      string `json:"email"`
-	role       string `json:"role"`
-	first_name string `json:"first_name"`
-	last_name  string `json:"last_name"`
+	Id         int    `json:"id"`
+	Email      string `json:"email"`
+	Role       string `json:"role"`
+	First_name string `json:"first_name"`
+	Last_name  string `json:"last_name"`
 }
 
 var All_users = []User{
 	{
-		id:         0,
-		first_name: "Admin",
-		last_name:  "O",
-		email:      "some@some.kz",
-		role:       "Admin",
+		Id:         0,
+		First_name: "user1",
+		Last_name:  "O",
+		Email:      "some@some.kz",
+		Role:       "Admin",
 	},
 }
 
 func Find_user(name string) (User, bool) {
 	for _, u := range All_users {
-		if u.first_name == name {
+		if u.First_name == name {
 			return u, true
 		}
 	}
@@ -53,9 +53,9 @@ type Claims struct {
 }
 
 type Token struct {
-	Name           string
-	Value          string
-	ExpirationTime time.Time
+	Name           string    `json:"name"`
+	Value          string    `json:"value"`
+	ExpirationTime time.Time `json:"expire"`
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
