@@ -29,15 +29,19 @@ func StartServer(addr string) {
 func Get(w http.ResponseWriter, r *http.Request) {
 	name, _, ok := admin.Verify(r)
 	if !ok {
+		fmt.Println("1")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	user, ok := admin.Find_user(name)
+	var user admin.User
+	user, ok = admin.Find_user(name)
 	if !ok {
+		fmt.Println(name)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	res, err := json.Marshal(&user)
+	fmt.Println(user)
+	res, err := json.Marshal(user)
 	if err != nil {
 		panic(err)
 	}
