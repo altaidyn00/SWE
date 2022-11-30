@@ -15,6 +15,7 @@ type User struct {
 	Role       string `json:"role"`
 	First_name string `json:"first_name"`
 	Last_name  string `json:"last_name"`
+	Password   string `json:"password"`
 }
 
 var All_users = []User{
@@ -24,6 +25,15 @@ var All_users = []User{
 		Last_name:  "O",
 		Email:      "some@some.kz",
 		Role:       "Admin",
+		Password:   "pass1",
+	},
+	{
+		Id:         2,
+		First_name: "user2",
+		Last_name:  "_",
+		Email:      "dw@sw.pop",
+		Role:       "Patient",
+		Password:   "pass2",
 	},
 }
 
@@ -70,9 +80,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	creds, ok := users[credentials.UserName]
-	expectedpassword := creds[0]
-	if !ok || expectedpassword != credentials.Password {
+	user, ok := Find_user(credentials.UserName)
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	//creds, ok := users[credentials.UserName]
+	expectedpassword := user.Password
+	if expectedpassword != credentials.Password {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -81,7 +97,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	claims := &Claims{
 		UserName: credentials.UserName,
-		Role:     creds[1],
+		Role:     user.Role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -94,11 +110,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	user, ok := Find_user(credentials.UserName)
-	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+
 	a := Answer{
 		Token{
 			"Admin_Token",
