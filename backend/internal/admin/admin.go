@@ -58,6 +58,11 @@ type Token struct {
 	ExpirationTime time.Time `json:"expire"`
 }
 
+type Answer struct {
+	T Token `json:"Acces_token"`
+	U User  `json:"user"`
+}
+
 func Login(w http.ResponseWriter, r *http.Request) {
 	var credentials Credentials
 	err := json.NewDecoder(r.Body).Decode(&credentials)
@@ -89,12 +94,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	json.NewEncoder(w).Encode(Token{
-		"Admin_Token",
-		tokenString,
-		expirationTime,
-	})
+	user, ok := Find_user(credentials.UserName)
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	a := Answer{
+		Token{
+			"Admin_Token",
+			tokenString,
+			expirationTime,
+		},
+		user,
+	}
+	json.NewEncoder(w).Encode(a)
 	// http.SetCookie(w,
 	// 	&http.Cookie{
 	// 		Name:    "token",
