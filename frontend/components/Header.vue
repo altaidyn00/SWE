@@ -45,9 +45,13 @@
               @click="goToSignin"
               >signin</b-button
             >
-            <b-button v-else size="sm" class="button my-2 ml-sm-0"
-              >logout</b-button
-            >
+            <b-nav-item-dropdown v-else right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>{{ email }}</em>
+              </template>
+              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
@@ -65,6 +69,9 @@ export default {
     isAdmin() {
       return this.$auth.user.role === "Admin";
     },
+    email() {
+      return this.$auth.user.email;
+    },
   },
   methods: {
     goToSignin() {
@@ -81,6 +88,11 @@ export default {
     },
     goToCreateDoctor() {
       this.$router.push("/create/doctor");
+    },
+    logout() {
+      localStorage.clear();
+      this.$auth.setUserToken(null, null);
+      this.$auth.setUser(null);
     },
   },
 };

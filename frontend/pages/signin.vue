@@ -32,6 +32,7 @@ import { num, positiveNum } from "~/helpers/validators";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
+  middleware: ["notloggedin"],
   components: { CustomInput },
   name: "signin",
   data() {

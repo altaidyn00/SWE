@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  middleware: ["loggedin", "admin"],
   name: "request",
   data() {
     return {};

@@ -17,6 +17,9 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
+  ssr: false,
+  mode: "spa",
+
   target: "server",
   server: {
     host: "0.0.0.0",
@@ -44,8 +47,8 @@ export default {
 
   auth: {
     redirect: {
-      logout: "/login",
-      login: "/login",
+      logout: "/signin",
+      login: "/signin",
       home: "/",
       callback: false,
     },
