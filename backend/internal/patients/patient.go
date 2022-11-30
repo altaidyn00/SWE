@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/whym9/hospital/internal/admin"
 )
 
 var patients []PatientInfo
@@ -46,11 +48,11 @@ type PatientInfo struct {
 func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Patients")
 	var newPatient PatientInfo
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 	err := json.NewDecoder(r.Body).Decode(&newPatient)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -67,11 +69,11 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPatients(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 
 	res, err := json.Marshal(patients)
 
@@ -91,11 +93,11 @@ func findPatient(id string) int {
 }
 
 func ViewPatient(w http.ResponseWriter, r *http.Request) {
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 	id := r.FormValue("id")
 
 	i := findPatient(id)
@@ -117,11 +119,11 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 
 func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 	var oldPatient PatientInfo
-	// if !admin.Verify(r) {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte("Verifyin error"))
-	// 	return
-	// }
+	if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Verifyin error"))
+		return
+	}
 	err := json.NewDecoder(r.Body).Decode(&oldPatient)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

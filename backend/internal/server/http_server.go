@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -26,7 +27,21 @@ func StartServer(addr string) {
 }
 
 func Get(w http.ResponseWriter, r *http.Request) {
+	name, _, ok := admin.Verify(r)
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	user, ok := admin.Find_user(name)
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	res, err := json.Marshal(&user)
+	if err != nil {
+		panic(err)
+	}
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Home!"))
+	w.Write(res)
 	return
 }

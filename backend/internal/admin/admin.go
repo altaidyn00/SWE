@@ -9,6 +9,33 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+type User struct {
+	id         int    `json:"id"`
+	email      string `json:"email"`
+	role       string `json:"role"`
+	first_name string `json:"first_name"`
+	last_name  string `json:"last_name"`
+}
+
+var All_users = []User{
+	{
+		id:         0,
+		first_name: "Admin",
+		last_name:  "O",
+		email:      "some@some.kz",
+		role:       "Admin",
+	},
+}
+
+func Find_user(name string) (User, bool) {
+	for _, u := range All_users {
+		if u.first_name == name {
+			return u, true
+		}
+	}
+	return User{}, false
+}
+
 var jwt_key = []byte("secret_key")
 var users = map[string][]string{
 	"user1": {"pass1", "Admin"},
@@ -119,17 +146,13 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("Hello user %s", claims.UserName)))
 }
 
-func Verify(r *http.Request) bool {
-	cookie, err := r.Cookie("token")
+func Verify(r *http.Request) (string, string, bool) {
+	var body Token
+	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
-		if err == http.ErrNoCookie {
-
-			return false
-		}
-
-		return false
+		return "", "", false
 	}
-	tokenString := cookie.Value
+	tokenString := body.Value
 	claims := &Claims{}
 	tkn, err := jwt.ParseWithClaims(tokenString, claims,
 		func(t *jwt.Token) (interface{}, error) {
@@ -139,21 +162,16 @@ func Verify(r *http.Request) bool {
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
 
-			return false
+			return "", "", false
 		}
 
-		return false
+		return "", "", false
 	}
 
 	if !tkn.Valid {
 
-		return false
+		return "", "", false
 	}
 
-	if claims.Role != "Admin" {
-
-		return false
-	}
-
-	return true
+	return claims.UserName, claims.Role, true
 }
