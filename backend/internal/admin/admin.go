@@ -25,6 +25,12 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+type Token struct {
+	Name           string
+	Value          string
+	ExpirationTime time.Time
+}
+
 func Login(w http.ResponseWriter, r *http.Request) {
 	var credentials Credentials
 	err := json.NewDecoder(r.Body).Decode(&credentials)
@@ -57,13 +63,18 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.SetCookie(w,
-		&http.Cookie{
-			Name:    "token",
-			Value:   tokenString,
-			Expires: expirationTime,
-		},
-	)
+	json.NewEncoder(w).Encode(Token{
+		"Admin_Token",
+		tokenString,
+		expirationTime,
+	})
+	// http.SetCookie(w,
+	// 	&http.Cookie{
+	// 		Name:    "token",
+	// 		Value:   tokenString,
+	// 		Expires: expirationTime,
+	// 	},
+	// )
 	w.WriteHeader(http.StatusOK)
 	//w.Write([]byte("Login completed successfully"))
 }
