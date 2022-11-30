@@ -67,10 +67,7 @@ export default {
         });
         const access_token = response.data.Value;
         console.log(access_token, "access_token");
-        const token = await this.$auth.setUserToken(access_token, null);
-        const user = await this.$store.dispatch("users/get_current_user", {
-          payload: response.data,
-        });
+        if (access_token) await this.$auth.setUserToken(access_token, null);
         console.log(user);
       } catch (e) {}
     },

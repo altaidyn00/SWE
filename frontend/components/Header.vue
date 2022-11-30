@@ -10,8 +10,9 @@
           <b-nav-item href="/services">Services</b-nav-item>
           <b-nav-item href="/about-us">About Us</b-nav-item>
           <b-nav-item href="/contacts">Contacts</b-nav-item>
-          <b-nav-item href="/request">Request</b-nav-item>
+          <b-nav-item v-if="isLoggedIn" href="/request">Request</b-nav-item>
           <b-nav-item-dropdown
+            v-if="isLoggedIn"
             id="my-nav-dropdown"
             text="Create"
             toggle-class="nav-link-custom"
@@ -23,6 +24,7 @@
             >
           </b-nav-item-dropdown>
           <b-nav-item-dropdown
+            v-if="isLoggedIn"
             id="my-nav-dropdown"
             text="Users"
             toggle-class="nav-link-custom"
@@ -35,9 +37,10 @@
 
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <b-button size="sm" class="button my-2 ml-sm-0" @click="goToSignin"
+            <b-button v-if="isLoggedIn" size="sm" class="button my-2 ml-sm-0" @click="goToSignin"
               >signin</b-button
-            ></b-nav-form
+            >
+            </b-nav-form
           >
         </b-navbar-nav>
       </b-collapse>
@@ -48,6 +51,11 @@
 <script>
 export default {
   name: "Header",
+  computed: {
+    isLoggedIn() {
+      return this.$auth.loggedIn;
+    },
+  },
   methods: {
     goToSignin() {
       this.$router.push("/signin");
