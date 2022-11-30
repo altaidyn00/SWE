@@ -68,7 +68,7 @@ export default {
         const access_token = response.data.Acces_token.value;
         const user = response.data.user;
         if (access_token) {
-          await this.$auth.setUserToken(access_token, null);
+          this.$auth.setUserToken(access_token, null);
           localStorage.setItem("user", JSON.stringify(user));
           this.$auth.setUser(user);
         }

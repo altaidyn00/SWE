@@ -17,10 +17,10 @@ export default {
       return this.$auth.loggedIn;
     },
   },
-  created() {
+  mounted() {
     if (this.isLoggedIn) {
-      const user = this.localStorage.getItem("user");
-      console.log(user, "user");
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.$auth.setUser(user);
     }
   },
 };
