@@ -9,7 +9,7 @@ const options = {
     "Associate specialist doctor",
     "Consultant",
   ],
-  degree: ["BSc", "MSc", "DHMs", "BHMS", "M.D.", "PhD"],
+  education_degree: ["BSc", "MSc", "DHMs", "BHMS", "M.D.", "PhD"],
   rating: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
 };
 

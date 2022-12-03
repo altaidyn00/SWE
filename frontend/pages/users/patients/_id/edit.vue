@@ -4,67 +4,56 @@
       <h1>Edit Patient</h1>
       <div class="d-flex flex-wrap justify-content-between my-4">
         <custom-date-input
-          v-model="form.dateofbirth"
+          v-model="form.date_of_birth"
           class="custom-input"
           label="Date of Birth"
+          :validation="$v.form.date_of_birth"
         />
         <custom-input
           v-model="form.iin"
           class="custom-input"
           label="IIN Number"
           placeholder="Enter IIN Number"
-        />
-        <custom-input
-          v-model="form.id"
-          class="custom-input"
-          label="ID Number"
-          placeholder="Enter ID Number"
-        />
-        <custom-input
-          v-model="form.fullname"
-          class="custom-input"
-          label="Fullname"
-          placeholder="Enter Fullname"
+          :validation="$v.form.iin"
         />
         <custom-select
           class="custom-input"
           label="Blood Group"
           placeholder="Select Blood Group"
-          v-model="form.bloodgroup"
+          v-model="form.blood_group"
           :options="options.blood_group"
           :allow-empty="true"
+          :validation="$v.form.blood_group"
         />
         <custom-input
-          v-model="form.emergencynumber"
+          v-model="form.emergency_contact_number"
           class="custom-input"
           label="Emergency Contact"
           placeholder="Enter Emergency Contact Number"
+          :validation="$v.form.emergency_contact_number"
         />
         <custom-input
-          v-model="form.contactnumber"
+          v-model="form.contact_number"
           class="custom-input"
           label="Contact Number"
           placeholder="Enter Contact Number"
-        />
-        <custom-input
-          v-model="form.email"
-          class="custom-input"
-          label="Email (Optional)"
-          placeholder="Enter Email"
+          :validation="$v.form.contact_number"
         />
         <custom-input
           v-model="form.address"
           class="custom-input"
           label="Address"
           placeholder="Enter Address"
+          :validation="$v.form.address"
         />
         <custom-select
           class="custom-input"
           label="Marital Status"
           placeholder="Select Marital Status"
-          v-model="form.maritalstatus"
+          v-model="form.marital_status"
           :options="options.marital_status"
           :allow-empty="true"
+          :validation="$v.form.marital_status"
         />
       </div>
       <b-button size="md" class="button my-2 ml-sm-0" @click="edit"
@@ -91,72 +80,62 @@ export default {
   data() {
     return {
       options,
-      role: "patient",
       form: {
-        dateofbirth: null,
+        date_of_birth: null,
         iin: null,
-        id: null,
-        fullname: null,
-        bloodgroup: null,
-        emergencynumber: null,
-        contactnumber: null,
-        email: null,
+        blood_group: null,
+        emergency_contact_number: null,
+        contact_number: null,
         address: null,
-        maritalstatus: null,
-        registrationdate: "sadasdas",
+        marital_status: null,
+        registration_date: null,
       },
     };
   },
-  //   validations() {
-  //     return {
-  //       form: {
-  //         dateofbirth: {
-  //           required,
-  //         },
-  //         iin: {
-  //           required,
-  //           num,
-  //           positiveNum,
-  //         },
-  //         id: {
-  //           required,
-  //           num,
-  //           positiveNum,
-  //         },
-  //         fullname: {
-  //           required,
-  //         },
-  //         email: {
-  //           required,
-  //           email,
-  //         },
-  //         bloodgroup: {
-  //           required,
-  //         },
-  //         emergencynumber: {
-  //           required,
-  //           phoneNum,
-  //         },
-  //         contactnumber: {
-  //           required,
-  //           phoneNum,
-  //         },
-  //         address: {
-  //           required,
-  //         },
-  //         maritalstatus: {
-  //           required,
-  //         },
-  //       },
-  //     };
-  //   },
+  validations() {
+    return {
+      form: {
+        date_of_birth: {
+          required,
+        },
+        iin: {
+          required,
+          num,
+          positiveNum,
+        },
+        blood_group: {
+          required,
+        },
+        emergency_contact_number: {
+          required,
+          phoneNum,
+        },
+        contact_number: {
+          required,
+          phoneNum,
+        },
+        address: {
+          required,
+        },
+        marital_status: {
+          required,
+        },
+      },
+    };
+  },
   methods: {
     ...mapActions({
       editPatient: "users/edit_patient",
     }),
     async edit() {
-      //   this.$v.form.$touch();
-      //   if (this.$v.form.$invalid) return;
+        this.$v.form.$touch();
+        if (this.$v.form.$invalid) return;
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = today.getFullYear();
+      today = yyyy + "-" + mm + "-" + dd;
+      this.form.registration_date = today;
       const id = this.$route.params.id;
       const payload = this.form;
       const response = await this.editPatient({ id, payload });

@@ -16,10 +16,10 @@
         responsive="sm"
       >
         <template #cell(id)="data">
-          {{ data.item.id }}
+          {{ data.item.patient.id + 1 }}
         </template>
         <template #cell(fullname)="data">
-          {{ data.item.fullname }}
+          {{ data.item.user.first_name }} {{ data.item.user.last_name }}
         </template>
         <template #cell(contactnumber)="data">
           {{ data.item.contactnumber }}
@@ -93,9 +93,6 @@ export default {
       ],
     };
   },
-  mounted() {
-    console.log(this.patients);
-  },
   computed: {
     ...mapGetters({
       patients: "users/patients",
@@ -106,10 +103,10 @@ export default {
   },
   methods: {
     toDetails(item) {
-      this.$router.push(`/users/patients/${item.id}`);
+      this.$router.push(`/users/patients/${item.patient.id}`);
     },
     toModify(item) {
-      this.$router.push(`/users/patients/${item.id}/edit`);
+      this.$router.push(`/users/patients/${item.patient.id}/edit`);
     },
   },
 };

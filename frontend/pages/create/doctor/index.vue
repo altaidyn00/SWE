@@ -4,10 +4,10 @@
       <h1>Create Doctor</h1>
       <div class="d-flex flex-wrap justify-content-between my-4">
         <custom-date-input
-          v-model="form.dateofbirth"
+          v-model="form.date_of_birth"
           class="custom-input"
           label="Date of Birth"
-          :validation="$v.form.dateofbirth"
+          :validation="$v.form.date_of_birth"
         />
         <custom-input
           v-model="form.iin"
@@ -24,18 +24,46 @@
           :validation="$v.form.id"
         />
         <custom-input
-          v-model="form.fullname"
+          v-model="form.first_name"
           class="custom-input"
-          label="Fullname"
-          placeholder="Enter Fullname"
-          :validation="$v.form.fullname"
+          label="First Name"
+          placeholder="Enter First Name"
+          :validation="$v.form.first_name"
         />
         <custom-input
-          v-model="form.contactnumber"
+          v-model="form.last_name"
+          class="custom-input"
+          label="Last Name"
+          placeholder="Enter Last Name"
+          :validation="$v.form.last_name"
+        />
+        <custom-input
+          v-model="form.password"
+          class="custom-input"
+          label="Password"
+          placeholder="Enter Password"
+          :validation="$v.form.password"
+        />
+        <custom-input
+          v-model="form.email"
+          class="custom-input"
+          label="Email (Optional)"
+          placeholder="Enter Email"
+          :validation="$v.form.email"
+        />
+        <custom-input
+          v-model="form.contact_number"
           class="custom-input"
           label="Contact Number"
           placeholder="Enter Contact Number"
-          :validation="$v.form.contactnumber"
+          :validation="$v.form.contact_number"
+        />
+        <custom-input
+          v-model="form.number_of_patients"
+          class="custom-input"
+          label="Number of Patients"
+          placeholder="Enter Number of Patients"
+          :validation="$v.form.number_of_patients"
         />
         <custom-input
           v-model="form.address"
@@ -45,33 +73,40 @@
           :validation="$v.form.address"
         />
         <custom-input
-          v-model="form.depID"
+          v-model="form.department_id"
           class="custom-input"
           label="Department ID"
           placeholder="Enter Department ID"
-          :validation="$v.form.depID"
+          :validation="$v.form.department_id"
         />
         <custom-input
-          v-model="form.specID"
+          v-model="form.specialization_details_id"
           class="custom-input"
           label="Specialization Details ID"
           placeholder="Enter Specialization Details ID"
-          :validation="$v.form.specID"
+          :validation="$v.form.specialization_details_id"
         />
         <custom-input
-          v-model="form.experience"
+          v-model="form.experience_in_years"
           class="custom-input"
           label="Experience in Years"
-          placeholder="Enter Experience in Years"
-          :validation="$v.form.experience"
+          placeholder="Enter experience in Years"
+          :validation="$v.form.experience_in_years"
         />
-        <!-- <custom-file-input
+        <custom-input
+          v-model="form.schedule_detaile"
           class="custom-input"
-          label="Doctor's Photo"
-          placeholder=" Upload Doctor's Photos"
-          v-model="form.photo"
-          :validation="$v.form.photo"
-        /> -->
+          label="Schedule Detaile"
+          placeholder="Enter schedule detaile"
+          :validation="$v.form.schedule_detaile"
+        />
+        <custom-input
+          v-model="form.appointment_price"
+          class="custom-input"
+          label="Appointment Price"
+          placeholder="Enter appointment price"
+          :validation="$v.form.appointment_price"
+        />
         <custom-select
           class="custom-input"
           label="Category"
@@ -85,10 +120,10 @@
           class="custom-input"
           label="Degreee"
           placeholder="Select Degree"
-          v-model="form.degree"
-          :options="options.degree"
+          v-model="form.education_degree"
+          :options="options.education_degree"
           :allow-empty="true"
-          :validation="$v.form.degree"
+          :validation="$v.form.education_degree"
         />
         <custom-select
           class="custom-input"
@@ -108,7 +143,7 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import CustomInput from "../../../components/ui/CustomInput.vue";
 import CustomSelect from "../../../components/ui/CustomSelect.vue";
@@ -124,28 +159,34 @@ export default {
   data() {
     return {
       options,
-      role: "patient",
       form: {
-        dateofbirth: null,
+        role: "doctor",
+        date_of_birth: null,
         iin: null,
         id: null,
-        fullname: null,
-        contactnumber: null,
+        contact_number: null,
+        number_of_patients: null,
         address: null,
-        depID: null,
-        specID: null,
-        experience: null,
-        // photo: null,
+        department_id: null,
+        specialization_details_id: null,
+        appointment_price: null,
+        experience_in_years: null,
+        schedule_detaile: null,
         category: null,
-        degree: null,
+        education_degree: null,
         rating: null,
+        photolocation: "adasd",
+        email: null,
+        first_name: null,
+        last_name: null,
+        password: null,
       },
     };
   },
   validations() {
     return {
       form: {
-        dateofbirth: {
+        date_of_birth: {
           required,
         },
         iin: {
@@ -158,38 +199,54 @@ export default {
           num,
           positiveNum,
         },
-        fullname: {
-          required,
-        },
-        contactnumber: {
+        contact_number: {
           required,
           phoneNum,
+        },
+        number_of_patients: {
+          required,
         },
         address: {
           required,
         },
-        depID: {
+        department_id: {
           required,
           num,
           positiveNum,
         },
-        specID: {
+        first_name: {
+          required,
+        },
+        last_name: {
+          required,
+        },
+        password: {
+          required,
+        },
+        email: {
+          required,
+          email,
+        },
+        appointment_price: {
+          required,
+        },
+        specialization_details_id: {
           required,
           num,
           positiveNum,
         },
-        experience: {
+        experience_in_years: {
           required,
           num,
           positiveNum,
         },
-        // photo: {
-        //   required,
-        // },
+        schedule_detaile: {
+          required,
+        },
         category: {
           required,
         },
-        degree: {
+        education_degree: {
           required,
         },
         rating: {
@@ -205,8 +262,30 @@ export default {
     async create() {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return;
-      this.form.rating = +this.form.rating;
-      const response = await this.createDoctor(this.form);
+      const user = {};
+      user.id = +this.form.id;
+      user.email = this.form.email;
+      user.role = this.form.role;
+      user.first_name = this.form.first_name;
+      user.last_name = this.form.last_name;
+      user.password = this.form.password;
+      const doctor = {};
+      doctor.date_of_birth = this.form.date_of_birth;
+      doctor.iin = this.form.iin;
+      doctor.id = +this.form.id;
+      doctor.contact_number = this.form.contact_number;
+      doctor.number_of_patients = +this.form.number_of_patients;
+      doctor.category = this.form.category;
+      doctor.department_id = this.form.department_id;
+      doctor.specialization_details_id = this.form.specialization_details_id;
+      doctor.experience_in_years = +this.form.experience_in_years;
+      doctor.appointment_price = +this.form.appointment_price;
+      doctor.education_degree = this.form.education_degree;
+      doctor.schedule_detaile = this.form.schedule_detaile;
+      doctor.rating = +this.form.rating;
+      doctor.address = this.form.address;
+      doctor.photolocation = this.form.photolocation;
+      const response = await this.createDoctor({ user, doctor });
       console.log(response);
     },
   },

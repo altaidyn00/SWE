@@ -6,11 +6,11 @@ export default ($axios) => ({
   },
 
   edit_doctor(params, payload) {
-    return $axios.post(`${resource}/modifyDoctorInfo`, params, payload);
+    return $axios.post(`${resource}/updateDoctor`, params, payload);
   },
 
   get_doctor(params) {
-    return $axios.get(`${resource}/viewDoctorDetails`, params);
+    return $axios.get(`${resource}/getDoctor`, params);
   },
 
   get_doctors(params) {
@@ -24,11 +24,11 @@ export default ($axios) => ({
 
   edit_patient(id, payload) {
     console.log(id, payload, "repo");
-    return $axios.post(`${resource}/modifyPatientInfo?id=${id}`, payload);
+    return $axios.post(`${resource}/updatePatient?id=${id}`, payload);
   },
 
   get_patient(params) {
-    return $axios.get(`${resource}/viewPatientDetails`, { params });
+    return $axios.get(`${resource}/getPatient`, { params });
   },
 
   get_patients(params) {

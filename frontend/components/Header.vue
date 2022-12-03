@@ -67,7 +67,7 @@ export default {
       return this.$auth.loggedIn;
     },
     isAdmin() {
-      return this.$auth.user.role === "Admin";
+      return this.$auth.user.role === "admin";
     },
     email() {
       return this.$auth.user.email;
