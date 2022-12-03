@@ -45,33 +45,33 @@ export default {
     },
   },
 
-  auth: {
-    redirect: {
-      logout: "/signin",
-      login: "/signin",
-      home: "/",
-      callback: false,
-    },
-    strategies: {
-      local: {
-        token: {
-          property: "access_token",
-          global: true,
-          maxAge: 86400,
-        },
-        autoFetchUser: false,
-        endpoints: {
-          login: {
-            url: "api/login",
-            method: "post",
-            propertyName: "access_token",
-          },
-          user: false,
-        },
-        autoLogout: true,
-      },
-    },
-  },
+  // auth: {
+  //   redirect: {
+  //     logout: "/signin",
+  //     login: "/signin",
+  //     home: "/",
+  //     callback: false,
+  //   },
+  //   strategies: {
+  //     local: {
+  //       token: {
+  //         property: "access_token",
+  //         global: true,
+  //         maxAge: 86400,
+  //       },
+  //       autoFetchUser: false,
+  //       endpoints: {
+  //         login: {
+  //           url: "login",
+  //           method: "post",
+  //           propertyName: "access_token",
+  //         },
+  //         user: false,
+  //       },
+  //       autoLogout: true,
+  //     },
+  //   },
+  // },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

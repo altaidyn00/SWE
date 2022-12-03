@@ -54,7 +54,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  middleware: ["loggedin", "admin"],
+  // middleware: ["loggedin", "admin"],
   name: "patients",
   async asyncData({ store }) {
     await store.dispatch("users/get_patients");

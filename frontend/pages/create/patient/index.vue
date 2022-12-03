@@ -4,10 +4,10 @@
       <h1>Create Patient</h1>
       <div class="d-flex flex-wrap justify-content-between my-4">
         <custom-date-input
-          v-model="form.dateofbirth"
+          v-model="form.date_of_birth"
           class="custom-input"
           label="Date of Birth"
-          :validation="$v.form.dateofbirth"
+          :validation="$v.form.date_of_birth"
         />
         <custom-input
           v-model="form.iin"
@@ -24,41 +24,55 @@
           :validation="$v.form.id"
         />
         <custom-input
-          v-model="form.fullname"
+          v-model="form.first_name"
           class="custom-input"
-          label="Fullname"
-          placeholder="Enter Fullname"
-          :validation="$v.form.fullname"
+          label="First Name"
+          placeholder="Enter First Name"
+          :validation="$v.form.first_name"
+        />
+        <custom-input
+          v-model="form.last_name"
+          class="custom-input"
+          label="Last Name"
+          placeholder="Enter Last Name"
+          :validation="$v.form.last_name"
+        />
+        <custom-input
+          v-model="form.password"
+          class="custom-input"
+          label="Password"
+          placeholder="Enter Password"
+          :validation="$v.form.password"
         />
         <custom-select
           class="custom-input"
           label="Blood Group"
           placeholder="Select Blood Group"
-          v-model="form.bloodgroup"
+          v-model="form.blood_group"
           :options="options.blood_group"
           :allow-empty="true"
-          :validation="$v.form.bloodgroup"
+          :validation="$v.form.blood_group"
         />
         <!-- <custom-input
-          v-model="form.bloodgroup"
+          v-model="form.blood_group"
           class="custom-input"
           label="Blood Group"
           placeholder="Enter Blood Group"
-          :validation="$v.form.bloodgroup"
+          :validation="$v.form.blood_group"
         /> -->
         <custom-input
-          v-model="form.emergencynumber"
+          v-model="form.emergency_contact_number"
           class="custom-input"
           label="Emergency Contact"
           placeholder="Enter Emergency Contact Number"
-          :validation="$v.form.emergencynumber"
+          :validation="$v.form.emergency_contact_number"
         />
         <custom-input
-          v-model="form.contactnumber"
+          v-model="form.contact_number"
           class="custom-input"
           label="Contact Number"
           placeholder="Enter Contact Number"
-          :validation="$v.form.contactnumber"
+          :validation="$v.form.contact_number"
         />
         <custom-input
           v-model="form.email"
@@ -78,17 +92,17 @@
           class="custom-input"
           label="Marital Status"
           placeholder="Select Marital Status"
-          v-model="form.maritalstatus"
+          v-model="form.marital_status"
           :options="options.marital_status"
           :allow-empty="true"
-          :validation="$v.form.maritalstatus"
+          :validation="$v.form.marital_status"
         />
         <!-- <custom-input
-          v-model="form.maritalstatus"
+          v-model="form.marital_status"
           class="custom-input"
           label="Marital Status"
           placeholder="Enter Marital Status"
-          :validation="$v.form.maritalstatus"
+          :validation="$v.form.marital_status"
         /> -->
       </div>
       <b-button size="md" class="button my-2 ml-sm-0" @click="create"
@@ -109,32 +123,33 @@ import options from "~/helpers/options";
 import { num, positiveNum, phoneNum } from "~/helpers/validators";
 
 export default {
-  middleware: ["loggedin", "admin"],
   components: { CustomInput, CustomSelect, CustomFileInput, CustomDateInput },
   name: "signup",
   data() {
     return {
       options,
-      role: "patient",
       form: {
-        dateofbirth: null,
+        date_of_birth: null,
         iin: null,
         id: null,
-        fullname: null,
-        bloodgroup: null,
-        emergencynumber: null,
-        contactnumber: null,
+        first_name: null,
+        last_name: null,
+        blood_group: null,
+        emergency_contact_number: null,
+        contact_number: null,
         email: null,
         address: null,
-        maritalstatus: null,
-        registrationdate: null,
+        marital_status: null,
+        registration_date: null,
+        role: "patient",
+        password: null,
       },
     };
   },
   validations() {
     return {
       form: {
-        dateofbirth: {
+        date_of_birth: {
           required,
         },
         iin: {
@@ -147,28 +162,34 @@ export default {
           num,
           positiveNum,
         },
-        fullname: {
+        first_name: {
+          required,
+        },
+        last_name: {
+          required,
+        },
+        password: {
           required,
         },
         email: {
           required,
           email,
         },
-        bloodgroup: {
+        blood_group: {
           required,
         },
-        emergencynumber: {
+        emergency_contact_number: {
           required,
           phoneNum,
         },
-        contactnumber: {
+        contact_number: {
           required,
           phoneNum,
         },
         address: {
           required,
         },
-        maritalstatus: {
+        marital_status: {
           required,
         },
       },
@@ -186,10 +207,27 @@ export default {
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       var yyyy = today.getFullYear();
       today = yyyy + "-" + mm + "-" + dd;
-      this.form.registrationdate = today;
-      this.form.maritalstatus = String(this.form.maritalstatus);
-      this.form.bloodgroup = String(this.form.bloodgroup);
-      const response = await this.createPatient(this.form);
+      this.form.registration_date = today;
+      this.form.marital_status = String(this.form.marital_status);
+      this.form.blood_group = String(this.form.blood_group);
+      const user = {};
+      user.id = +this.form.id;
+      user.email = this.form.email;
+      user.role = this.form.role;
+      user.first_name = this.form.first_name;
+      user.last_name = this.form.last_name;
+      user.password = this.form.password;
+      const patient = {};
+      patient.date_of_birth = this.form.date_of_birth;
+      patient.iin = this.form.iin;
+      patient.id = +this.form.id;
+      patient.blood_group = this.form.blood_group;
+      patient.marital_status = this.form.marital_status;
+      patient.registration_date = this.form.registration_date;
+      patient.contact_number = this.form.contact_number;
+      patient.emergency_contact_number = this.form.emergency_contact_number;
+      patient.address = this.form.address;
+      const response = await this.createPatient({ user, patient });
       console.log(response);
     },
   },
