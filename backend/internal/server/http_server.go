@@ -12,7 +12,7 @@ import (
 
 func StartServer(addr string) {
 	//h := admin.Handler{DB: admin.Register("root:123@tcp(127.0.0.1:3308)/Hospital")}
-	admin.Register("root:123@tcp(127.0.0.1:3308)/Hospital")
+	admin.Register("root:123@tcp(127.0.0.1:3307)/Hospital")
 	//http.HandleFunc("/", Get)
 	http.HandleFunc("/login", admin.Login)
 	http.HandleFunc("/registerDoctor", doctor.RegisterDoctor)
