@@ -3,6 +3,7 @@ package admin
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -223,4 +224,58 @@ func Verify(r *http.Request) (string, string, bool) {
 	}
 
 	return claims.UserName, claims.Role, true
+}
+
+type Appointment struct {
+	Patient_id int    `json:"patient_id" db:"patient_id"`
+	Doctor_id  int    `json:"doctor_id" db:"doctor_id"`
+	Date       string `json:"preferred_date" db:"preferred_date"`
+	Time       string `json:"preferred_time" db:"prefered_time"`
+}
+
+func AppointmentReg(w http.ResponseWriter, r *http.Request) {
+	var appointment Appointment
+	// if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	w.Write([]byte("Verifyin error"))
+	// 	return
+	// }
+	err := json.NewDecoder(r.Body).Decode(&appointment)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	_, err = DB.Exec("insert into appointment value(?,?,?,?)",
+		appointment.Patient_id, appointment.Doctor_id, appointment.Date, appointment.Time,
+	)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	res, err := json.Marshal(appointment)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
+	}
+	w.Write(res)
+}
+
+func GetAppointments(w http.ResponseWriter, r *http.Request) {
+	var appointments []Appointment
+	err := DB.Select(&appointments, "select * from appointment;")
+	if err != nil {
+		panic(err)
+	}
+	res, err := json.Marshal(&appointments)
+	fmt.Println(appointments)
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write(res)
 }

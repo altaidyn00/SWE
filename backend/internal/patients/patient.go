@@ -57,7 +57,7 @@ type PatientReg struct {
 // }
 
 func RegisterPatient(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Patients")
+
 	var newPatient PatientReg
 	// if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
 	// 	w.WriteHeader(http.StatusBadRequest)
@@ -92,7 +92,10 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
+	}
 	w.Write(res)
 }
 
@@ -102,8 +105,8 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-	var patients []PatientInfo
-	err := admin.DB.Select(&patients, "select * from patient;")
+	var patients []PatientReg
+	err := admin.DB.Select(&patients, "select * from users, patient where patient.government_id=users.government_id;")
 	if err != nil {
 		panic(err)
 	}
@@ -128,8 +131,8 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(id)
-	var patient []PatientInfo
-	admin.DB.Select(&patient, fmt.Sprintf("select * from patient where government_id=%d", id))
+	var patient []PatientReg
+	admin.DB.Select(&patient, fmt.Sprintf("select * from users, patient where government_id=%d and patient.government_id=users.government_id;", id))
 	if len(patient) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Patient does not exist!"))
