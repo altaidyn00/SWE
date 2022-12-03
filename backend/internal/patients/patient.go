@@ -5,22 +5,26 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/whym9/hospital/internal/admin"
 )
 
-var patients []PatientInfo
-
 type PatientInfo struct {
-	DateOfBirth            string `json:"dateofbirth"`
-	IIN                    string `json:"iin"`
-	ID                     string `json:"id"`
-	FullName               string `json:"fullname"`
-	BloodGroup             string `json:"blooodgroup"`
-	EmergencyContactNumber string `json:"emergencynumber"`
-	Contactnumber          string `json:"contactnumber"`
-	Email                  string `json:"email"`
-	Address                string `json:"address"`
-	MaritalStatus          string `json:"martialstatus"`
-	RegistrationDate       string `json:"registrationdate"`
+	DateOfBirth            string `json:"date_of_birth" db:"date_of_birth"`
+	IIN                    string `json:"iin" db:"iin"`
+	ID                     int    `json:"id" db:"government_id"`
+	BloodGroup             string `json:"blood_group" db:"blood_group"`
+	EmergencyContactNumber string `json:"emergency_contact_number" db:"emergency_contact_number"`
+	Contactnumber          string `json:"contact_number" db:"contact_number"`
+	Address                string `json:"address" db:"address"`
+	MaritalStatus          string `json:"marital_status" db:"marital_status"`
+	RegistrationDate       string `json:"registration_date" db:"registration_date"`
+}
+
+type PatientReg struct {
+	admin.User  `json:"user"`
+	PatientInfo `json:"patient"`
 }
 
 // Admin credentials:
@@ -28,24 +32,33 @@ type PatientInfo struct {
 // 	"username": "user1",
 // 	"password": "pass1"
 // }
+// Patient login:
 // Patient refister example:
 // {
-//     "dateofbirth": "1.01.2020",
-//     "iin": 2,
-//     "id": 0,
-//     "fullname": ["some", "some"],
-//     "bloodgroup": "one",
-//     "emergencynumber": 14,
-//     "contactnumber": 45,
-//     "email": "email",
-//     "address": "dsds",
-//     "maritalstatus": "de",
-//     "registrationdate": "today"
+// 	"user": {
+//        "id": 4,
+//        "email": "dedee",
+//        "role": "patient",
+//        "first_name": "Karl",
+//        "last_name": "Ben",
+//        "password": "passwprd"
+//     },
+// 	"patient": {
+//         "date_of_birth": "2012-04-23",
+//         "iin": "202",
+//         "id": 4,
+//         "blood_group": "one",
+//         "emergency_contact_number": "14",
+//         "contact_number": "45",
+//         "address": "dsds",
+//         "marital_status": "de",
+//         "registration_date": "today"
+//     }
 // }
 
 func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Patients")
-	var newPatient PatientInfo
+	var newPatient PatientReg
 	// if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
 	// 	w.WriteHeader(http.StatusBadRequest)
 	// 	w.Write([]byte("Verifyin error"))
@@ -53,10 +66,27 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	// }
 	err := json.NewDecoder(r.Body).Decode(&newPatient)
 	if err != nil {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	patients = append(patients, newPatient)
+	fmt.Println(newPatient)
+	_, err = admin.DB.Exec("insert into users value(?,?,?,?,?,?)",
+		newPatient.ID, newPatient.Role, newPatient.Password, newPatient.First_name, newPatient.Last_name, newPatient.Email,
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = admin.DB.Exec("insert into patient value(?,?,?,?,?,?,?,?,?)",
+		newPatient.IIN, newPatient.DateOfBirth, newPatient.ID, newPatient.BloodGroup,
+		newPatient.EmergencyContactNumber, newPatient.Contactnumber, newPatient.Address, newPatient.MaritalStatus,
+		newPatient.RegistrationDate,
+	)
+
+	if err != nil {
+		panic(err)
+	}
 
 	res, err := json.Marshal(newPatient)
 	if err != nil {
@@ -72,22 +102,17 @@ func GetPatients(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-
-	res, err := json.Marshal(patients)
-
+	var patients []PatientInfo
+	err := admin.DB.Select(&patients, "select * from patient;")
+	if err != nil {
+		panic(err)
+	}
+	res, err := json.Marshal(&patients)
+	fmt.Println(patients)
 	if err != nil {
 		log.Fatal(err)
 	}
 	w.Write(res)
-}
-
-func findPatient(id string) int {
-	for i := range patients {
-		if id == patients[i].ID {
-			return i
-		}
-	}
-	return -1
 }
 
 func ViewPatient(w http.ResponseWriter, r *http.Request) {
@@ -96,16 +121,21 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("Verifyin error"))
 	// 	return
 	// }
-	id := r.FormValue("id")
-
-	i := findPatient(id)
-	if i == -1 {
-		w.WriteHeader(http.StatusExpectationFailed)
-		w.Write([]byte("Given patient does not exist"))
+	id, err := strconv.Atoi(r.FormValue("id"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	res, err := json.Marshal(patients[i])
+	fmt.Println(id)
+	var patient []PatientInfo
+	admin.DB.Select(&patient, fmt.Sprintf("select * from patient where government_id=%d", id))
+	if len(patient) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Patient does not exist!"))
+		return
+	}
+	res, err := json.Marshal(patient[0])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -127,17 +157,17 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	id := oldPatient.ID
 
-	i := findPatient(id)
-	if i == -1 {
-		w.WriteHeader(http.StatusExpectationFailed)
-		w.Write([]byte("Given patient does not exist"))
-		return
+	rows, err := admin.DB.Query(fmt.Sprintf("update patient set date_of_birth='%s', iin='%s', blood_group='%s', emergency_contact_number='%s', contact_number=%s, address='%s', marital_status='%s', registration_date='%s' where government_id=%d",
+		oldPatient.DateOfBirth, oldPatient.IIN, oldPatient.BloodGroup, oldPatient.EmergencyContactNumber, oldPatient.Contactnumber, oldPatient.Address, oldPatient.MaritalStatus, oldPatient.RegistrationDate, oldPatient.ID))
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	patients[i] = oldPatient
-	res, err := json.Marshal(patients[i])
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	res, err := json.Marshal(oldPatient)
 	if err != nil {
 		log.Fatal(err)
 	}
