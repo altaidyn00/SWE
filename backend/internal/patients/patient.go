@@ -70,7 +70,7 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println(newPatient)
+
 	_, err = admin.DB.Exec("insert into users value(?,?,?,?,?,?)",
 		newPatient.ID, newPatient.Role, newPatient.Password, newPatient.First_name, newPatient.Last_name, newPatient.Email,
 	)

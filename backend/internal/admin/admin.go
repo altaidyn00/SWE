@@ -227,10 +227,12 @@ func Verify(r *http.Request) (string, string, bool) {
 }
 
 type Appointment struct {
-	Patient_id int    `json:"patient_id" db:"patient_id"`
-	Doctor_id  int    `json:"doctor_id" db:"doctor_id"`
-	Date       string `json:"preferred_date" db:"preferred_date"`
-	Time       string `json:"preferred_time" db:"prefered_time"`
+	Doctor_id int    `json:"doctor_id" db:"doctor_id"`
+	Date      string `json:"preferred_date" db:"preferred_date"`
+	Time      string `json:"preferred_time" db:"preferred_time"`
+	Name      string `json:"name" db:"name"`
+	Surname   string `jsson:"surname" db:"surname"`
+	Email     string `json:"email" db:"email"`
 }
 
 func AppointmentReg(w http.ResponseWriter, r *http.Request) {
@@ -246,8 +248,8 @@ func AppointmentReg(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	_, err = DB.Exec("insert into appointment value(?,?,?,?)",
-		appointment.Patient_id, appointment.Doctor_id, appointment.Date, appointment.Time,
+	_, err = DB.Exec("insert into appointment value(?,?,?,?, ?, ?, ?)",
+		appointment.Doctor_id, appointment.Date, appointment.Time, appointment.Name, appointment.Surname, appointment.Email,
 	)
 	if err != nil {
 		fmt.Println(err)
@@ -278,4 +280,45 @@ func GetAppointments(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	w.Write(res)
+}
+
+type Spec struct {
+	Id    int    `json:"id" db:"id"`
+	DepID int    `json:"department_id" db:"department_id"`
+	Desc  string `json:"description" db:"descript"`
+}
+
+type Dep struct {
+	Id   int    `json:"id" db:"id"`
+	Desc string `json:"description" db:"descript"`
+}
+
+func GetSpecializations(w http.ResponseWriter, r *http.Request) {
+	var specs []Spec
+	err := DB.Select(&specs, "select * from specialization;")
+	if err != nil {
+		panic(err)
+	}
+	res, err := json.Marshal(&specs)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write(res)
+
+}
+
+func GetDepartments(w http.ResponseWriter, r *http.Request) {
+	var deps []Dep
+	err := DB.Select(&deps, "select * from department;")
+	if err != nil {
+		panic(err)
+	}
+	res, err := json.Marshal(&deps)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write(res)
+
 }

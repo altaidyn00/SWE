@@ -12,7 +12,7 @@ import (
 
 func StartServer(addr string) {
 	//h := admin.Handler{DB: admin.Register("root:123@tcp(127.0.0.1:3308)/Hospital")}
-	admin.Register("root:123@tcp(127.0.0.1:3307)/Hospital")
+	admin.Register("root:123@tcp(127.0.0.1:3308)/Hospital")
 	//http.HandleFunc("/", Get)
 	http.HandleFunc("/login", admin.Login)
 	http.HandleFunc("/registerDoctor", doctor.RegisterDoctor)
@@ -27,6 +27,8 @@ func StartServer(addr string) {
 	http.HandleFunc("/getDoctorsByDep", doctor.GetDoctorByDep)
 	http.HandleFunc("/makeAppointment", admin.AppointmentReg)
 	http.HandleFunc("/getAppointments", admin.GetAppointments)
+	http.HandleFunc("/getSpecializations", admin.GetSpecializations)
+	http.HandleFunc("/getDepartments", admin.GetDepartments)
 	fmt.Println("Server started on localhost:8080")
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

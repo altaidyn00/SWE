@@ -2,6 +2,22 @@ CREATE DATABASE Hospital;
 
 USE Hospital;
 
+  create TABLE department (
+    id int,
+    descript varchar(30),
+    Primary key(id)
+  );
+
+  create TABLE specialization (
+    id int,
+    department_id int,
+    descript varchar(30),
+    foreign key (department_id) REFERENCES department(id),
+    Primary key(id)
+  );
+
+
+
 CREATE TABLE users(
   government_id INT,
   role VARCHAR(20),
@@ -33,12 +49,15 @@ PRIMARY KEY (government_id),
     contact_number VARCHAR(15),
     number_of_patients INTEGER,
     category VARCHAR(20),
-    department_id VARCHAR(20),
-    specialization_details_id VARCHAR(100),
+    department_id int,
+    foreign key (department_id) REFERENCES department(id),
+    specialization_id int,
+    foreign key (specialization_id) REFERENCES specialization(id),
+
     experience_in_years INTEGER,
     appointment_price INTEGER,
     education_degree VARCHAR(30),
-    schedule_detaile VARCHAR(60),
+    schedule_detail VARCHAR(60),
     rating INTEGER,
     address VARCHAR(60),
     photolocation varchar(140)
@@ -50,13 +69,31 @@ FOREIGN KEY (government_id) REFERENCES users(government_id),
 );
 
 CREATE TABLE appointment(
-  patient_id INTEGER ,
-Foreign key (patient_id) REFERENCES patient(government_id),
   doctor_id INT,
 foreign key (doctor_id) REFERENCES doctor(government_id),
   preferred_date VARCHAR(20),
-  prefered_time VARCHAR(20),
-Primary key (patient_id, doctor_id)
+  preferred_time VARCHAR(20),
+  name VARCHAR(20),
+  surname varchar(20),
+  email varchar(30),
+  specialization_id int,
+Primary key (email, doctor_id)
 );
 
+
+INSERT into department value (1, "oncology");
+INSERT into department value (2, "therapy");
+INSERT into department value (3, "other");
+
+
 INSERT into users value(0, 'admin', 'pass1', 'user1','','admin@med.com');
+INSERT into specialization value (1, 2, "cardiology");
+INSERT into specialization value (2, 1, "brain surgeon");
+INSERT into specialization value (3, 3, "dermatiologist");
+INSERT into specialization value (4, 2, "Endocrinologists");
+INSERT into specialization value (5, 2, "Gastroenterologists");
+INSERT into specialization value (6, 3, "Infectious Disease Specialists");
+INSERT into specialization value (7, 1, "Oncologists");
+INSERT into specialization value (8, 3, "Rheumatologists");
+INSERT into specialization value (9, 2, "Urologists");
+INSERT into specialization value (10, 2, "Physiatrists");
