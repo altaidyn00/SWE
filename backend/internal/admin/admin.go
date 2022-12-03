@@ -6,16 +6,30 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang-jwt/jwt"
+	"github.com/jmoiron/sqlx"
 )
 
 type User struct {
-	Id         int    `json:"id"`
-	Email      string `json:"email"`
-	Role       string `json:"role"`
-	First_name string `json:"first_name"`
-	Last_name  string `json:"last_name"`
-	Password   string `json:"password"`
+	Id         int    `json:"id" db:"government_id"`
+	Email      string `json:"email" db:"email"`
+	Role       string `json:"role" db:"role"`
+	First_name string `json:"first_name" db:"first_name"`
+	Last_name  string `json:"last_name" db:"last_name"`
+	Password   string `json:"password" db:"password"`
+}
+
+var DB *sqlx.DB
+
+func Register(dsn string) {
+	db, err := sqlx.Open("mysql", dsn)
+
+	if err != nil {
+		panic(err)
+	}
+	DB = db
+
 }
 
 var All_users = []User{
@@ -37,13 +51,15 @@ var All_users = []User{
 	},
 }
 
-func Find_user(name string) (User, bool) {
-	for _, u := range All_users {
-		if u.First_name == name {
-			return u, true
-		}
+func Find_user(name string) ([]User, bool) {
+	var user []User
+	DB.Select(&user, fmt.Sprintf("select * from users where first_name='%s';", name))
+
+	if len(user) == 0 {
+		return []User{}, false
 	}
-	return User{}, false
+
+	return user, true
 }
 
 var jwt_key = []byte("secret_key")
@@ -80,15 +96,23 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	user, ok := Find_user(credentials.UserName)
+
+	users, ok := Find_user(credentials.UserName)
+
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	//creds, ok := users[credentials.UserName]
-	expectedpassword := user.Password
-	if expectedpassword != credentials.Password {
+	var verify bool = false
+	// creds, ok := users[credentials.UserName]
+	var user User
+	for _, u := range users {
+		if credentials.Password == u.Password {
+			verify = true
+			user = u
+		}
+	}
+	if !verify {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
