@@ -57,7 +57,7 @@ type PatientReg struct {
 // }
 
 func RegisterPatient(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Patients")
+
 	var newPatient PatientReg
 	// if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
 	// 	w.WriteHeader(http.StatusBadRequest)

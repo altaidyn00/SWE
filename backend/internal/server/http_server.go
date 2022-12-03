@@ -25,6 +25,8 @@ func StartServer(addr string) {
 	http.HandleFunc("/getPatients", patients.GetPatients)
 	http.HandleFunc("/getDoctorsBySpec", doctor.GetDoctorBySpec)
 	http.HandleFunc("/getDoctorsByDep", doctor.GetDoctorByDep)
+	http.HandleFunc("/makeAppointment", admin.AppointmentReg)
+	http.HandleFunc("/getAppointments", admin.GetAppointments)
 	fmt.Println("Server started on localhost:8080")
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
