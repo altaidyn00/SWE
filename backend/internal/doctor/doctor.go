@@ -76,6 +76,8 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 		newDoctor.ID, newDoctor.Role, newDoctor.Password, newDoctor.First_name, newDoctor.Last_name, newDoctor.Email,
 	)
 
+	fmt.Println(newDoctor)
+
 	if err != nil {
 		panic(err)
 	}
@@ -96,13 +98,17 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusSeeOther)
 		return
 	}
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
+	}
 	w.Write(res)
 }
 
 func GetDoctors(w http.ResponseWriter, r *http.Request) {
 
-	var doctors []DoctorInfo
-	err := admin.DB.Select(&doctors, "select * from doctor;")
+	var doctors []DoctorReg
+	err := admin.DB.Select(&doctors, "select * from users, doctor where doctor.government_id=users.government_id;")
 	if err != nil {
 		panic(err)
 	}
@@ -128,8 +134,8 @@ func ViewDoctor(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(id)
-	var doctors []DoctorInfo
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from doctor where government_id=%d", id))
+	var doctors []DoctorReg
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where government_id=%d and doctor.government_id=users.government_id", id))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
@@ -177,14 +183,14 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 func GetDoctorBySpec(w http.ResponseWriter, r *http.Request) {
 	spec := r.FormValue("specialization")
 
-	var doctors []DoctorInfo
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from doctor where specialization_details_id='%s'", spec))
+	var doctors []DoctorReg
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.specialization_details_id='%s' and doctor.government_id=users.government_id;", spec))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
 		return
 	}
-	res, err := json.Marshal(doctors[0])
+	res, err := json.Marshal(doctors)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -196,14 +202,14 @@ func GetDoctorBySpec(w http.ResponseWriter, r *http.Request) {
 func GetDoctorByDep(w http.ResponseWriter, r *http.Request) {
 	dep := r.FormValue("department")
 
-	var doctors []DoctorInfo
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from doctor where department_id='%s'", dep))
+	var doctors []DoctorReg
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.department_id='%s' and doctor.government_id=users.government_id;", dep))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
 		return
 	}
-	res, err := json.Marshal(doctors[0])
+	res, err := json.Marshal(doctors)
 	if err != nil {
 		log.Fatal(err)
 	}
