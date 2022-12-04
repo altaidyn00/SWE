@@ -65,7 +65,7 @@
         </div>
         <div class="d-flex flex-row">
           <div class="mr-2">ID:</div>
-          <div class="font-weight-bold">{{ patient.patient.id }}</div>
+          <div class="font-weight-bold">{{ patient.user.id }}</div>
         </div>
         <div class="d-flex flex-row">
           <div class="mr-2">Role:</div>

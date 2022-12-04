@@ -41,7 +41,7 @@
         <template #cell(action2)="data">
           <div
             class="application__link font-weight-bold"
-            @click="toEdit(data.item)"
+            @click="toModify(data.item)"
           >
             edit
           </div>
@@ -105,8 +105,8 @@ export default {
     toDetails(item) {
       this.$router.push(`/users/doctors/${item.user.id}`);
     },
-    toDetails(item) {
-      this.$router.push(`/users/doctors/edit/${item.user.id}`);
+    toModify(item) {
+      this.$router.push(`/users/doctors/${item.user.id}/edit`);
     },
   },
 };

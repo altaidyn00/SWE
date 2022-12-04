@@ -3,90 +3,105 @@
     "name": "about-us",
     "path": "/about-us",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/about-us.vue",
-    "chunkName": "pages/about-us"
+    "chunkName": "pages/about-us",
+    "_name": "_6697a6d5"
   },
   {
     "name": "appointment",
     "path": "/appointment",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/appointment.vue",
-    "chunkName": "pages/appointment"
+    "chunkName": "pages/appointment",
+    "_name": "_5d6a6010"
   },
   {
     "name": "contacts",
     "path": "/contacts",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/contacts.vue",
-    "chunkName": "pages/contacts"
+    "chunkName": "pages/contacts",
+    "_name": "_23a1106c"
   },
   {
     "name": "request",
     "path": "/request",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/request.vue",
-    "chunkName": "pages/request"
+    "chunkName": "pages/request",
+    "_name": "_d7ff9130"
   },
   {
     "name": "services",
     "path": "/services",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/services/index.vue",
-    "chunkName": "pages/services/index"
+    "chunkName": "pages/services/index",
+    "_name": "_1df0dd18"
   },
   {
     "name": "signin",
     "path": "/signin",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/signin.vue",
-    "chunkName": "pages/signin"
+    "chunkName": "pages/signin",
+    "_name": "_641d5359"
   },
   {
     "name": "create-doctor",
     "path": "/create/doctor",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/create/doctor/index.vue",
-    "chunkName": "pages/create/doctor/index"
+    "chunkName": "pages/create/doctor/index",
+    "_name": "_7fec6e6e"
   },
   {
     "name": "create-patient",
     "path": "/create/patient",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/create/patient/index.vue",
-    "chunkName": "pages/create/patient/index"
+    "chunkName": "pages/create/patient/index",
+    "_name": "_63d91d6c"
   },
   {
     "name": "users-doctors",
     "path": "/users/doctors",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/doctors/index.vue",
-    "chunkName": "pages/users/doctors/index"
+    "chunkName": "pages/users/doctors/index",
+    "_name": "_e6ecfd6e"
   },
   {
     "name": "users-patients",
     "path": "/users/patients",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/patients/index.vue",
-    "chunkName": "pages/users/patients/index"
+    "chunkName": "pages/users/patients/index",
+    "_name": "_77a22aef"
   },
   {
     "name": "users-doctors-id",
     "path": "/users/doctors/:id",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/doctors/_id/index.vue",
-    "chunkName": "pages/users/doctors/_id/index"
+    "chunkName": "pages/users/doctors/_id/index",
+    "_name": "_96826098"
   },
   {
     "name": "users-patients-id",
     "path": "/users/patients/:id",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/patients/_id/index.vue",
-    "chunkName": "pages/users/patients/_id/index"
+    "chunkName": "pages/users/patients/_id/index",
+    "_name": "_ab03934c"
   },
   {
     "name": "users-doctors-id-edit",
     "path": "/users/doctors/:id/edit",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/doctors/_id/edit.vue",
-    "chunkName": "pages/users/doctors/_id/edit"
+    "chunkName": "pages/users/doctors/_id/edit",
+    "_name": "_564a8d18"
   },
   {
     "name": "users-patients-id-edit",
     "path": "/users/patients/:id/edit",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/users/patients/_id/edit.vue",
-    "chunkName": "pages/users/patients/_id/edit"
+    "chunkName": "pages/users/patients/_id/edit",
+    "_name": "_7d5e8c9c"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_7195106b"
   }
 ]

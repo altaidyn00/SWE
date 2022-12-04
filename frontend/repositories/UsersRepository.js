@@ -10,7 +10,7 @@ export default ($axios) => ({
   },
 
   get_doctor(params) {
-    return $axios.get(`${resource}/getDoctor`, params);
+    return $axios.get(`${resource}/getDoctor`, { params });
   },
 
   get_doctors(params) {
@@ -41,5 +41,21 @@ export default ($axios) => ({
 
   get_current_user(payload) {
     return $axios.post(`${resource}/`, payload);
+  },
+
+  get_departments() {
+    return $axios.get(`${resource}/getDepartments`);
+  },
+
+  get_appointments() {
+    return $axios.get(`${resource}/getAppointments`);
+  },
+
+  get_specializations() {
+    return $axios.get(`${resource}/getSpecializations`);
+  },
+
+  make_appointment(paylaod) {
+    return $axios.post(`${resource}/makeAppointment`, paylaod);
   },
 });

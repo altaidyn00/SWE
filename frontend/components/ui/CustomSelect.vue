@@ -10,6 +10,7 @@
         :show-labels="false"
         :searchable="false"
         :disabled="disabled"
+        :custom-label="customLabel"
         :placeholder="placeholder"
         :class="{
           'is-invalid multiselect__error': validation && validation.$error,
@@ -24,7 +25,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import Multiselect from "vue-multiselect";
 
@@ -56,6 +57,11 @@ export default {
     allowEmpty: {
       // type: Boolean,
       default: true,
+    },
+    customLabel: {
+      // type: Function,
+      required: false,
+      default: (option) => option,
     },
     placeholder: {
       // type: String,

@@ -72,19 +72,27 @@
           placeholder="Enter Address"
           :validation="$v.form.address"
         />
-        <custom-input
-          v-model="form.department_id"
+        <custom-select
           class="custom-input"
-          label="Department ID"
-          placeholder="Enter Department ID"
+          label="Specialization Department ID"
+          placeholder="Select Department ID"
+          v-model="form.department_id"
+          :options="departments"
+          :allow-empty="true"
+          track-by="description"
+          :custom-label="(option) => option.description"
           :validation="$v.form.department_id"
         />
-        <custom-input
-          v-model="form.specialization_details_id"
+        <custom-select
           class="custom-input"
           label="Specialization Details ID"
-          placeholder="Enter Specialization Details ID"
-          :validation="$v.form.specialization_details_id"
+          placeholder="Select Specialization Details ID"
+          v-model="form.specialization_id"
+          :options="specializations"
+          :allow-empty="true"
+          track-by="description"
+          :custom-label="(option) => option.description"
+          :validation="$v.form.specialization_id"
         />
         <custom-input
           v-model="form.experience_in_years"
@@ -156,6 +164,11 @@ export default {
   middleware: ["loggedin", "admin"],
   components: { CustomInput, CustomSelect, CustomFileInput, CustomDateInput },
   name: "signup",
+  async asyncData({ store }) {
+    const departments = await store.dispatch("users/get_departments");
+    const specializations = await store.dispatch("users/get_specializations");
+    return { departments, specializations };
+  },
   data() {
     return {
       options,
@@ -168,7 +181,7 @@ export default {
         number_of_patients: null,
         address: null,
         department_id: null,
-        specialization_details_id: null,
+        specialization_id: null,
         appointment_price: null,
         experience_in_years: null,
         schedule_detaile: null,
@@ -211,8 +224,6 @@ export default {
         },
         department_id: {
           required,
-          num,
-          positiveNum,
         },
         first_name: {
           required,
@@ -230,10 +241,8 @@ export default {
         appointment_price: {
           required,
         },
-        specialization_details_id: {
+        specialization_id: {
           required,
-          num,
-          positiveNum,
         },
         experience_in_years: {
           required,
@@ -276,8 +285,9 @@ export default {
       doctor.contact_number = this.form.contact_number;
       doctor.number_of_patients = +this.form.number_of_patients;
       doctor.category = this.form.category;
-      doctor.department_id = this.form.department_id;
-      doctor.specialization_details_id = this.form.specialization_details_id;
+      doctor.department_id = +this.form.department_id.id;
+      doctor.specialization_id =
+        +this.form.specialization_id.id;
       doctor.experience_in_years = +this.form.experience_in_years;
       doctor.appointment_price = +this.form.appointment_price;
       doctor.education_degree = this.form.education_degree;

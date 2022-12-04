@@ -130,9 +130,9 @@ export const actions = {
 
   async get_doctor({ commit }, params) {
     try {
-      const response = await this.$repositories.users.get_doctors(params);
-      const doctors = response.data;
-      commit("SET_DOCTORS", doctors);
+      const response = await this.$repositories.users.get_doctor(params);
+      const doctor = response.data;
+      commit("SET_DOCTOR", doctor);
     } catch (error) {}
   },
 
@@ -177,6 +177,34 @@ export const actions = {
     try {
       const response = await this.$repositories.users.get_current_user(payload);
       console.log(response);
+    } catch (error) {}
+  },
+
+  async get_departments() {
+    try {
+      const response = await this.$repositories.users.get_departments();
+      return response.data;
+    } catch (error) {}
+  },
+
+  async get_appointments() {
+    try {
+      const response = await this.$repositories.users.get_appointments();
+      return response.data;
+    } catch (error) {}
+  },
+
+  async get_specializations() {
+    try {
+      const response = await this.$repositories.users.get_specializations();
+      return response.data;
+    } catch (error) {}
+  },
+
+  async make_appointment(_, paylaod) {
+    try {
+      const response = await this.$repositories.users.make_appointment(paylaod);
+      return response.data;
     } catch (error) {}
   },
 };

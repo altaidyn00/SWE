@@ -110,10 +110,10 @@ export default {
   },
   methods: {
     toDetails(item) {
-      this.$router.push(`/users/patients/${item.patient.id}`);
+      this.$router.push(`/users/patients/${item.user.id}`);
     },
     toModify(item) {
-      this.$router.push(`/users/patients/${item.patient.id}/edit`);
+      this.$router.push(`/users/patients/${item.user.id}/edit`);
     },
   },
 };
