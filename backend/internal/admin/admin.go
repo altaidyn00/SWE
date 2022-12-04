@@ -257,7 +257,7 @@ func AppointmentReg(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	_, err = DB.Exec("insert into appointment value(?,?,?,?, ?, ?, ?)",
+	_, err = DB.Exec("insert into appointment value(?,?,?,?, ?, ?)",
 		appointment.Doctor_id, appointment.Date, appointment.Time, appointment.Name, appointment.Surname, appointment.Email,
 	)
 	if err != nil {

@@ -86,7 +86,15 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		row, err := admin.DB.Query(fmt.Sprintf("delete * from users where government_id=%d", newDoctor.ID))
+		if err != nil {
+			fmt.Println(err)
+		}
+		if row.Err() != nil {
+			fmt.Println(row.Err())
+		}
+		return
 	}
 
 	res, err := json.Marshal(newDoctor)
