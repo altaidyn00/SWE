@@ -74,7 +74,6 @@ foreign key (doctor_id) REFERENCES doctor(government_id),
   name VARCHAR(20),
   surname varchar(20),
   email varchar(30),
-  specialization_id int,
 Primary key (email, doctor_id)
 );
 

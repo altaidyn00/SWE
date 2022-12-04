@@ -231,7 +231,7 @@ type Appointment struct {
 	Date      string `json:"preferred_date" db:"preferred_date"`
 	Time      string `json:"preferred_time" db:"preferred_time"`
 	Name      string `json:"name" db:"name"`
-	Surname   string `jsson:"surname" db:"surname"`
+	Surname   string `json:"surname" db:"surname"`
 	Email     string `json:"email" db:"email"`
 }
 
@@ -257,7 +257,7 @@ func AppointmentReg(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	_, err = DB.Exec("insert into appointment value(?,?,?,?, ?, ?)",
+	_, err = DB.Exec("insert into appointment value(?,?,?,?,?,?)",
 		appointment.Doctor_id, appointment.Date, appointment.Time, appointment.Name, appointment.Surname, appointment.Email,
 	)
 	if err != nil {
