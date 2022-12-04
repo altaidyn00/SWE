@@ -16,19 +16,22 @@
         responsive="sm"
       >
         <template #cell(id)="data">
-          {{ data.item.patient.id + 1 }}
+          {{ data.item.user.id }}
         </template>
-        <template #cell(fullname)="data">
-          {{ data.item.user.first_name }} {{ data.item.user.last_name }}
+        <template #cell(first_name)="data">
+          {{ data.item.user.first_name }}
         </template>
-        <template #cell(contactnumber)="data">
-          {{ data.item.contactnumber }}
+        <template #cell(last_name)="data">
+          {{ data.item.user.last_name }}
+        </template>
+        <template #cell(contact_number)="data">
+          {{ data.item.patient.contact_number }}
         </template>
         <template #cell(iin)="data">
-          {{ data.item.iin }}
+          {{ data.item.patient.iin }}
         </template>
-        <template #cell(dateofbirth)="data">
-          {{ data.item.dateofbirth }}
+        <template #cell(date_of_birth)="data">
+          {{ data.item.patient.date_of_birth }}
         </template>
         <template #cell(action1)="data">
           <div
@@ -67,11 +70,15 @@ export default {
           label: "Id",
         },
         {
-          key: "fullname",
-          label: "Fullname",
+          key: "first_name",
+          label: "First Name",
         },
         {
-          key: "contactnumber",
+          key: "last_name",
+          label: "Last Name",
+        },
+        {
+          key: "contact_number",
           label: "Contact Number",
         },
         {
@@ -79,7 +86,7 @@ export default {
           label: "IIN",
         },
         {
-          key: "dateofbirth",
+          key: "date_of_birth",
           label: "Birth Date",
         },
         {

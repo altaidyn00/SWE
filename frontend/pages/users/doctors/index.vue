@@ -16,19 +16,19 @@
         responsive="sm"
       >
         <template #cell(id)="data">
-          {{ data.item.id }}
+          {{ data.item.user.id }}
         </template>
-        <template #cell(fullname)="data">
-          {{ data.item.fullname }}
+        <template #cell(first_name)="data">
+          {{ data.item.user.first_name }}
         </template>
-        <template #cell(contactnumber)="data">
-          {{ data.item.contactnumber }}
+        <template #cell(contact_number)="data">
+          {{ data.item.doctor.contact_number }}
         </template>
         <template #cell(iin)="data">
-          {{ data.item.iin }}
+          {{ data.item.doctor.iin }}
         </template>
-        <template #cell(dateofbirth)="data">
-          {{ data.item.dateofbirth }}
+        <template #cell(date_of_birth)="data">
+          {{ data.item.doctor.date_of_birth }}
         </template>
         <template #cell(action1)="data">
           <div
@@ -67,11 +67,11 @@ export default {
           label: "Id",
         },
         {
-          key: "fullname",
-          label: "Fullname",
+          key: "first_name",
+          label: "First Name",
         },
         {
-          key: "contactnumber",
+          key: "contact_number",
           label: "Contact Number",
         },
         {
@@ -79,7 +79,7 @@ export default {
           label: "IIN",
         },
         {
-          key: "dateofbirth",
+          key: "date_of_birth",
           label: "Birth Date",
         },
         {
@@ -103,11 +103,21 @@ export default {
   },
   methods: {
     toDetails(item) {
-      this.$router.push(`/users/doctors/${item.id}`);
+      this.$router.push(`/users/doctors/${item.user.id}`);
     },
     toDetails(item) {
-      this.$router.push(`/users/doctors/edit/${item.id}`);
+      this.$router.push(`/users/doctors/edit/${item.user.id}`);
     },
   },
 };
 </script>
+
+<style scoped lang="scss">
+.application__link {
+  color: blue;
+}
+
+.application__link:hover {
+  cursor: pointer;
+}
+</style>
