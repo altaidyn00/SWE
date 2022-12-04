@@ -17,12 +17,12 @@ type DoctorInfo struct {
 	Contactnumber string `json:"contact_number" db:"contact_number"`
 	NumOfPatients int    `json:"number_of_patients" db:"number_of_patients"`
 	Category      string `json:"category" db:"category"`
-	DepID         string `json:"department_id" db:"department_id"`
-	SpecID        string `json:"specialization_details_id" db:"specialization_details_id"`
+	DepID         int    `json:"department_id" db:"department_id"`
+	SpecID        int    `json:"specialization_id" db:"specialization_id"`
 	Expirience    int    `json:"experience_in_years" db:"experience_in_years"`
 	Price         int    `json:"appointment_price" db:"appointment_price"`
 	Degree        string `json:"education_degree" db:"education_degree"`
-	Schedule      string `json:"schedule_detaile" db:"schedule_detaile"`
+	Schedule      string `json:"schedule_detail" db:"schedule_detail"`
 	Rating        int    `json:"rating" db:"rating"`
 	Address       string `json:"address" db:"address"`
 	PhotoLocation string `json:"photolocation" db:"photolocation"`
@@ -44,13 +44,13 @@ type DoctorInfo struct {
 //         "contact_number": "45",
 //         "number_of_patients": 14,
 //         "category": "45",
-// 		"department_id": "dswdw",
-// 		"specialization_details_id": "toto",
-// 		"experiance_in_years": 0,
+// 		"department_id": 2,
+// 		"specialization_id": 8,
+// 		"experience_in_years": 0,
 // 		"appointment_price": 50,
 // 		"education_degree": "cool",
-// 		"schedule_detaile": "now",
-// 		"rating": 4
+// 		"schedule_detail": "now",
+// 		"rating": 4,
 //         "address": "dsds",
 //         "photolocation": ":)"
 //     }
@@ -61,22 +61,18 @@ type DoctorReg struct {
 	DoctorInfo `json:"doctor"`
 }
 
-var doctors []DoctorInfo
-
-var uploadDir = "files/"
-var maxSize int64 = 200 * 1024 * 1024
-
 func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	var newDoctor DoctorReg
 	err := json.NewDecoder(r.Body).Decode(&newDoctor)
 	if err != nil {
-		panic(err)
+
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
+
 	_, err = admin.DB.Exec("insert into users value(?,?,?,?,?,?)",
 		newDoctor.ID, newDoctor.Role, newDoctor.Password, newDoctor.First_name, newDoctor.Last_name, newDoctor.Email,
 	)
-
-	fmt.Println(newDoctor)
 
 	if err != nil {
 		panic(err)
@@ -135,7 +131,7 @@ func ViewDoctor(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(id)
 	var doctors []DoctorReg
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where government_id=%d and doctor.government_id=users.government_id", id))
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where users.government_id=%d and doctor.government_id=users.government_id", id))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
@@ -164,7 +160,7 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := admin.DB.Query(fmt.Sprintf("update doctor set date_of_birth='%s', iin='%s', contact_number='%s', number_of_patients=%d, category='%s', department_id='%s', specialization_details_id='%s', experience_in_years=%d, appointment_price=%d, education_degree='%s', schedule_detaile='%s', rating=%d, address='%s', photolocation='%s' where government_id=%d",
+	rows, err := admin.DB.Query(fmt.Sprintf("update doctor set date_of_birth='%s', iin='%s', contact_number='%s', number_of_patients=%d, category='%s', department_id=%d, specialization_id=%d, experience_in_years=%d, appointment_price=%d, education_degree='%s', schedule_detail='%s', rating=%d, address='%s', photolocation='%s' where government_id=%d",
 		oldDoctor.DateOfBirth, oldDoctor.IIN, oldDoctor.Contactnumber, oldDoctor.NumOfPatients, oldDoctor.Category, oldDoctor.DepID, oldDoctor.SpecID, oldDoctor.Expirience, oldDoctor.Price, oldDoctor.Degree, oldDoctor.Schedule, oldDoctor.Rating, oldDoctor.Address, oldDoctor.PhotoLocation, oldDoctor.ID))
 	if err != nil {
 		log.Fatal(err)
@@ -177,14 +173,22 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
+	}
 	w.Write(res)
 }
 
 func GetDoctorBySpec(w http.ResponseWriter, r *http.Request) {
-	spec := r.FormValue("specialization")
-
+	spec, err := strconv.Atoi(r.FormValue("specialization"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Doctor does not exist!"))
+		return
+	}
 	var doctors []DoctorReg
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.specialization_details_id='%s' and doctor.government_id=users.government_id;", spec))
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.specialization_details_id=%d and doctor.government_id=users.government_id;", spec))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
@@ -200,10 +204,34 @@ func GetDoctorBySpec(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDoctorByDep(w http.ResponseWriter, r *http.Request) {
-	dep := r.FormValue("department")
+	dep, err := strconv.Atoi(r.FormValue("department"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Doctor does not exist!"))
+		return
+	}
 
 	var doctors []DoctorReg
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.department_id='%s' and doctor.government_id=users.government_id;", dep))
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.department_id=%d and doctor.government_id=users.government_id;", dep))
+	if len(doctors) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Doctor does not exist!"))
+		return
+	}
+	res, err := json.Marshal(doctors)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func GetDoctorByName(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name")
+
+	var doctors []DoctorReg
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where users.first_name='%s' and doctor.government_id=users.government_id;", name))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))

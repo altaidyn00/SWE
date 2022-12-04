@@ -70,7 +70,7 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println(newPatient)
+
 	_, err = admin.DB.Exec("insert into users value(?,?,?,?,?,?)",
 		newPatient.ID, newPatient.Role, newPatient.Password, newPatient.First_name, newPatient.Last_name, newPatient.Email,
 	)
@@ -132,7 +132,7 @@ func ViewPatient(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(id)
 	var patient []PatientReg
-	admin.DB.Select(&patient, fmt.Sprintf("select * from users, patient where government_id=%d and patient.government_id=users.government_id;", id))
+	admin.DB.Select(&patient, fmt.Sprintf("select * from users, patient where users.government_id=%d and patient.government_id=users.government_id;", id))
 	if len(patient) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Patient does not exist!"))
@@ -173,6 +173,10 @@ func ModifyPatient(w http.ResponseWriter, r *http.Request) {
 	res, err := json.Marshal(oldPatient)
 	if err != nil {
 		log.Fatal(err)
+	}
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
 	}
 	w.Write(res)
 }
