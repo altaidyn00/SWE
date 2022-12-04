@@ -10,9 +10,7 @@ USE Hospital;
 
   create TABLE specialization (
     id int,
-    department_id int,
     descript varchar(30),
-    foreign key (department_id) REFERENCES department(id),
     Primary key(id)
   );
 
@@ -81,19 +79,19 @@ Primary key (email, doctor_id)
 );
 
 
-INSERT into department value (1, "oncology");
-INSERT into department value (2, "therapy");
-INSERT into department value (3, "other");
+INSERT into department value (1, "main");
+INSERT into department value (2, "second");
+INSERT into department value (3, "third");
 
 
 INSERT into users value(0, 'admin', 'pass1', 'user1','','admin@med.com');
-INSERT into specialization value (1, 2, "cardiology");
-INSERT into specialization value (2, 1, "brain surgeon");
-INSERT into specialization value (3, 3, "dermatiologist");
-INSERT into specialization value (4, 2, "Endocrinologists");
-INSERT into specialization value (5, 2, "Gastroenterologists");
-INSERT into specialization value (6, 3, "Infectious Disease Specialists");
-INSERT into specialization value (7, 1, "Oncologists");
-INSERT into specialization value (8, 3, "Rheumatologists");
-INSERT into specialization value (9, 2, "Urologists");
-INSERT into specialization value (10, 2, "Physiatrists");
+INSERT into specialization value (1, "cardiology");
+INSERT into specialization value (2, "brain surgeon");
+INSERT into specialization value (3, "dermatiologist");
+INSERT into specialization value (4, "Endocrinologists");
+INSERT into specialization value (5, "Gastroenterologists");
+INSERT into specialization value (6, "Infectious Disease Specialists");
+INSERT into specialization value (7, "Oncologists");
+INSERT into specialization value (8, "Rheumatologists");
+INSERT into specialization value (9, "Urologists");
+INSERT into specialization value (10, "Physiatrists");

@@ -283,9 +283,8 @@ func GetAppointments(w http.ResponseWriter, r *http.Request) {
 }
 
 type Spec struct {
-	Id    int    `json:"id" db:"id"`
-	DepID int    `json:"department_id" db:"department_id"`
-	Desc  string `json:"description" db:"descript"`
+	Id   int    `json:"id" db:"id"`
+	Desc string `json:"description" db:"descript"`
 }
 
 type Dep struct {

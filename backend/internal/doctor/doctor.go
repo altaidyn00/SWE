@@ -131,7 +131,7 @@ func ViewDoctor(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(id)
 	var doctors []DoctorReg
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where government_id=%d and doctor.government_id=users.government_id", id))
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where users.government_id=%d and doctor.government_id=users.government_id", id))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
@@ -160,7 +160,7 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := admin.DB.Query(fmt.Sprintf("update doctor set date_of_birth='%s', iin='%s', contact_number='%s', number_of_patients=%d, category='%s', department_id=%d, specialization_id=%d, experience_in_years=%d, appointment_price=%d, education_degree='%s', schedule_detaile='%s', rating=%d, address='%s', photolocation='%s' where government_id=%d",
+	rows, err := admin.DB.Query(fmt.Sprintf("update doctor set date_of_birth='%s', iin='%s', contact_number='%s', number_of_patients=%d, category='%s', department_id=%d, specialization_id=%d, experience_in_years=%d, appointment_price=%d, education_degree='%s', schedule_detail='%s', rating=%d, address='%s', photolocation='%s' where government_id=%d",
 		oldDoctor.DateOfBirth, oldDoctor.IIN, oldDoctor.Contactnumber, oldDoctor.NumOfPatients, oldDoctor.Category, oldDoctor.DepID, oldDoctor.SpecID, oldDoctor.Expirience, oldDoctor.Price, oldDoctor.Degree, oldDoctor.Schedule, oldDoctor.Rating, oldDoctor.Address, oldDoctor.PhotoLocation, oldDoctor.ID))
 	if err != nil {
 		log.Fatal(err)
@@ -172,6 +172,10 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 	res, err := json.Marshal(oldDoctor)
 	if err != nil {
 		log.Fatal(err)
+	}
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
 	}
 	w.Write(res)
 }
