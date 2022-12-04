@@ -4,13 +4,16 @@
       <b-navbar-brand href="/">Medical Center</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="/services">Services</b-nav-item>
           <b-nav-item href="/about-us">About Us</b-nav-item>
           <b-nav-item href="/contacts">Contacts</b-nav-item>
+          <b-nav-item v-if="isLoggedIn && !isAdmin" href="/request"
+            >Request</b-nav-item
+          >
           <b-nav-item-dropdown
+            v-if="isLoggedIn && isAdmin"
             id="my-nav-dropdown"
             text="Create"
             toggle-class="nav-link-custom"
@@ -22,6 +25,7 @@
             >
           </b-nav-item-dropdown>
           <b-nav-item-dropdown
+            v-if="isLoggedIn && isAdmin"
             id="my-nav-dropdown"
             text="Users"
             toggle-class="nav-link-custom"
@@ -34,10 +38,21 @@
 
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <b-button size="sm" class="button my-2 ml-sm-0" @click="goToSignin"
+            <b-button
+              v-if="!isLoggedIn"
+              size="sm"
+              class="button my-2 ml-sm-0"
+              @click="goToSignin"
               >signin</b-button
-            ></b-nav-form
-          >
+            >
+            <b-nav-item-dropdown v-else right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>{{ email }}</em>
+              </template>
+              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -47,6 +62,17 @@
 <script>
 export default {
   name: "Header",
+  computed: {
+    isLoggedIn() {
+      return this.$auth.loggedIn;
+    },
+    isAdmin() {
+      return this.$auth.user.role === "Admin";
+    },
+    email() {
+      return this.$auth.user.email;
+    },
+  },
   methods: {
     goToSignin() {
       this.$router.push("/signin");
@@ -62,6 +88,11 @@ export default {
     },
     goToCreateDoctor() {
       this.$router.push("/create/doctor");
+    },
+    logout() {
+      localStorage.clear();
+      this.$auth.setUserToken(null, null);
+      this.$auth.setUser(null);
     },
   },
 };

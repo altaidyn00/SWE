@@ -21,6 +21,13 @@
     "_name": "_23a1106c"
   },
   {
+    "name": "request",
+    "path": "/request",
+    "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/request.vue",
+    "chunkName": "pages/request",
+    "_name": "_d7ff9130"
+  },
+  {
     "name": "services",
     "path": "/services",
     "component": "/Users/altaidyn/Desktop/projects/SWE/frontend/pages/services/index.vue",

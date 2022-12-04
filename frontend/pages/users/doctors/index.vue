@@ -9,7 +9,7 @@
         table-class="table table-centered w-100"
         thead-tr-class="bg-light"
         tbody-tr-class="hover"
-        :items="patients"
+        :items="items"
         :fields="fields"
         :bordered="true"
         :fixed="true"
@@ -54,6 +54,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
+  middleware: ["loggedin", "admin"],
   name: "patients",
   async asyncData({ store }) {
     await store.dispatch("users/get_doctors");

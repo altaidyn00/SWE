@@ -3,7 +3,7 @@
     <div>
       <div>
         <Header />
-        <Nuxt />
+        <Nuxt @setUser="setUser" />
       </div>
     </div>
     <Footer />
@@ -11,5 +11,12 @@
 </template>
 
 <script>
-export default {};
+export default {
+  created() {
+    if (this.$auth.loggedIn) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.$auth.setUser(user);
+    }
+  },
+};
 </script>

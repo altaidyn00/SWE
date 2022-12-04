@@ -32,6 +32,7 @@ import { num, positiveNum } from "~/helpers/validators";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
+  middleware: ["notloggedin"],
   components: { CustomInput },
   name: "signin",
   data() {
@@ -61,11 +62,18 @@ export default {
       login: "users/login",
     }),
     async signin() {
-      // this.$v.form.$touch();
-      // console.log(this.$v.form);
-
-      // if (this.$v.form.$invalid) return;
-      await this.login(this.form);
+      try {
+        const response = await this.$auth.loginWith("local", {
+          data: this.form,
+        });
+        const access_token = response.data.Acces_token.value;
+        const user = response.data.user;
+        if (access_token) {
+          this.$auth.setUserToken(access_token, null);
+          localStorage.setItem("user", JSON.stringify(user));
+          this.$auth.setUser(user);
+        }
+      } catch (e) {}
     },
   },
 };

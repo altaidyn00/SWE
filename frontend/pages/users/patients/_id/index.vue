@@ -61,6 +61,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  middleware: ["loggedin", "admin"],
   name: "patients",
   async asyncData({ store, params }) {
     const query = {};

@@ -34,7 +34,12 @@ export default ($axios) => ({
   get_patients(params) {
     return $axios.get(`${resource}/getPatients`, params);
   },
+
   login_admin(payload) {
     return $axios.post(`${resource}/login`, payload);
+  },
+
+  get_current_user(payload) {
+    return $axios.post(`${resource}/`, payload);
   },
 });

@@ -17,6 +17,9 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
+  ssr: false,
+  mode: "spa",
+
   target: "server",
   server: {
     host: "0.0.0.0",
@@ -43,20 +46,31 @@ export default {
   },
 
   auth: {
+    redirect: {
+      logout: "/signin",
+      login: "/signin",
+      home: "/",
+      callback: false,
+    },
     strategies: {
-      cookie: {
-        cookie: {
-          // (optional) If set, we check this cookie existence for loggedIn check
-          name: 'XSRF-TOKEN',
+      local: {
+        token: {
+          property: "access_token",
+          global: true,
+          maxAge: 86400,
         },
+        autoFetchUser: false,
         endpoints: {
-          // (optional) If set, we send a get request to this endpoint before login
-          csrf: {
-            url: '/login'
-          }
-        }
+          login: {
+            url: "api/login",
+            method: "post",
+            propertyName: "access_token",
+          },
+          user: false,
+        },
+        autoLogout: true,
       },
-    }
+    },
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -69,6 +83,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     "bootstrap-vue/nuxt",
+    "@nuxtjs/auth",
     "@nuxtjs/axios",
   ],
 

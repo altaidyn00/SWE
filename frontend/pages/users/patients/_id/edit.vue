@@ -85,6 +85,7 @@ import options from "~/helpers/options";
 import { num, positiveNum, phoneNum } from "~/helpers/validators";
 
 export default {
+  middleware: ["loggedin", "admin"],
   components: { CustomInput, CustomSelect, CustomFileInput, CustomDateInput },
   name: "signup",
   data() {
