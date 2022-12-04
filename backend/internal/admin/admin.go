@@ -235,6 +235,15 @@ type Appointment struct {
 	Email     string `json:"email" db:"email"`
 }
 
+// {
+// 	"doctor_id": 0
+// 	"preferred_date": ""
+// 	"preferred_time": ""
+// 	"name": ""
+// 	"suname": ""
+// 	"email": ""
+// }
+
 func AppointmentReg(w http.ResponseWriter, r *http.Request) {
 	var appointment Appointment
 	// if _, role, ok := admin.Verify(r); !ok || role != "Admin" {

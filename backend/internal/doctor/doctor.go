@@ -181,10 +181,14 @@ func ModifyDoctor(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDoctorBySpec(w http.ResponseWriter, r *http.Request) {
-	spec := r.FormValue("specialization")
-
+	spec, err := strconv.Atoi(r.FormValue("specialization"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Doctor does not exist!"))
+		return
+	}
 	var doctors []DoctorReg
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.specialization_details_id='%s' and doctor.government_id=users.government_id;", spec))
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.specialization_details_id=%d and doctor.government_id=users.government_id;", spec))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
@@ -200,10 +204,34 @@ func GetDoctorBySpec(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDoctorByDep(w http.ResponseWriter, r *http.Request) {
-	dep := r.FormValue("department")
+	dep, err := strconv.Atoi(r.FormValue("department"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Doctor does not exist!"))
+		return
+	}
 
 	var doctors []DoctorReg
-	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.department_id='%s' and doctor.government_id=users.government_id;", dep))
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where doctor.department_id=%d and doctor.government_id=users.government_id;", dep))
+	if len(doctors) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Doctor does not exist!"))
+		return
+	}
+	res, err := json.Marshal(doctors)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func GetDoctorByName(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name")
+
+	var doctors []DoctorReg
+	admin.DB.Select(&doctors, fmt.Sprintf("select * from users, doctor where users.first_name='%s' and doctor.government_id=users.government_id;", name))
 	if len(doctors) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Doctor does not exist!"))
