@@ -99,7 +99,7 @@ func RegisterPatient(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func GetPatients(w http.ResponseWriter, r *http.Request) {
+func GetPatients(w http.ResponseWriter, _ *http.Request) {
 	// if _, role, ok := admin.Verify(r); !ok || role != "Admin" {
 	// 	w.WriteHeader(http.StatusBadRequest)
 	// 	w.Write([]byte("Verifyin error"))
