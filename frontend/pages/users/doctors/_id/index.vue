@@ -1,127 +1,137 @@
 <template>
   <div class="custom-container">
-    <div class="text-center d-flex flex-column justify-content-center">
-      <h1>Doctor {{ doctor.user.id }}</h1>
-      <div
-        class="d-flex doctor-info flex-column mt-4 w-50 mx-auto justify-content-center align-items-center"
-      >
-        <div class="d-flex flex-row">
-          <div class="mr-2">Birth Date:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.date_of_birth }}
+    <div class="text-center d-flex">
+      <template v-if="$auth.user.role === 'patient'">
+        <div
+          class="d-flex flex-column w-50 mx-auto justify-content-center align-items-left"
+        >
+          <h1>Make appointment</h1>
+          <custom-input
+            v-model="doctor_id"
+            class="custom-input w-1000"
+            label="Doctor ID"
+            placeholder="Enter Doctor ID"
+            :validation="$v.doctor_id"
+          />
+          <custom-input
+            v-model="preferred_date"
+            class="custom-input w-1000"
+            label="Date"
+            placeholder="Enter date"
+            :validation="$v.preferred_date"
+          />
+          <custom-input
+            v-model="preferred_time"
+            class="custom-input w-1000"
+            label="Time"
+            placeholder="Enter Time"
+            :validation="$v.preferred_time"
+          />
+          <custom-input
+            v-model="name"
+            class="custom-input w-1000"
+            label="Name"
+            placeholder="Enter Name"
+            :validation="$v.name"
+          />
+          <custom-input
+            v-model="surname"
+            class="custom-input w-1000"
+            label="Surname"
+            placeholder="Enter Surname"
+            :validation="$v.surname"
+          />
+          <custom-input
+            v-model="email"
+            class="custom-input w-1000"
+            label="Email"
+            placeholder="Enter Email"
+            :validation="$v.email"
+          />
+          <b-button size="md" class="button my-2 ml-sm-0" @click="make"
+            >make</b-button
+          >
+        </div>
+      </template>
+      <template v-else>
+        <div class="d-flex flex-column w-100">
+          <h1>Doctor {{ doctor.user.id }}</h1>
+          <div
+            class="d-flex patient-info flex-column mt-4 w-50 mx-auto justify-content-center align-items-left"
+          >
+            <div class="d-flex flex-row">
+              <div class="mr-2">Birth Date:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.date_of_birth }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">IIN:</div>
+              <div class="font-weight-bold">{{ doctor.doctor.iin }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">First name:</div>
+              <div class="font-weight-bold">{{ doctor.user.first_name }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Last name:</div>
+              <div class="font-weight-bold">{{ doctor.user.last_name }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Email:</div>
+              <div class="font-weight-bold">{{ doctor.user.email }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Category:</div>
+              <div class="font-weight-bold">{{ doctor.doctor.category }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Contact number:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.contact_number }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Education degree:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.education_degree }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Address:</div>
+              <div class="font-weight-bold">{{ doctor.doctor.address }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Appointment price:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.appointment_price }}KZT
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Department id:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.department_id }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Specialization details id:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.specialization_details_id }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Number of patients:</div>
+              <div class="font-weight-bold">
+                {{ doctor.doctor.number_of_patients }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="mr-2">Role:</div>
+              <div class="font-weight-bold">{{ doctor.user.role }}</div>
+            </div>
           </div>
         </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">IIN:</div>
-          <div class="font-weight-bold">{{ doctor.doctor.iin }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">First name:</div>
-          <div class="font-weight-bold">{{ doctor.user.first_name }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Last name:</div>
-          <div class="font-weight-bold">{{ doctor.user.last_name }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Email:</div>
-          <div class="font-weight-bold">{{ doctor.user.email }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Category:</div>
-          <div class="font-weight-bold">{{ doctor.doctor.category }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Contact number:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.contact_number }}
-          </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Education degree:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.education_degree }}
-          </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Address:</div>
-          <div class="font-weight-bold">{{ doctor.doctor.address }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Appointment price:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.appointment_price }}KZT
-          </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Department id:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.department_id }}
-          </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Specialization details id:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.specialization_details_id }}
-          </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Number of patients:</div>
-          <div class="font-weight-bold">
-            {{ doctor.doctor.number_of_patients }}
-          </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="mr-2">Role:</div>
-          <div class="font-weight-bold">{{ doctor.user.role }}</div>
-        </div>
-      </div>
-      <h1>Make appointment</h1>
-      <custom-input
-        v-model="doctor_id"
-        class="custom-input"
-        label="Doctor ID"
-        placeholder="Enter Doctor ID"
-        :validation="$v.doctor_id"
-      />
-      <custom-input
-        v-model="preferred_date"
-        class="custom-input"
-        label="Date"
-        placeholder="Enter date"
-        :validation="$v.preferred_date"
-      />
-      <custom-input
-        v-model="preferred_time"
-        class="custom-input"
-        label="Time"
-        placeholder="Enter Time"
-        :validation="$v.preferred_time"
-      />
-      <custom-input
-        v-model="name"
-        class="custom-input"
-        label="Name"
-        placeholder="Enter Name"
-        :validation="$v.name"
-      />
-      <custom-input
-        v-model="surname"
-        class="custom-input"
-        label="Surname"
-        placeholder="Enter Surname"
-        :validation="$v.surname"
-      />
-      <custom-input
-        v-model="email"
-        class="custom-input"
-        label="Email"
-        placeholder="Enter Email"
-        :validation="$v.email"
-      />
-      <b-button size="md" class="button my-2 ml-sm-0" @click="make"
-        >make</b-button
-      >
+      </template>
     </div>
   </div>
 </template>
@@ -202,3 +212,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.w-1000 {
+  width: 100% !important;
+}
+</style>

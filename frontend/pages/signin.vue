@@ -15,6 +15,7 @@
           class="custom-input"
           label="Password"
           placeholder="Enter Password"
+          type="password"
           :validation="$v.form.password"
         />
       </div>

@@ -127,4 +127,8 @@ export default {
 .application__link:hover {
   cursor: pointer;
 }
+
+.application__link {
+  color: blue;
+}
 </style>

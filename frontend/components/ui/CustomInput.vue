@@ -5,6 +5,7 @@
       <b-form-input
         :value="value"
         :placeholder="placeholder"
+        :type="type"
         :class="{
           'is-invalid': validation && validation.$error,
         }"
@@ -33,6 +34,11 @@ export default {
       // type: String,
       required: false,
       default: "",
+    },
+    type: {
+      // type: String,
+      required: false,
+      default: "text",
     },
     placeholder: {
       // type: String,

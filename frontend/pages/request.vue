@@ -4,27 +4,55 @@
       <h1>Request</h1>
       <custom-input
         v-model="search"
-        class="custom-input w-100"
-        label="Search Doctor"
+        class="w-100 my-4"
+        label=""
         placeholder="Search"
         @onEnter="filter"
       />
-      <div class="d-flex flex-column mt-4" v-for="doctor in data">
-        <div class="doctor d-flex flex-row justify-content-between">
-          <div>{{ doctor.user.id }}</div>
-          <div>{{ doctor.user.first_name }}</div>
-          <div>{{ doctor.user.last_name }}</div>
-          <div>{{ doctor.user.email }}</div>
-          <div>{{ doctor.doctor.category }}</div>
-          <div>{{ doctor.doctor.rating }}</div>
-          <div>{{ doctor.doctor.appointment_price }}KZT</div>
-          <div>{{ spec(doctor.doctor.department_id) }}</div>
-          <div>{{ dep(doctor.doctor.specialization_id) }}</div>
-          <div @click="toDetails(doctor)" class="application__link">
-            make appointment
+      <b-table
+        class="custom-border"
+        table-class="table table-centered w-100"
+        thead-tr-class="bg-light"
+        tbody-tr-class="hover"
+        :items="data"
+        :fields="fields"
+        :bordered="true"
+        :fixed="true"
+        responsive="sm"
+      >
+        <template #cell(id)="data">
+          {{ data.item.user.id }}
+        </template>
+        <template #cell(first_name)="data">
+          {{ data.item.user.first_name }}
+        </template>
+        <template #cell(last_name)="data">
+          {{ data.item.user.last_name }}
+        </template>
+        <template #cell(category)="data">
+          {{ data.item.doctor.category }}
+        </template>
+        <template #cell(rating)="data">
+          {{ data.item.doctor.rating }}
+        </template>
+        <template #cell(appointment_price)="data">
+          {{ data.item.doctor.appointment_price }} KZT
+        </template>
+        <template #cell(department_id)="data">
+          {{ dep(data.item.doctor.department_id).description }}
+        </template>
+        <template #cell(specialization_id)="data">
+          {{ spec(data.item.doctor.specialization_id).description }}
+        </template>
+        <template #cell(action1)="data">
+          <div
+            class="application__link font-weight-bold"
+            @click="toDetails(data.item)"
+          >
+            appointment
           </div>
-        </div>
-      </div>
+        </template>
+      </b-table>
     </div>
   </div>
 </template>
@@ -49,6 +77,44 @@ export default {
     return {
       search: null,
       data: null,
+      fields: [
+        {
+          key: "id",
+          label: "Id",
+        },
+        {
+          key: "first_name",
+          label: "First Name",
+        },
+        {
+          key: "last_name",
+          label: "Last Name",
+        },
+        {
+          key: "category",
+          label: "Category",
+        },
+        {
+          key: "rating",
+          label: "Rating",
+        },
+        {
+          key: "appointment_price",
+          label: "Price",
+        },
+        {
+          key: "department_id",
+          label: "Department",
+        },
+        {
+          key: "specialization_id",
+          label: "Specialization",
+        },
+        {
+          key: "action1",
+          label: "",
+        },
+      ],
     };
   },
   computed: {
@@ -75,13 +141,15 @@ export default {
     filter() {
       this.data = this.doctors.filter(
         (doctor) =>
-          doctor.user.first_name.includes(this.search) ||
-          this.spec(doctor.doctor.specialization_id).description.includes(
-            this.search
-          ) ||
-          this.dep(doctor.doctor.department_id).description.includes(
-            this.search
-          )
+          doctor.user.first_name
+            .toUpperCase()
+            .includes(this.search.toUpperCase()) ||
+          this.spec(doctor.doctor.specialization_id)
+            .description.toUpperCase()
+            .includes(this.search.toUpperCase()) ||
+          this.dep(doctor.doctor.department_id)
+            .description.toUpperCase()
+            .includes(this.search.toUpperCase())
       );
     },
     toDetails(item) {
