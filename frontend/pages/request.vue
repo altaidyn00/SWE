@@ -9,7 +9,6 @@
         placeholder="Search"
         @onEnter="filter"
       />
-      {{ search }}
       <div class="d-flex flex-column mt-4" v-for="doctor in data">
         <div class="doctor d-flex flex-row justify-content-between">
           <div>{{ doctor.user.id }}</div>

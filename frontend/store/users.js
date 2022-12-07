@@ -204,6 +204,12 @@ export const actions = {
   async make_appointment(_, paylaod) {
     try {
       const response = await this.$repositories.users.make_appointment(paylaod);
+      this._vm.$bvToast.toast("Appointment successfully sent!", {
+        title: "Appointment",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
       return response.data;
     } catch (error) {}
   },
