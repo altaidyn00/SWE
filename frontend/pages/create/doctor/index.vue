@@ -142,6 +142,14 @@
           :allow-empty="true"
           :validation="$v.form.rating"
         />
+        <custom-file-input
+          label="Photo"
+          :value="form.photo"
+          class="custom-input"
+          :validation="$v.form.photo"
+          button="Upload photo"
+          @change="setPhoto"
+        />
       </div>
       <b-button size="md" class="button my-2 ml-sm-0" @click="create"
         >create</b-button
@@ -159,6 +167,7 @@ import CustomFileInput from "../../../components/ui/CustomFileInput.vue";
 import CustomDateInput from "../../../components/ui/CustomDateInput.vue";
 import options from "~/helpers/options";
 import { num, positiveNum, phoneNum } from "~/helpers/validators";
+import objectToFormData from "~/helpers/objectToFormData";
 
 export default {
   middleware: ["loggedin", "admin"],
@@ -188,11 +197,11 @@ export default {
         category: null,
         education_degree: null,
         rating: null,
-        photolocation: "adasd",
         email: null,
         first_name: null,
         last_name: null,
         password: null,
+        photo: null,
       },
     };
   },
@@ -261,13 +270,20 @@ export default {
         rating: {
           required,
         },
+        photo: {
+          required,
+        },
       },
     };
   },
   methods: {
+    objectToFormData,
     ...mapActions({
       createDoctor: "users/create_doctor",
     }),
+    setPhoto(file) {
+      this.form.photo = file;
+    },
     async create() {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return;
@@ -278,23 +294,23 @@ export default {
       user.first_name = this.form.first_name;
       user.last_name = this.form.last_name;
       user.password = this.form.password;
-      const doctor = {};
-      doctor.date_of_birth = this.form.date_of_birth;
-      doctor.iin = this.form.iin;
-      doctor.id = +this.form.id;
-      doctor.contact_number = this.form.contact_number;
-      doctor.number_of_patients = +this.form.number_of_patients;
-      doctor.category = this.form.category;
-      doctor.department_id = +this.form.department_id.id;
-      doctor.specialization_id =
-        +this.form.specialization_id.id;
-      doctor.experience_in_years = +this.form.experience_in_years;
-      doctor.appointment_price = +this.form.appointment_price;
-      doctor.education_degree = this.form.education_degree;
-      doctor.schedule_detaile = this.form.schedule_detaile;
-      doctor.rating = +this.form.rating;
-      doctor.address = this.form.address;
-      doctor.photolocation = this.form.photolocation;
+      const doc = {};
+      doc.date_of_birth = this.form.date_of_birth;
+      doc.iin = this.form.iin;
+      doc.id = +this.form.id;
+      doc.contact_number = this.form.contact_number;
+      doc.number_of_patients = +this.form.number_of_patients;
+      doc.category = this.form.category;
+      doc.department_id = +this.form.department_id.id;
+      doc.specialization_id = +this.form.specialization_id.id;
+      doc.experience_in_years = +this.form.experience_in_years;
+      doc.appointment_price = +this.form.appointment_price;
+      doc.education_degree = this.form.education_degree;
+      doc.schedule_detaile = this.form.schedule_detaile;
+      doc.rating = +this.form.rating;
+      doc.address = this.form.address;
+      doc.photo = this.form.photo;
+      const doctor = this.objectToFormData(doc);
       const response = await this.createDoctor({ user, doctor });
       console.log(response);
     },

@@ -76,52 +76,54 @@
           <div class="font-weight-bold">{{ doctor.user.role }}</div>
         </div>
       </div>
-      <h1>Make appointment</h1>
-      <custom-input
-        v-model="doctor_id"
-        class="custom-input"
-        label="Doctor ID"
-        placeholder="Enter Doctor ID"
-        :validation="$v.doctor_id"
-      />
-      <custom-input
-        v-model="preferred_date"
-        class="custom-input"
-        label="Date"
-        placeholder="Enter date"
-        :validation="$v.preferred_date"
-      />
-      <custom-input
-        v-model="preferred_time"
-        class="custom-input"
-        label="Time"
-        placeholder="Enter Time"
-        :validation="$v.preferred_time"
-      />
-      <custom-input
-        v-model="name"
-        class="custom-input"
-        label="Name"
-        placeholder="Enter Name"
-        :validation="$v.name"
-      />
-      <custom-input
-        v-model="surname"
-        class="custom-input"
-        label="Surname"
-        placeholder="Enter Surname"
-        :validation="$v.surname"
-      />
-      <custom-input
-        v-model="email"
-        class="custom-input"
-        label="Email"
-        placeholder="Enter Email"
-        :validation="$v.email"
-      />
-      <b-button size="md" class="button my-2 ml-sm-0" @click="make"
-        >make</b-button
-      >
+      <template v-if="isPatient">
+        <h1>Make appointment</h1>
+        <custom-input
+          v-model="doctor_id"
+          class="custom-input"
+          label="Doctor ID"
+          placeholder="Enter Doctor ID"
+          :validation="$v.doctor_id"
+        />
+        <custom-input
+          v-model="preferred_date"
+          class="custom-input"
+          label="Date"
+          placeholder="Enter date"
+          :validation="$v.preferred_date"
+        />
+        <custom-input
+          v-model="preferred_time"
+          class="custom-input"
+          label="Time"
+          placeholder="Enter Time"
+          :validation="$v.preferred_time"
+        />
+        <custom-input
+          v-model="name"
+          class="custom-input"
+          label="Name"
+          placeholder="Enter Name"
+          :validation="$v.name"
+        />
+        <custom-input
+          v-model="surname"
+          class="custom-input"
+          label="Surname"
+          placeholder="Enter Surname"
+          :validation="$v.surname"
+        />
+        <custom-input
+          v-model="email"
+          class="custom-input"
+          label="Email"
+          placeholder="Enter Email"
+          :validation="$v.email"
+        />
+        <b-button size="md" class="button my-2 ml-sm-0" @click="make"
+          >make</b-button
+        >
+      </template>
     </div>
   </div>
 </template>
@@ -182,6 +184,9 @@ export default {
     ...mapGetters({
       doctor: "users/doctor",
     }),
+    isPatient() {
+      return this.$auth.user.role === "patient";
+    },
   },
   methods: {
     async make() {

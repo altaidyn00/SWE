@@ -6,9 +6,9 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/services">Services</b-nav-item>
+          <!-- <b-nav-item href="/services">Services</b-nav-item>
           <b-nav-item href="/about-us">About Us</b-nav-item>
-          <b-nav-item href="/contacts">Contacts</b-nav-item>
+          <b-nav-item href="/contacts">Contacts</b-nav-item> -->
           <b-nav-item v-if="isLoggedIn && !isAdmin" href="/request"
             >Request</b-nav-item
           >
