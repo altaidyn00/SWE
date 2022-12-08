@@ -125,14 +125,14 @@ func GetPhoto(r *http.Request) (string, error) {
 
 	fileName := fileHeader.Filename
 
-	newPath := filepath.Join("../files", fileName)
+	newPath := filepath.Join("../frontend/assets", fileName)
 	fmt.Printf("File: %s\n", newPath)
 
 	err = saveFile(fileContent, newPath)
 	if err != nil {
 		return "", err
 	}
-	return "SWE/files/" + fileName, nil
+	return "SWE/frontend/assets/" + fileName, nil
 
 }
 
