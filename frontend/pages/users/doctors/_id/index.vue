@@ -1,64 +1,13 @@
 <template>
   <div class="custom-container">
     <div class="text-center d-flex">
-      <template v-if="$auth.user.role === 'patient'">
+      <div class="d-flex flex-column w-50" :class="{ 'mx-auto': isAdmin }">
+        <h1>Doctor {{ doctor.user.id }}</h1>
         <div
-          class="d-flex flex-column w-50 mx-auto justify-content-center align-items-left"
+          class="d-flex patient-info mt-4 w-100 justify-content-between align-items-center px-4"
+          :class="{ 'mr-4': !isAdmin, 'mx-auto': isAdmin }"
         >
-          <h1>Make appointment</h1>
-          <custom-input
-            v-model="doctor_id"
-            class="custom-input w-1000"
-            label="Doctor ID"
-            placeholder="Enter Doctor ID"
-            :validation="$v.doctor_id"
-          />
-          <custom-input
-            v-model="preferred_date"
-            class="custom-input w-1000"
-            label="Date"
-            placeholder="Enter date"
-            :validation="$v.preferred_date"
-          />
-          <custom-input
-            v-model="preferred_time"
-            class="custom-input w-1000"
-            label="Time"
-            placeholder="Enter Time"
-            :validation="$v.preferred_time"
-          />
-          <custom-input
-            v-model="name"
-            class="custom-input w-1000"
-            label="Name"
-            placeholder="Enter Name"
-            :validation="$v.name"
-          />
-          <custom-input
-            v-model="surname"
-            class="custom-input w-1000"
-            label="Surname"
-            placeholder="Enter Surname"
-            :validation="$v.surname"
-          />
-          <custom-input
-            v-model="email"
-            class="custom-input w-1000"
-            label="Email"
-            placeholder="Enter Email"
-            :validation="$v.email"
-          />
-          <b-button size="md" class="button my-2 ml-sm-0" @click="make"
-            >make</b-button
-          >
-        </div>
-      </template>
-      <template v-else>
-        <div class="d-flex flex-column w-100">
-          <h1>Doctor {{ doctor.user.id }}</h1>
-          <div
-            class="d-flex patient-info flex-column mt-4 w-50 mx-auto justify-content-center align-items-left"
-          >
+          <div class="d-flex flex-column w-50">
             <div class="d-flex flex-row">
               <div class="mr-2">Birth Date:</div>
               <div class="font-weight-bold">
@@ -130,8 +79,71 @@
               <div class="font-weight-bold">{{ doctor.user.role }}</div>
             </div>
           </div>
+          <div class="image" :class="{ 'image-hover': isAdmin }">
+            <label for="avatar-input" class="image-hover">
+              <img class="img-avatar w-100" src="~/assets/default-avatar.png" />
+            </label>
+            <input
+              id="avatar-input"
+              class="d-none"
+              accept="image/png, image/gif, image/jpeg, image/jpg"
+              type="file"
+              @change="setAvatar"
+            />
+          </div>
         </div>
-      </template>
+      </div>
+      <div
+        class="d-flex flex-column w-50 justify-content-center align-items-left ml-4"
+        v-if="!isAdmin"
+      >
+        <h1>Make appointment</h1>
+        <custom-input
+          v-model="doctor_id"
+          class="custom-input w-1000"
+          label="Doctor ID"
+          placeholder="Enter Doctor ID"
+          :validation="$v.doctor_id"
+        />
+        <custom-input
+          v-model="preferred_date"
+          class="custom-input w-1000"
+          label="Date"
+          placeholder="Enter date"
+          :validation="$v.preferred_date"
+        />
+        <custom-input
+          v-model="preferred_time"
+          class="custom-input w-1000"
+          label="Time"
+          placeholder="Enter Time"
+          :validation="$v.preferred_time"
+        />
+        <custom-input
+          v-model="name"
+          class="custom-input w-1000"
+          label="Name"
+          placeholder="Enter Name"
+          :validation="$v.name"
+        />
+        <custom-input
+          v-model="surname"
+          class="custom-input w-1000"
+          label="Surname"
+          placeholder="Enter Surname"
+          :validation="$v.surname"
+        />
+        <custom-input
+          v-model="email"
+          class="custom-input w-1000"
+          label="Email"
+          placeholder="Enter Email"
+          :validation="$v.email"
+        />
+        <b-button size="md" class="button my-2 ml-sm-0" @click="make"
+          >make</b-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -140,6 +152,8 @@
 import { mapGetters } from "vuex";
 import { required, email } from "vuelidate/lib/validators";
 import CustomInput from "../../../../components/ui/CustomInput.vue";
+import objectToFormData from "~/helpers/objectToFormData";
+
 export default {
   // middleware: ["loggedin", "admin"],
   components: { CustomInput },
@@ -158,6 +172,7 @@ export default {
       name: null,
       surname: null,
       email: null,
+      avatar: null,
     };
   },
   validations() {
@@ -192,8 +207,21 @@ export default {
     ...mapGetters({
       doctor: "users/doctor",
     }),
+    isAdmin() {
+      return this.$auth.user.role === "admin";
+    },
   },
   methods: {
+    objectToFormData,
+    setAvatar(event) {
+      if (!event) return;
+      this.avatar = event.target.files[0];
+      const asd = {};
+      asd.id = +this.doctor_id;
+      asd.photo = this.avatar;
+      const payload = this.objectToFormData(asd);
+      this.$store.dispatch("users/upload_photo", payload);
+    },
     async make() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
@@ -216,5 +244,20 @@ export default {
 <style lang="scss">
 .w-1000 {
   width: 100% !important;
+}
+
+.image {
+  width: 300px;
+  height: 300px;
+  border: 3px solid white;
+  border-radius: 12px;
+}
+
+.image-hover:hover {
+  cursor: pointer;
+}
+
+.img-avatar {
+  border-radius: 12px;
 }
 </style>

@@ -58,4 +58,8 @@ export default ($axios) => ({
   make_appointment(paylaod) {
     return $axios.post(`${resource}/makeAppointment`, paylaod);
   },
+
+  upload_photo(payload) {
+    return $axios.post(`${resource}/uploadPhoto`, payload);
+  },
 });

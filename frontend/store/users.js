@@ -213,4 +213,16 @@ export const actions = {
       return response.data;
     } catch (error) {}
   },
+  async upload_photo(_, paylaod) {
+    try {
+      const response = await this.$repositories.users.upload_photo(paylaod);
+      this._vm.$bvToast.toast("Photo successfully uploaded!", {
+        title: "Photo",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
+      return response.data;
+    } catch (error) {}
+  },
 };
