@@ -67,83 +67,32 @@ type DoctorReg struct {
 
 func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	var newDoctor DoctorReg
-
-	id, err := strconv.Atoi(r.FormValue("id"))
+	err := json.NewDecoder(r.Body).Decode(&newDoctor)
 	if err != nil {
-		panic(err)
+
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	_, err = admin.DB.Exec("insert into users value(?,?,?,?,?,?)",
-		id, r.FormValue("role"), r.FormValue("password"), r.FormValue("first_name"), r.FormValue("last_name"), r.FormValue("email"),
+		newDoctor.ID, newDoctor.Role, newDoctor.Password, newDoctor.First_name, newDoctor.Last_name, newDoctor.Email,
 	)
+
 	if err != nil {
 		panic(err)
 	}
 
-	numPat, err := strconv.Atoi(r.FormValue("number_of_patients"))
-	if err != nil {
-		panic(err)
-	}
-
-	depID, err := strconv.Atoi(r.FormValue("department_id"))
-	if err != nil {
-		panic(err)
-	}
-
-	specID, err := strconv.Atoi(r.FormValue("specialization_id"))
-	if err != nil {
-		panic(err)
-	}
-	price, err := strconv.Atoi(r.FormValue("appointment_price"))
-	if err != nil {
-		panic(err)
-	}
-	rating, err := strconv.Atoi(r.FormValue("rating"))
-	if err != nil {
-		panic(err)
-	}
-	experience, err := strconv.Atoi(r.FormValue("experience_in_years"))
-	if err != nil {
-		panic(err)
-	}
-
-	newDoctor.ID = id
-	newDoctor.Role = r.FormValue("role")
-	newDoctor.Password = r.FormValue("password")
-	newDoctor.First_name = r.FormValue("first_name")
-	newDoctor.Last_name = r.FormValue("last_name")
-	newDoctor.Email = r.FormValue("email")
-	newDoctor.DateOfBirth = r.FormValue("date_of_birth")
-	newDoctor.IIN = r.FormValue("iin")
-	newDoctor.Contactnumber = r.FormValue("contact_number")
-	newDoctor.Category = r.FormValue("category")
-	newDoctor.DepID = depID
-	newDoctor.SpecID = specID
-	newDoctor.NumOfPatients = numPat
-	newDoctor.Expirience = experience
-	newDoctor.Price = price
-	newDoctor.Rating = rating
-	newDoctor.Degree = r.FormValue("education_degree")
-	newDoctor.Schedule = r.FormValue("schedule_detail")
-	newDoctor.Address = r.FormValue("address")
-
-	// photo, err := GetPhoto(r)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusSeeOther)
-	// 	w.Write([]byte("Could not save photo"))
-	// 	return
-	// }
-	newDoctor.PhotoLocation = ""
 	_, err = admin.DB.Exec("insert into doctor value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-		r.FormValue("date_of_birth"), r.FormValue("iin"), id, r.FormValue("contact_number"),
-		numPat, r.FormValue("category"), depID, specID,
-		experience, price, r.FormValue("education_degree"), r.FormValue("schedule_detail"), rating,
-		r.FormValue("address"), "",
+		newDoctor.DateOfBirth, newDoctor.IIN, newDoctor.ID, newDoctor.Contactnumber,
+		newDoctor.NumOfPatients, newDoctor.Category, newDoctor.DepID, newDoctor.SpecID,
+		newDoctor.Expirience, newDoctor.Price, newDoctor.Degree, newDoctor.Schedule, newDoctor.Rating,
+		newDoctor.Address, newDoctor.PhotoLocation,
 	)
 
 	if err != nil {
 		panic(err)
 	}
+
 	res, err := json.Marshal(newDoctor)
 	if err != nil {
 		w.WriteHeader(http.StatusSeeOther)
