@@ -223,6 +223,6 @@ export const actions = {
         solid: true,
       });
       return response.data;
-    } catch (error) {}
+      } catch (error) {}
   },
 };

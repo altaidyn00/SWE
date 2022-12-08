@@ -81,7 +81,16 @@
           </div>
           <div class="image" :class="{ 'image-hover': isAdmin }">
             <label for="avatar-input" class="image-hover">
-              <img class="img-avatar w-100" src="~/assets/default-avatar.png" />
+              <img
+                v-if="doctor.doctor.photolocation.length > 4"
+                class="img-avatar w-100 h-100"
+                :src="pht"
+              />
+              <img
+                v-else
+                class="img-avatar w-100"
+                src="~/assets/default-avatar.png"
+              />
             </label>
             <input
               id="avatar-input"
@@ -210,17 +219,27 @@ export default {
     isAdmin() {
       return this.$auth.user.role === "admin";
     },
+    pht() {
+      return require("~/" +
+        this.doctor?.doctor?.photolocation.substring(
+          13,
+          this.doctor?.doctor?.photolocation.length
+        ));
+    },
   },
   methods: {
     objectToFormData,
-    setAvatar(event) {
+    async setAvatar(event) {
       if (!event) return;
       this.avatar = event.target.files[0];
       const asd = {};
       asd.id = +this.doctor_id;
       asd.photo = this.avatar;
       const payload = this.objectToFormData(asd);
-      this.$store.dispatch("users/upload_photo", payload);
+      const response = await this.$store.dispatch(
+        "users/upload_photo",
+        payload
+      );
     },
     async make() {
       this.$v.$touch();
@@ -248,8 +267,7 @@ export default {
 
 .image {
   width: 300px;
-  height: 300px;
-  border: 3px solid white;
+  height: auto;
   border-radius: 12px;
 }
 
