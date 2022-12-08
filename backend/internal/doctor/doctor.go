@@ -2,9 +2,13 @@ package doctor
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/whym9/hospital/internal/admin"
@@ -63,40 +67,83 @@ type DoctorReg struct {
 
 func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	var newDoctor DoctorReg
-	err := json.NewDecoder(r.Body).Decode(&newDoctor)
-	if err != nil {
 
-		w.WriteHeader(http.StatusBadRequest)
-		return
+	id, err := strconv.Atoi(r.FormValue("id"))
+	if err != nil {
+		panic(err)
 	}
 
 	_, err = admin.DB.Exec("insert into users value(?,?,?,?,?,?)",
-		newDoctor.ID, newDoctor.Role, newDoctor.Password, newDoctor.First_name, newDoctor.Last_name, newDoctor.Email,
+		id, r.FormValue("role"), r.FormValue("password"), r.FormValue("first_name"), r.FormValue("last_name"), r.FormValue("email"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	numPat, err := strconv.Atoi(r.FormValue("number_of_patients"))
+	if err != nil {
+		panic(err)
+	}
+
+	depID, err := strconv.Atoi(r.FormValue("department_id"))
+	if err != nil {
+		panic(err)
+	}
+
+	specID, err := strconv.Atoi(r.FormValue("specialization_id"))
+	if err != nil {
+		panic(err)
+	}
+	price, err := strconv.Atoi(r.FormValue("appointment_price"))
+	if err != nil {
+		panic(err)
+	}
+	rating, err := strconv.Atoi(r.FormValue("rating"))
+	if err != nil {
+		panic(err)
+	}
+	experience, err := strconv.Atoi(r.FormValue("experience_in_years"))
+	if err != nil {
+		panic(err)
+	}
+
+	newDoctor.ID = id
+	newDoctor.Role = r.FormValue("role")
+	newDoctor.Password = r.FormValue("password")
+	newDoctor.First_name = r.FormValue("first_name")
+	newDoctor.Last_name = r.FormValue("last_name")
+	newDoctor.Email = r.FormValue("email")
+	newDoctor.DateOfBirth = r.FormValue("date_of_birth")
+	newDoctor.IIN = r.FormValue("iin")
+	newDoctor.Contactnumber = r.FormValue("contact_number")
+	newDoctor.Category = r.FormValue("category")
+	newDoctor.DepID = depID
+	newDoctor.SpecID = specID
+	newDoctor.NumOfPatients = numPat
+	newDoctor.Expirience = experience
+	newDoctor.Price = price
+	newDoctor.Rating = rating
+	newDoctor.Degree = r.FormValue("education_degree")
+	newDoctor.Schedule = r.FormValue("schedule_detail")
+	newDoctor.Address = r.FormValue("address")
+
+	// photo, err := GetPhoto(r)
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusSeeOther)
+	// 	w.Write([]byte("Could not save photo"))
+	// 	return
+	// }
+	newDoctor.PhotoLocation = ""
+	_, err = admin.DB.Exec("insert into doctor value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+		r.FormValue("date_of_birth"), r.FormValue("iin"), id, r.FormValue("contact_number"),
+		numPat, r.FormValue("category"), depID, specID,
+		experience, price, r.FormValue("education_degree"), r.FormValue("schedule_detail"), rating,
+		r.FormValue("address"), "",
 	)
 
 	if err != nil {
 		panic(err)
 	}
-
-	_, err = admin.DB.Exec("insert into doctor value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-		newDoctor.DateOfBirth, newDoctor.IIN, newDoctor.ID, newDoctor.Contactnumber,
-		newDoctor.NumOfPatients, newDoctor.Category, newDoctor.DepID, newDoctor.SpecID,
-		newDoctor.Expirience, newDoctor.Price, newDoctor.Degree, newDoctor.Schedule, newDoctor.Rating,
-		newDoctor.Address, newDoctor.PhotoLocation,
-	)
-
-	if err != nil {
-		fmt.Println(err)
-		row, err := admin.DB.Query(fmt.Sprintf("delete * from users where government_id=%d", newDoctor.ID))
-		if err != nil {
-			fmt.Println(err)
-		}
-		if row.Err() != nil {
-			fmt.Println(row.Err())
-		}
-		return
-	}
-
 	res, err := json.Marshal(newDoctor)
 	if err != nil {
 		w.WriteHeader(http.StatusSeeOther)
@@ -109,7 +156,79 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func GetDoctors(w http.ResponseWriter, r *http.Request) {
+func GetPhoto(r *http.Request) (string, error) {
+
+	if err := r.ParseMultipartForm(200 * 1024 * 1024); err != nil {
+		fmt.Printf("could not parse multipart form: %v\n", err)
+		return "", err
+	}
+
+	file, fileHeader, err := r.FormFile("photo")
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	fileContent, err := io.ReadAll(file)
+	if err != nil {
+		return "", err
+	}
+
+	fileName := fileHeader.Filename
+
+	newPath := filepath.Join("../files", fileName)
+	fmt.Printf("File: %s\n", newPath)
+
+	err = saveFile(fileContent, newPath)
+	if err != nil {
+		return "", err
+	}
+	return "SWE/files/" + fileName, nil
+
+}
+
+func UploadPhoto(w http.ResponseWriter, r *http.Request) {
+	photo, err := GetPhoto(r)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Could not upload photo"))
+		return
+	}
+
+	id, err := strconv.Atoi(r.FormValue("id"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("id invalid"))
+		return
+	}
+
+	var doctor DoctorReg
+
+	err = admin.DB.Select(&doctor, fmt.Sprintf("select * from users, doctor where doctor.government_id=users.government_id and users.government_id=%d", id))
+	doctor.PhotoLocation = photo
+	rows, err := admin.DB.Query(fmt.Sprintf("update doctor set photolocation='%s' where government_id=%d",
+		photo, id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	res, err := json.Marshal(&doctor)
+
+	if err != nil {
+		panic(err)
+	}
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
+	}
+	w.Write(res)
+}
+
+func GetDoctors(w http.ResponseWriter, _ *http.Request) {
 
 	var doctors []DoctorReg
 	err := admin.DB.Select(&doctors, "select * from users, doctor where doctor.government_id=users.government_id;")
@@ -252,4 +371,19 @@ func GetDoctorByName(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
+}
+
+func saveFile(content []byte, path string) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return errors.New("couldn't create file")
+	}
+
+	defer file.Close()
+
+	_, err = file.Write(content)
+	if err != nil {
+		return errors.New("counldn't write to file")
+	}
+	return nil
 }
