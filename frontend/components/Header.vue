@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <b-navbar toggleable="lg">
-      <b-navbar-brand href="/">Medical Center</b-navbar-brand>
+      <b-navbar-brand href="/">DenSys.Me</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>

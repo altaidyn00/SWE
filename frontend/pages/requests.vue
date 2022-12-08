@@ -33,6 +33,11 @@
         <template #cell(preferred_time)="data">
           {{ data.item.preferred_time }}
         </template>
+        <template #cell(accept)="data">
+          <b-button size="md" class="button my-2 ml-sm-0" @click="accept"
+            >accept</b-button
+          >
+        </template>
       </b-table>
     </div>
   </div>
@@ -72,8 +77,22 @@ export default {
           key: "preferred_time",
           label: "Pereferred Time",
         },
+        {
+          key: "accept",
+          label: "",
+        },
       ],
     };
+  },
+  methods: {
+    accept() {
+      this.$bvToast.toast("Request successfully accepted!", {
+        title: "Requesdt",
+        toaster: "b-toaster-bottom-left",
+        variant: "success",
+        solid: true,
+      });
+    },
   },
 };
 </script>
