@@ -127,18 +127,18 @@ func RegisterDoctor(w http.ResponseWriter, r *http.Request) {
 	newDoctor.Schedule = r.FormValue("schedule_detail")
 	newDoctor.Address = r.FormValue("address")
 
-	photo, err := GetPhoto(r)
-	if err != nil {
-		w.WriteHeader(http.StatusSeeOther)
-		w.Write([]byte("Could not save photo"))
-		return
-	}
-	newDoctor.PhotoLocation = photo
+	// photo, err := GetPhoto(r)
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusSeeOther)
+	// 	w.Write([]byte("Could not save photo"))
+	// 	return
+	// }
+	newDoctor.PhotoLocation = ""
 	_, err = admin.DB.Exec("insert into doctor value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 		r.FormValue("date_of_birth"), r.FormValue("iin"), id, r.FormValue("contact_number"),
 		numPat, r.FormValue("category"), depID, specID,
 		experience, price, r.FormValue("education_degree"), r.FormValue("schedule_detail"), rating,
-		r.FormValue("address"), photo,
+		r.FormValue("address"), "",
 	)
 
 	if err != nil {
@@ -185,6 +185,47 @@ func GetPhoto(r *http.Request) (string, error) {
 	}
 	return "SWE/files/" + fileName, nil
 
+}
+
+func UploadPhoto(w http.ResponseWriter, r *http.Request) {
+	photo, err := GetPhoto(r)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Could not upload photo"))
+		return
+	}
+
+	id, err := strconv.Atoi(r.FormValue("id"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("id invalid"))
+		return
+	}
+
+	var doctor DoctorReg
+
+	err = admin.DB.Select(&doctor, fmt.Sprintf("select * from users, doctor where doctor.government_id=users.government_id and users.government_id=%d", id))
+	doctor.PhotoLocation = photo
+	rows, err := admin.DB.Query(fmt.Sprintf("update doctor set photolocation='%s' where government_id=%d",
+		photo, id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	res, err := json.Marshal(&doctor)
+
+	if err != nil {
+		panic(err)
+	}
+	err = admin.DB.MustBegin().Commit()
+	if err != nil {
+		panic(err)
+	}
+	w.Write(res)
 }
 
 func GetDoctors(w http.ResponseWriter, _ *http.Request) {
